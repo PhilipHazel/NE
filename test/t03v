@@ -1,0 +1,275 @@
+1.
+.xchapter Introduction
+This is a comment
+1.
+.xchapter Introduction
+1.
+    .xchapter Introduction
+   >
+4.
+    yet complete. $rm
+   >
+93.*
+70.
+.section The E command
+4.
+    yet complete. $rm
+   >
+4.
+    yet complete. $rm
+   >
+15.
+Versions of E currently exist for IBM's MVS
+1.*
+15.
+Versions of E currently exist for IBM's MVS
+48.
+In many places in the text there are cross-references to
+ >
+48.
+In many places in the text there are cross-references to
+                >
+1.
+.xchapter Introduction
+2.
+    $it This is a preliminary draft of a specification for the text
+2.
+    $it This is a preliminary draft of a specification for the text
+2.
+    $it This is a preliminary draft of a specification for the text
+2.
+    $it This is a preliminary draft of a specification for the text
+2.
+    $it This is a preliminary draft of a specification for the text
+2.
+    $it This is a preliminary draft of a specification for the text
+37.
+They are described in
+52.
+Experience with a number of other editors has influenced the
+30.
+
+1.
+.xchapter Introduction
+1.
+.xchapter Introduction
+93.*
+1.
+.xchapter Introduction
+93.*
+92.
+Extra line with a number 1234 in it.
+****.
+Here are a couple of lines of text to be inserted via the
+52.
+experience with a number of other editors has influenced the
+                                                                                                  >
+53.
+DESIGN OF E. SIMILAR FACILITIES ARE FREQUENTLY ENCOUNTERED,, AND
+                                                                                                  >
+53.
+DESIGN OF E. SIMILAR FACILITIES ARE FREQUENTLY ENCOUNTERED,, AND
+        >
+52.
+
+24.
+SM steSml cenMngmn rtclpbihdb h
+                                                 >
+18.
+.index IBM 3270:
+                >
+17.
+.index SSMP         .index SSMP      
+                   >
+17.
+.index SSMP         .index SSMP      
+                                    >
+17.
+.index SSMP         .index SSMP      
+12.
+non-availability of `single character interaction' on certain
+22.
+co-processors, and for Acorn's Arthur
+64.
+ System dependencies
+69.
+          
+         >
+93.*
+79.
+system. in vms the command name is \ee\ rather than \e\.
+                                                       >
+system. in vms the command name is \ee\ rather than \e\.
+.index VMS
+Other options may be given on the command line,, for example,, to
+move to a particular line in the file before displaying the first
+screen. In the Phoenix/MVS
+.index Phoenix/MVS
+im$~plemen$~tation the syntax for this is
+.display
+e <<file name>> opt '<<E commands>>'
+.endd
+but in other implementations different syntax may be used.
+
+
+Extra line with a number 1234 in it.
+Here are a couple of lines of text to be inserted via the
+i command in E.
+
+  79  system. in vms the command name is \ee\ rather than \e\.
+  80  .index VMS
+  81  Other options may be given on the command line,, for example,, to
+  82  move to a particular line in the file before displaying the first
+  83  screen. In the Phoenix/MVS
+  84  .index Phoenix/MVS
+  85  im$~plemen$~tation the syntax for this is
+  86  .display
+  87  e <<file name>> opt '<<E commands>>'
+  88  .endd
+  89  but in other implementations different syntax may be used.
+  90  
+  91  
+  92  Extra line with a number 1234 in it.
+****  Here are a couple of lines of text to be inserted via the
+****  i command in E.
+79.
+system. in vms the command name is \ee\ rather than \e\.
+                                                       >
+53.
+DESIGN OF E. SIMILAR FACILITIES ARE FREQUENTLY ENCOUNTERED,, AND
+                   >
+53.
+DESIGN OF E. SIMILAR FACILITIES ARE FREQUENTLY ENCOUNTERED,, AND
+                                                         >
+54.
+it is difficult to trace all the origins of many of them.. All these
+                                                                   >
+55.
+Operations On rectangles and sOme of the operations on single
+                                >
+****.
+short lineshort line---short line---short line
+                                   >
+****.
+short lineshort line---short line---short line
+****.
+short line---short line
+****.
+---short line
+93.*
+****.
+abc abc abc123 abc123 123abc abc
+                               >
+****.
+abc abc abc123 abc123 123abc abc
+          >
+****.
+abc abc abc123 abc123 123abc abc
+          >
+****.
+The quick brown fox jumps.
+         >
+****.
+The quick brown fox jumps.
+****.
+tHE QUICK BROWN FOX JUMPS.
+                                                           >
+93.*
+** Cut buffer is empty
+93.*
+****.
+a short line             a short line
+                        >
+****.
+a short line             ...a short line
+                           >
+107.
+a short line             ...a short line
+                           >
+   1  .xchapter Introduction
+   2  .xchapter Introduction
+   3  .xchapter Introduction
+   4      $it This is a preliminary draft of a specification for the text
+   5      editor called E. Neither this document nor the editor itself are
+   6      yet complete. $rm
+   7  
+   8  E is a text editor that is designed to run on a wide variety of
+   9  32-bit machines, from mainframes to personal workstations. Its
+  10  main use is expected to be as an interactive screen editor.
+ 103  abc abc abc123 abc123 123abc abc
+ 104  tHE QUICK BROWN FOX JUMPS.
+ 105  The quick brown fox jumps.
+ 106  a short line             a short line
+ 107  a short line             ...a short line
+103.
+abc abc abc123 abc123 123abc abc
+ 107 lines
+ 634 words (space/tab separated)
+3951 bytes (excluding line endings)
+103.
+abc abc abc123 abc123 123abc abc
+108.*
+****.
+There's agap
+        >
+108.*
+****.
+This is a re&test re & test.
+                          >
+108.*
+****.
+Here ara few brief words. And a few more as as well.
+      >
+****.
+Here ara few brief words. And a as as well.
+                               >
+****.
+Here ara few brief words. And a as as well.
+                               >
+****.
+This line contains letters and digits 1234 and mix9tures.
+                                      >
+****.
+This line contains letters and digits 1234 and mix9tures.
+                                          >
+****.
+This line contains letters and digits 1234 and mix9tures.
+                                              >
+****.
+This line contains letters and digits 1234 and mix9tures.
+                                                       >
+Wordchars: 0-9 a-z
+-------- show settings --------
+append:           off
+attn:              on
+casematch:        off
+commentstyle:     new
+detrail output:   off
+eightbit:         off
+prompt:            on
+readonly:         off
+tab setting:    -tabs
+verify:           off
+warn:              on
+widechars:        off
+------- show allsettings ------
+append:           off
+attn:              on
+autoalign:        off
+autovmousescroll:   1
+autovscroll:        1
+casematch:        off
+commentstyle:     new
+detrail output:   off
+eightbit:         off
+overstrike:       off
+mouse:             on
+prompt:            on
+readonly:         off
+splitscrollrow:     3
+tab setting:    -tabs
+verify:           off
+warn:              on
+widechars:        off
+-------------------------------
+No changes made to unnamed buffer 2

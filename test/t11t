@@ -1,0 +1,5 @@
+ANOTHER TITLE
+This is some text which we are going
+to put into a buffer and they try to
+modify with the read-only switch set
+on - so it should fail.

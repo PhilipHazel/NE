@@ -1,0 +1,13 @@
+1.*
+1.*
+****.
+This is some text which we are going
+** The "b" command is not allowed in a read-only buffer
+** The "iline" command is not allowed in a read-only buffer
+****.
+This is some text which we are going
+>
+** The "#" command is not allowed in a read-only buffer
+** The "$" command is not allowed in a read-only buffer
+** The "%" command is not allowed in a read-only buffer
+** The "~" command is not allowed in a read-only buffer

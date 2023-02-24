@@ -1,0 +1,140 @@
+.TH NE 1 "12 February 2023" "NE 3.20"
+.SH NAME
+NE - a text editor
+.SH SYNOPSIS
+.B ne [options] [source file(s)]
+.
+.SH DESCRIPTION
+.rs
+.sp
+NE is a text editor that was originally designed in the early 1990s. In the
+past it ran on a number of operating systems, but the current version supports
+only Unix-like systems. The main use of NE is expected to be as an interactive
+screen editor. However, it can also function as a line-by-line editor, and it
+is programmable, so it can be run non-interactively as a text manipulation
+tool.
+
+NE can process data files in three ways: as single-byte characters - the 
+default, as UTF-8 multi-byte characters, or as binary bytes displayed and 
+edited mainly in hexadecimal.
+
+NE is a re-implementation of a previous editor that was called E, which in turn 
+evolved from one called Zed and a number of predecessors that ran on IBM 
+mainframes. The lineage can be traced back to some very early Cambridge text 
+editors of the 1960s that ran on Titan (a prototype Atlas 2) and earlier on 
+EDSAC 2.
+.
+.SH OPTIONS
+.rs
+.TP 10
+\fB-binary\fP \fB-b\fP
+Run in binary mode.
+.TP
+\fB-from\fP \fI<files>\fP
+The option name \fB-from\fP can be omitted. Up to 50 file names are permitted.
+A single hyphen indicates the standard input.
+.TP
+\fB--help\fP \fB-help\fP \fB-h\fP
+Show a list of options and then exit.
+.TP
+\fB-id\fP
+Show the current version and then exit.
+.TP
+\fB-line\fP
+Run in line-by-line mode.
+.TP
+\fB-noinit\fP
+Do not obey the caller's \fB.nerc\fP file.
+.TP
+\fB-notabs\fP
+Do not treat tabs specially. (See other tab options below.)
+.TP
+\fB-notraps\fP
+Disable crash traps (for debugging).
+.TP
+\fB-o\fP \fI<file>\fP
+Synonym for \fB-to\fP (see below).
+.TP
+\fB-opt\fP \fI<string>\fP
+Supply an initial line of editing commands.
+.TP
+\fB-readonly\fP \fB-r\fP
+Start in readonly mode.
+.TP
+\fB-tabin\fP
+Expand tabs in input lines, do not retab on output.
+.TP
+\fB-tabout\fP
+Use tabs in all output lines.
+.TP
+\fB-tabs\fP
+Expand tabs in input lines, and retab those lines on output. This is the 
+default unless overridden by the NETABS environment variable.
+.TP
+\fB-to\fP \fI<file>\fP
+Specify the output for the first input file. The default is to overwrite the 
+input, and this is true for all other input files (though output destinations 
+can be changed while editing).
+.TP
+\fB-ver\fP \fI<file>\fP
+Specify the output file for editing verifications when in line-by-line or 
+non-interactive mode.
+.TP
+\fB--version\fP \fB-version\fP \fB-v\fP
+Show the current version number and then exit.
+.TP
+\fB-widechars\fP \fB-w\fP
+Recognize UTF-8 characters in data and command lines.
+.TP
+\fB-with\fP \fI<file>\fP
+Read editing commands from this file.
+.TP
+\fB-withkeys\fP \fI<file>\fP
+This debugging option simulates keystrokes for testing screen editing. The file
+contains an encoding of the required keystrokes.
+.TP
+\fB-wks\fP \fI<number>\fP
+Specify a delay for use with \fB-withkeys\fP,
+.
+.
+.SH "ENVIRONMENT"
+.rs
+.sp
+The environment variable NETABS may be set to one of the words "notabs",
+"tabs", "tabin", "tabout", or "tabinout" to set a default tab processing state.
+Unless \fB-noinit\fP is given, a list of initial NE commands to obey is read
+from the file named in the NERC environment variable, or, if that is not set,
+from the file called \fB.nerc\fP in the user's home directory.
+.
+.
+.SH "FURTHER INFORMATION"
+.rs
+.sp
+The NE manual gives a full description of the program and the features that 
+it provides.
+.
+.
+.SH "DIAGNOSTICS AND RETURN CODES"
+.rs
+.sp
+Error messages are written to the standard error stream. The return code is 0 
+for success, 4 for warnings, 8 for errors, 12 for serious errors, and 16 for 
+disasters (a little bit of IBM history here).
+.
+.
+.SH AUTHOR
+.rs
+.sp
+.nf
+Philip Hazel
+Cambridge, England.
+.fi
+.
+.
+.SH REVISION
+.rs
+.sp
+.nf
+Last updated: 12 February 2023
+Copyright (c) 2023 Philip Hazel
+.fi

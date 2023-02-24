@@ -1,0 +1,28 @@
+-b[inary]        run in binary mode
+-from <files>    input files, default null, - means stdin, key can be omitted
+-[-]h[elp]       output this help
+-id              show current version
+-line            run in line-by-line mode
+-noinit or -norc don't obey .nerc file
+-notabs          no special tab treatment
+-notraps         don't catch signals (debugging option)
+-opt <string>    initial line of commands
+-r[eadonly]      start in readonly state
+-tabin           expand input tabs; no tabs on output
+-tabout          use tabs in all output lines
+-tabs            expand input tabs; retab those lines on output
+-[t]o <file>     output file for 1st input, default = from
+-ver <file>      verification file, default is screen
+-[-]v[ersion]    show current version
+-w[idechars]     recognize UTF-8 characters in files
+-with <file>     command file, default is terminal
+-withkeys <file> fake keystrokes - testing feature
+-wks <n>         pause value (seconds) for -withkeys
+
+The tabbing default is -tabs unless overridden by the NETABS environment
+variable.
+
+          EXAMPLES
+ne myfile -notabs
+ne myfile -with commands -to outfile
+ne -line file1 file2 -notabs

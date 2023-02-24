@@ -1,0 +1,149 @@
+verify
+f p//
+f p/.
+m0; f b/it/
+m0; f e/to/
+m0; f n/a/
+f bx/2e69/  \\ ascii specific
+m8; f lw/it/
+m0; f 2w/it/
+m0; f [30,]/it/
+m0; f /The/
+m0; f v/The/
+casematch
+m0; f/the/
+f/E/
+f u/E/
+m0; f/Screen
+m0; f u/Screen
+m0; f u(/Screen/)
+m0; f u(v/M/)
+casematch
+m6; mark line; m13; 5> align
+m0; f b/which/
+m0; f bs/which/
+
+m0; f r/th../
+f
+f
+m0; f r/\$\~/
+m0; f r/a.* /
+f
+f
+m0; f rw/p\w+/
+f
+f
+m0; f br/\.[^i]/
+f
+m0; f br/\.(display|endd)/
+f;
+f
+f
+m0; f rb/\.(\w| )*/
+f
+f
+m0; f rb/\.([a-z]| )+/
+f
+f
+m0; f r/ \d+ /
+f
+m0; ge rw/a([a-z]*)/ r/A$1/
+ga rv/E/r/$0/
+m21; f r/[^aeiou ]{3,}/
+f
+f
+f
+f
+f
+f
+
+m0; ge/acorn/ /Rosehip/
+ge rwv/(E+)/ r/($0)/
+ga r/n[a-z]+-[a-z]+-[a-z]+/ x/010203/
+gb r/di(f+)erences/ rx/00$100/
+ge v/Laboratory/ r/[$0]/
+ge v/Computer/ r/[$1]$0[$2]/
+ge /3270/ /100% 3270/
+
+f bv/(EE) is A large program/;pll
+b/large//very /; a/program// %indeed/; e /facilities/r/$0/; pll
+e rvw/A([a-z]+)/ r/a$1/
+m*;i
+system equ 1
+
+*
+rhubarb dc 2
+z
+4p;ge br/([a-z]*) / r/$1    /
+m*;iline/the quick brown fox jumps over the lazy dog/;p
+proc .h is if h/the/ then comment/at the/ else comment/not at the/; .h
+pb/fox/; .h
+pa/over /; .h
+e h/the//THE/
+
+m*;(iline/regular 1 expressions/;iline/regular 2 expressions/;
+iline/regular 3 expressions/;iline/regular 4 expressions/;
+iline/regular 5 expressions/;5p)
+f pr[9]/1/;
+pll; f br/[a-z]/
+f
+f
+bf
+bf
+f er/[a-z]/
+f
+f
+bf
+bf
+
+m*;iline/D 3.73 -0.49 7.46 0.00 11.18 -0.49 14.91 0.00 18.64 -0.49/
+p; e br/D (\W*\d+\.\d+ \W*\d+\.\d+) (\W*\d+\.\d+ \W*\d+\.\d+)/ r/D $1 D $2/
+
+m*;iline/123 abc/;p;e r/(\d+)( +)([a-z]+)/ r/%1="$1" %2="$2" %3="$3"/
+
+m*;iline//;p;b// x/00031A0023E5/;pll; f r/\x03\x1a/
+pll; f rx/03\x1a/
+pll; f rx/[00-03]/;
+f
+f
+pll; f r/[\x00-\x03]/;
+f
+f
+m*; iline x/040506/
+iline /end 1234/; p; e er/(\d)(\d)/ r/$2$1/
+m0;back
+
+m*;i
+the quick brown fox
+ 123
+jumps over the
+lazy
+4321
+ 999
+dog.
+z
+bf/fox/; f^br/ \d/
+f
+n; bf
+bf
+m*; bf^ br/ \d/
+bf
+p; f
+f
+\\ Add a number of lines to fill up the line remembering stack. Each must be
+\\ different to the previous.
+verify off
+casematch on
+casematch off
+casematch on
+casematch off
+casematch on
+casematch off
+casematch on
+casematch off
+casematch on
+casematch off
+casematch on
+casematch off
+casematch on
+casematch off

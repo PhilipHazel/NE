@@ -1,0 +1,101 @@
+The NE Text Editor
+------------------
+
+Copyright (c) 2023 University of Cambridge
+
+This version of NE should run on all Unix-like systems. It should just be a
+matter of typing
+
+./configure
+make
+make install
+
+NE uses Terminfo features when running in screen mode. It can be configured to
+use the older Termcap system by running
+
+./configure --enable-termcap
+
+NE makes use of the PCRE library for regular expression matching. From release
+3.10 it uses PCRE2 (versions 10.xx). You can, however, revert to using the
+obsolete PCRE1 library by running
+
+./configure --disable-pcre2
+
+The final NE-specific "configure" option is
+
+./configure --disable-vdiscard
+
+This is provided for use in environments where the VDISCARD flag for terminal
+handling is not defined.
+
+TESTING
+-------
+
+Running "make test" runs a number of tests. Most are non-interactive and should
+run in any environment. There are some that test screen editing in a
+non-interactive way, and one that uses a special mechanism to simulate
+interactive screen editing, but this is skipped unless the current terminal is
+an xterm window.
+
+UNINSTALLING
+------------
+
+Runnint "make uninstall" removes the files that are installed by "make
+install", which are the ne binary and the ne man page.
+
+
+HISTORY
+-------
+
+E was a text editor that was designed to run on a variety of hardware and under
+a variety of operating systems. The first implementation was written BCPL to
+run under Phoenix/MVS on IBM mainframes. There was a complete re-write in C in
+the early 1990s, undertaken because BCPL was no longer widely available. The
+program no longer ran under MVS, and was renamed NE. It still ran on several
+other operating systems, including MSDOS and Acorn's RISC OS. There are still
+vestiges of these past glories in the way the code is organized and in some of
+the conditional compilation macros.
+
+Recent versions are the result of a big tidy-up to make the Unix version
+buildable in the standard "configure/make/make install" manner. The code has
+been tested only on Unix(-like) systems (most recently Linux), and the code for
+other environments has been gradually stripped out.
+
+February 2011: There has been a lot of hacking about to add the -widechars
+(that is, UTF-8) feature. I would have done it rather differently if I had been
+including this from the start. As it is, I chose to avoid too much disturbance
+at the cost of some potential elegance.
+
+January 2016: More tidying, mainly converting lots of integer variables to
+unsigned integers to get rid of compiler warnings. Some more interfaces that
+are not relevant in Unix-like systems were removed. There is still lots of
+tidying that could be done.
+
+December 2022 - February 2023: Another big tidying of the code, and improvement
+of the tests using coverage checking. Some minor updates.
+
+See the doc/ChangeLog file for a list of changes in the various releases.
+
+Philip Hazel
+Email local part: Philip.Hazel
+Email domain: gmail.com
+February 2023
+
+
+LICENCE
+-------
+
+This program is free software; you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by the Free
+Software Foundation; either version 2 of the License, or (at your option) any
+later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place, Suite 330, Boston, MA 02111 USA.
+
+--

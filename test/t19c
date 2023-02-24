@@ -1,0 +1,50 @@
+verify
+comment /New tests for errors provoked by coverage checking/
+comment /Also tests deleting the only buffer/
+ge///abc/
+e#abc##
+b/a/#y#
+pb#x#
+autoalign rhubarb
+backup rhubarb
+beginpar ##
+comment ##
+cutstyle rhubarb
+detrail rhubarb
+f#a#
+fkeystring 100 /x/
+if #f# then ?
+if prompt #abc# then ?
+if eof rhubarb
+if eof then ? rhubarb
+iline #line#
+key;
+m+
+makebuffer number
+mark line rhubarb
+mark unset
+mark rhubarb
+name;
+name a b c
+title a b c
+proc ###
+proc .xyz rhubarb
+rmargin rhubarb
+set splitscrollrow 0
+set rhubarb
+show rhubarb
+subchar 
+until /xxx/ do  \\ gives error
+word #abc#
+word /abc"/
+word //
+word /abc-/
+word /a-/
+word /A-z/
+word /z-a/
+word /0-A/
+
+iline/This line will get deleted/
+dbuffer
+iline/This line is what will be output/
+name Eto

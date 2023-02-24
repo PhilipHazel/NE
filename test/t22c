@@ -1,0 +1,14 @@
+\\ Yet more error tests
+\\ Check "w" with unpasted cut buffer
+i
+one
+two
+three
+four
+z
+4p;mark text;2n;cut
+
+f (/a/&/b/|/c/)
+f 3/notfound/
+f [5,10]/z/
+w

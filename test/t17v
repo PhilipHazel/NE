@@ -1,0 +1,27 @@
+1.*
+Test of regular expression and bad UTF-8
+1.*
+f r/123/
+        >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)
+sa r/123/
+         >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)
+pa r/123/
+         >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)
+df r/123/
+         >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)
+while r/123/ do n
+                 >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)
+;ga r/123//456/;
+                >
+** Error while matching regular expression:
+   UTF-8 error: illegal byte (0xfe or 0xff)

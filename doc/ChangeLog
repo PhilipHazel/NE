@@ -1,0 +1,1341 @@
+Change Log for New E (NE)
+-------------------------
+
+Version 3.20 24-February-2023
+-----------------------------
+
+1. Big Spring Clean: more code and build tidies, including:
+
+  . An obsolete, no longer used, global variable removed from ehdr.h.
+  . Length of buffer for temporary formatting increased in edisplay.c.
+  . Made building with sanitize work (CFLAGS missing from link step).
+  . Fixed vector overrun during screen initialization.
+  . Fixed a number of sanitize issues (mostly to do with handling an empty
+      string as zero-length with a NULL pointer), but also some signed/unsigned
+      conversion issues.
+  . Add to tests to improve coverage and exclude from coverage those bits of
+      code that won't ever be hit by the standard tests.
+  . Implement -withkeys and -wks to support simulated keystrokes, which makes
+      it possible to have automatic testing of screen keystroke handling.
+  . Add "make test" aka "make check" to the make files, and distribute the
+      tests.
+  . Make the "help" command a synonym of "show". It doesn't seem to have been
+      documented, and it gave no useful information.
+  . Removed obsolete code relating to non-Unix-like environments that are no
+      longer supported.
+  . Removed undocumented use of underscores instead of square brackets for
+      column qualifiers.
+  . Removed the obsolete NO_PERCENT_N macro.
+  . General code tidies - comments updated and some declarations put into
+      appropriate for() loops. Refactoring in a few places.
+  . Removed screen scrolling optimization that didn't really work and isn't
+      needed any more. Also removed one unused screen display option.
+  . Diagnose opening parentheses after qualifiers when a replacement string is
+      expected.
+  . Update the table of xterm-displayable Unicode characters - a number seem to
+      have disappeared since the mptable.c auxiliary program was run.
+  . Allow shift and ctrl with Delete in xterm.
+  , Make -o a synonym of -to and "Quit" a synonym of "Stop".
+  . After a crash, debug and crashlog files were being closed twice (once in 
+      the crash handler and again in atexit(). This could cause "double free" 
+      errors and crash looping.
+
+
+Version 3.18 04-May-2021
+------------------------
+
+1. Allow mark textblock and mark rectangle keystrokes in readonly mode (the
+corresponding commands and the "copy" keystroke were already allowed; this was
+an oversight).
+
+2. Two casts in sysunix.c for the 2nd argument of tgetstr().
+
+3. The buffers for file names were too small for very long file names. They
+have been increased in size and put on the stack instead of statics in the
+binary.
+
+4. Some obsolete memory-handling code has been tidied up. Use size_t for memory
+sizes. NE now frees all its memory via an atexit() function, but in screen mode
+ncurses doesn't free everything (see various online discussions).
+
+
+Version 3.17 21-October-2018
+----------------------------
+
+1. Added support for Page-up, Page-down, Home, and End keys via terminfo or
+termcap.
+
+2. Fix 2 for 3.16 had a bug when the build date was greater than the 9th of the
+month.
+
+
+Version 3.16 07-August-2018
+---------------------------
+
+1. In screen mode, if an empty line was given in response to the "Write" prompt
+at the end of editing, NE crashed.
+
+2. Refactor to use memcpy() instead of strncpy() when messing with substrings
+in order to avoid GCC string truncation warnings.
+
+3. Implemented the "unformat" command.
+
+4. Allow up to function key 30 (previously was 29, don't know why), and set
+function keystring 30 to "unformat".
+
+5. When screen mode was temporarily suspended via the "*" command, if the
+"load" or "g" commands required a user response, NE crashed.
+
+6. Recognize -version as well as --version and -v since all other long options
+have just a single hyphen.
+
+
+Version 3.15 01-May-2018
+------------------------
+
+1. The "logo" line "NE version xxxx" was showing the PCRE version which was
+current when NE was compiled (static) instead of getting the current (dynamic)
+version from a shared library. This is now fixed and the line reformatted.
+
+2. Minor error in command line decoding; for switch items such as -id it was
+checking the text pointer (which might be partly unset) instead of the number
+field.
+
+3. There is now a maximum linelength that NE will handle when reading a file in
+non-binary mode. The limit is 100,000 bytes. This prevents it going into a
+meltdown memory thrashing state for a file that contains an excessively long
+line.
+
+
+Version 3.14 26-February-2018
+-----------------------------
+
+1. Two calls to error_moan() for failing to open a file were missing a second
+argument (specifying reading or writing), leading to a crash for an unknown
+file.
+
+2. Added strerror() calls to all failed-do-open file errors.
+
+3. Added some "fall through" comments when deliberately falling through.
+
+4. Increased an internal buffer size to avoid format-overflow warning in "show
+wordcount" command.
+
+5. Implemented -notraps to disable catching crash signals. This makes crashes
+easier to debug.
+
+
+Version 3.13 19-December-2016
+-----------------------------
+
+1. Since 3.12 the list of commands that are allowed in readonly mode was out of
+step by one.
+
+2. Output "reading" or "writing" when reporting failure to open a file.
+
+3. If a regular expression match in widechars mode encountered a line
+containing an invalid UTF-8 string, it behaved as "no match" on that line
+instead of reporting the error from PCRE.
+
+4. In screen mode, if a global limit was set, the ending message for a global
+match (e.g. "No More: x matches, y changes") was overwritten at the start by a
+line number unless "all" was given to the global prompt.
+
+5. The global limit mark has been separated from the text mark and now operates
+independently. As a result, it is now possible to cut and paste text and do
+bulk line operations while a global limit is set.
+
+6. The "configure" script now checks for the presence of the chosen PCRE
+library and also for the termcap or terminfo library.
+
+
+Version 3.12 04-October-2016
+----------------------------
+
+The way that the "back" command works is completely revised. It is now possible
+to change the size of the "regions" that "back" remembers, using the BACKREGION
+command. The "front" command (defaulted on the ^F keystroke) moves to the line
+that is at the top of the back stack.
+
+
+Version 3.11 19-August-2016
+---------------------------
+
+1. NE was crashing if a BACK command was issued before any changes were made
+   to the file.
+
+2. "Back" line handling was doing some unnecessary processing and occasionally
+   giving a mysterious (incorrect) error message about reading commands in
+   binary mode. This should have been "'back' line not found", an internal
+   error. The internal error has been fixed. It happened in some cases when two
+   changes were made on a line that was subsequently deleted - only one
+   instance was removed from the "back" list if the two instances were
+   adjacent.
+
+3. "Back" handling wasn't always remembering modification points for certain
+    cursor movements.
+
+
+Version 3.10 27-January-2016
+----------------------------
+
+1. Default to using PCRE2, but with a configure option to revert to PCRE1.
+
+2. Removed some old coding macros that were set up for 16-bit Borland C, which
+   are surely obsolete now.
+
+3. Fix minor uninitialized read issue in argument decoding on 64-bit systems.
+
+4. After compiling with a lot of warnings enabled, a lot of code tidying has
+   been done, mainly turning many int variables into unsigned ints, and
+   removing parameters that are not used in Unix-like environments (a hangover
+   from early versions that ran on different systems). There is still plenty
+   that could be done, however.
+
+5. Removed configure tests for strerror(), memmove(), and bcopy() as these are
+   nowadays always available, and anyway, the code no longer checked the
+   macros (bcopy() wasn't even used). TIOCGWINSZ was assumed in the
+   configuration, so removed the checks in the code.
+
+
+Version 3.04 27-December-13
+---------------------------
+
+1. Change 2 for 3.03 broke full-screen editing when run from a non-xterm
+   terminal (e.g. "screen") because it acccidentally insisted on the presence
+   of a Delete key.
+
+
+Version 3.03 09-November-13
+---------------------------
+
+1. Removed some set but unused variables (detected by clever new compiler).
+
+2. Updated special keystroke handling for xterm to use more of the default
+   strings as specified in the default terminfo file (at least, the one on my
+   Arch Linux system).
+
+
+Version 3.02 15-May-12
+----------------------
+
+1. The icurrent command did not remove the line number from the line it copied.
+
+2. Cutting and pasting did not always remove line numbers, as it is documented
+   to do.
+
+3. Some additional information has been added to the output from "show
+   settings".
+
+
+Version 3.01 02-Mar-12
+----------------------
+
+1. There were bugs in the table the controls what commands may be obeyed in
+   read-only mode. For example, the "readonly" command was not allowed, so the
+   mode could not be turned off. Doh! In addition, the single-character
+   commands such as # ? etc. were not correctly handled in readonly mode;
+   neither were bracketed groups nor procedures. Using any of these commands
+   caused segfaults.
+
+
+Version 3.00 23-Feb-11
+----------------------
+
+1. Rather than just fixing an out-by-one bug in eversion.c, I re-designed how
+it works. Added the copyright notice to the -help output. Added a lot more
+casts for signed/unsigned chars so that it compiles clean with -Wall on today's
+compilers (it's been over 5 years since the last release).
+
+2. Renamed configure.in as configure.ac in line with modern practice, and did
+some tidying/updating of the configure and make files.
+
+3. Made --help a synonym of -help, and added -v and --version as synonyms of
+(the very ancient) -id.
+
+4. Removed the -stream facility, as it seems redundant nowadays.
+
+5. Fixed reference to unset memory in rdargs.c.
+
+6. Removed redundant code for various special (no longer existing) terminal
+types, and unused code for the Acorn windowing environment. The only special
+terminal type now recognized is xterm. Also removed the unixregexp command,
+which used to switch between different regex types, but has been obsolete for
+ages.
+
+7. In screen mode, test whether an xterm is set to UTF-8, and adjust output
+accordingly. UTF-8 sequences are sent for certain characters whose code points
+are greater than 127. Characters that do not occupy exactly one cell on an
+xterm display are displayed as the substitute character (defaulting to a
+question mark). These include zero-width and double-width characters.
+Characters with code points greater than 0xFFFF are also substituted.
+
+8. If -w[idechars] is specified, or the "widechars on" command is obeyed,
+recognize valid wide UTF-8 characters in the text being edited, without
+modifying the text bytes. A top-bit-set byte that is not part of a valid UTF-8
+character is treated as a single-byte character. This affects how data lines
+are displayed on the screen and in verification output. You can flip between
+modes during an editing session.
+
+9. "Show wordcount" was including line-ending characters in its character
+count, contrary to its documentation. Of course, previously it was just a byte
+count. It now shows both a byte count and a character count in wide character
+mode, in both cases excluding line ending characters. Words are now delimited
+by either tabs or spaces (previously it was just spaces). The output is now on
+multiple lines.
+
+10. Added new keyboard escapes for inputting Unicode characters, for example,
+ESC A ' for aacute. Also recognize ESC U or ESC u followed by up to 5 hex
+digits (short-terminated by a non-hex digit or another ESC). This feature
+applies only to input in screen mode because in line-by-line mode the commands
+are read using standard C input functions.
+
+11. While implementing 8/9/10, several old bugs/infelicities were found and
+fixed:
+
+    (a) In the code for formatting paragraphs, if the begin/end paragraph
+        settings did not include indented lines, and some lines of a paragraph
+        were indented less than earlier lines, characters could sometimes get
+        scrambled.
+
+    (b) Characters deleted by keystroke while in overstrike mode did not get
+        remembered for recall by "undelete".
+
+    (c) Some redundant arguments for certain functions were discovered and
+        removed (they probably related to code for environments no longer
+        supported which itself has gone).
+
+    (d) If a command line from a .nerc file was recovered by the use of the
+        "up" key in a screen command line, the final newline was still present,
+        and displayed as "?".
+
+12. When running in an xterm, NE now recognizes a left-button mouse click in
+the window, and moves the cursor appropriately. It also recognizes twiddling
+the wheel in a wheel mouse, and for each twiddle scrolls the screen up or down
+by an amount that can be set by "set autovmousescroll" (default 1). The current
+line is changed only if it would disappear off the screen. The "mouse" command
+can be used to turn mouse recognition on and off. Unfortunately, you have to
+turn it off if you want to use normal xterm cut-and-paste.
+
+13. NE was maintaining a value in a variable called main_currentlinenumber, but
+never actually using it for anything. This must be an historic relic. Removing
+it does not seem to have broken anything.
+
+14. When writing a file, NE was not testing for an error on the fclose() call
+at the end. Errors can happen here if, for example, the system is buffering the
+output and a quota overrun is not detected until fclose().
+
+15. When "show keys" was issued in screen mode, NE was pausing for interaction
+more often than actually necessary if the screen or window was relatively deep.
+It now notices the available depth.
+
+16. The subchar command now allows for altering the character that is
+substituted on screen for undisplayable characters.
+
+
+Version 2.01 06-Jun-05
+----------------------
+
+1. Lines whose length was between 32768 and 65535 were ending up with
+negative lengths because I was using short int rather than unsigned short
+int. They showed up therefore as empty lines, which was pretty disastrous. As
+well as inserting "unsigned", I have removed "short", since memory is plentiful
+these days. So line lengths can in principle be *really* big.
+
+2. Change from -lcurses to -lncurses in the Makefile.
+
+3. Insert $(DESTDIR) before all the path names for make install.
+
+
+Version 2.00 01-Mar-04
+----------------------
+
+This version has had the code refactored in several ways, and the compiling
+process has been converted into a conventional "configure, make, make install"
+paradigm. Only PCRE regular expressions are supported, and the PCRE library has
+to be installed. Only Unix-like systems are now supported. The initialization
+now uses .nerc instead of an environment variable. A number of other tidies and
+minor interface changes were made. The documentation was re-worked to remove
+all the obsolete stuff and to incorporate the changes.
+
+Version 1.31 13/03/03
+---------------------
+
+1. Extended the "smart formatting" so that it copes with paragraphs in which
+the first line has hanging text to the left.
+
+2. In screen mode only, TAB when entering a command line now does simple file
+name completion.
+
+3. Installed PCRE version 4.1.
+
+
+Version 1.30 29/08/02
+---------------------
+
+1. Fixed bug in 1.29/1 which caused looping for an indented line that didn't
+have any spaces before the split point.
+
+
+Version 1.29 05/08/02
+---------------------
+
+1. Finally got round to making the "format" command work on indented
+paragraphs, and on paragraphs that are flagged on the left with special chars.
+
+
+Version 1.28 14/06/01
+---------------------
+
+1. NE crashed if a global change involving a regular expression replacement had
+a replacement string that was longer than 1024 characters.
+
+2. Installed PCRE version 3.4.
+
+
+Acorn version 0.35
+------------------
+
+1. If backup files is set, rename the backup every time, not ust the first time
+a file is written.
+
+
+Version 1.27 10/12/99
+---------------------
+
+1. Under certain circumstances NE could try to close a file more than once,
+which causes some OS (e.g. Linux) to crash. The problem was that the global
+variable from_fid is used as a cache of currentbuffer->from_fid, and the latter
+was used unconditionally by cmd_emptybuffer(), which thus didn't notice if the
+file had been closed. [Bug diagnosed and fix supplied by Ben Harris.]
+
+2. The data structure used for if/unless arguments was missing a type value,
+possibly causing store chaos and crashing if it ever got passed to
+cmd_freeblock(). [Bug diagnosed and fix supplied by Ben Harris.]
+
+3. Installed PCRE version 2.08.
+
+4. Changed "termios.h" to "termio.h" in linuxlocal.h. This seems to be the
+thing to use in the latest releases.
+
+5. Minor typo in sunix.c code for handling termcap fixed.
+
+
+Version 1.26 13/07/99
+---------------------
+
+1. In overstriking mode, a forward character delete in an empty line, or
+past the end of a line, caused a crash.
+
+2. At least one version of strncpy() on Windows NT dereferences the source
+pointer even when the character count is zero. When copying an empty line
+(length zero, pointer NULL) NE was assuming that strncpy() wouldn't do this.
+Checks for non-zero length have been added to various strncpy() calls (a few
+had them already).
+
+3. Change all calls to strncpy() that are copying line data to memcpy() so that
+lines containing binary zeroes are correctly handled.
+
+4. Installed the latest version of PCRE (2.06).
+
+5. Fixed bug in handling of Perl-style regular expressions: if the b qualifier
+was set, it overrode caseless matching.
+
+6. Source change of
+
+  #ifdef __BORLANDC__
+
+to
+
+  #if defined(__BORLANDC__) && !defined(__WIN32CON__)
+
+and moved those definitions after the inclusion of elocal.h. This is to help
+with an NT console version.
+
+7. Additions to NetBSD #includes.
+
+8. Source tidies after checking with gcc -Wall to get rid of warnings.
+
+9. Allow x/.../ as an argument for the cl command.
+
+
+Version 1.25 17/12/97
+---------------------
+
+1. Changed the handling of SIGHUP since processes seemed to be getting stuck
+on Unix. On some OS, can't get it to write NEcrash after SIGHUP.
+
+2. Added "ne" as a synonym for "newbuffer".
+
+3. Made it possible to compile an alternative binary, in which regular
+expressions are always interpreted as Perl regexs, using the PCRE library.
+The "unixregexp" command is ignored. This is done with a minimum of
+disruption, so that the old code can still be maintained. If ever the old
+code is to be abandoned, some tidying up will be possible. The letter P is
+added to the version number.
+
+4. A search expression containing only one qualified string caused a crash if
+it had to be output, e.g. in an error message. Thus commands like f(/x/)
+crashed if /x/ was not found.
+
+5. Fixed crash after "makebuffer 10; drest" which occurred if the cursor was
+on the first line in the current buffer. Same bug for a number of other cases
+where buffers were swapped around in a single command line.
+
+
+Version 1.24 Risc OS 0.33  16/06/97
+-----------------------------------
+
+1. Fixed ancient "back" bug causing crash if a section of lines that had been
+recently modified was cut and "back" was obeyed before they were pasted.
+
+2. Fixed Acorn-specific DBUFFER bug causing crash.
+
+3. Ensured clear background for Acorn version on Risc OS 3.5 onwards.
+
+
+Version 1.23 Risc OS 0.31  06/01/95
+-----------------------------------
+
+Fixed crash on selecting "save" after attempting to close a window with
+modified data in it.
+
+
+Version 1.23  02/12/94
+----------------------
+
+Fixed idiotic stupid bug introduced by fix 7 below.
+
+
+Version 1.22  22/11/94
+----------------------
+
+1. Put in an explicit line wrap for RISC OS task windows, since CR's don't seem
+to get through.
+
+2. NE crashed when concatenating lines using delete if the first line was wider
+than the window, in some circumstances.
+
+3. A call to the ne command with exactly 9 file names crashed.
+
+4. In the RISC OS version, the asterisk wasn't removed from the window title if
+save was by dragging.
+
+5. RISC OS: an attempt to close the window of a modified file now offers "save"
+as one of its options.
+
+6. RISC OS won't save an unqualified file name on receipt of RETURN now.
+
+7. Very long file names caused malformatting on some systems, and a crash in a
+RISC OS window. Applied some truncation rules when prompting.
+
+8. Give error on attempt to read commands from binary buffers.
+
+9. Turn off the binary flag while opening a command file - necessary for the
+DOS version.
+
+10. RISC OS version: commands (such as T) which end with a "wait" status should
+have the wait cancelled when running in a window. This was causing T inside
+uteof to break the uteof prematurely.
+
+
+Version 1.21  13/10/94
+----------------------
+
+1. Fix 17 below broke the screen updating after a DREST command - lines below
+the new eof line were not wiped from the screen.
+
+
+Version 1.20  20/09/94
+----------------------
+
+1. Changed the interface to sys_checkinterrupt() to pass over a code for the
+kind of processing that is happening, and added main_cicount to allow system
+code to do system calls only every so often. This speeds up the handling of
+long-running commands no end on some systems.
+
+2. Added a few casts at strategic places and re-named the arguments to
+mac_hex() so that NE compiles clean on Sun's cc compiler on Solaris 2.
+
+3. ... and a few more casts and a flag so that it compiles clean on Sun's acc
+compiler on Solaris 1.
+
+4. Add -O to compiler flags for both flavours of SunOS - some measurable
+speedup detected.
+
+5. Screen not properly updated after "n" response to "save" prompt.
+
+6. There were some store leaks for certain operations that reduce the length
+of lines; these would hit seriously only when very long lines were reduced
+drastically in length, in particular, if a line containing a very long line was
+formatted.
+
+7. Invention of screen_suspend flag so that implementations that do not want
+suspension over *commands can set themselves up that way.
+
+8. When reading a command line in suspended mode, the prompt is now NE: rather
+than NE> to indicate different input handling.
+
+9. Tidies to the source concerned with screenmode and screensuspended flags;
+invention of screenOK for common case of screenmode && !screensuspended.
+
+10. NE crashed if the iline command was entered at a prompt following a *
+command (i.e. when the screen was suspended). Also icurrent, g commands,
+and several others.
+
+11. Unnecessary "press RETURN to continue" when in screen suspended mode.
+
+12. Interactive i command didn't work after a * command.
+
+13. When up/down arrows in the command line moved to a short previous line
+after a long one was displayed and horizontally scrolled, the prompt characters
+were not being re-written, leaving junk on the screen.
+
+14. The fkeystring command just wasn't present (though the fks synonym was).
+
+15. The "show version", -id, -help, and verify commands had "E" instead of "NE"
+in their messages.
+
+16. Procedure names were incorrectly case sensitive.
+
+17. In rather rare circumstances the screen could be incorrectly redrawn; the
+effect was that a line that previously contained characters was not updated
+with new data - typically after a formatting operation when it should have been
+cleared.
+
+18. When a scroll operation scrolled by less than the normal amount, because of
+hitting the top or bottom of the file, the cursor was always moved to the first
+or last line if the previous current line was no longer visible. This now only
+happens if the screen does not move at all. Otherwise the cursor is moved by one
+scroll's worth, so that a scroll in the opposite direction returns to where you
+were before.
+
+19. CSWL and CSWR no longer stop on non-word characters.
+
+20. The display code has had a bit more logic added for choosing what to
+display after commands. In the absence of special indications, it normally
+keeps the current line in the same place on the screen. Now, if the current
+line wasn't previously on the screen, but a sufficiently near previous line
+was, it keeps that line in the same place. This has a better feel after, for
+example, the SA or SB commands.
+
+21. Minor improvement to display handling after paste when in RISC OS windowing
+environment.
+
+22. Addition of DTWL and DTWR commands, and equivalent keystrokes.
+
+23. Incorrect command line display when deleting left at the left-hand side
+when scrolled to the right.
+
+24. Writing a file during a W command marks it as "saved" for the purpose of
+any future messages.
+
+25. CSWL and CSWR keystrokes work when reading a command line.
+
+26. DTWL and DTWR keystrokes work when reading a command line.
+
+27. Addition of the EIGHTBIT command. Defaults ON for RISC OS, and OFF for Unix
+(Brian to choose for MSDOS). When ON, characters in the range 160-255 are
+treated as printing when writing to the screen.
+
+28. Add interpretation of \d, \D, \s, \S, \w, \W to Unix-style regular
+expressions, with the same meanings as Perl, except that w and W use NE's
+definition of a "word". At the same time, complain for any other occurrences of
+\ followed by a letter.
+
+29. The digit 9 was not being initialized as a "word" character.
+
+30. The "show wordchars" command has been added.
+
+31. Added environment variables to the -help output, and invented a way to show
+their names system-specifically.
+
+32. RISC OS version: the file type can now be set when saving from a window.
+
+33. During interactive global exchanges, if the matched string crosses the edge
+of the window, or if it ends on the rightmost character in the window, a
+horizontal scroll is done before prompting if the string is not longer than 20
+characters. This means that, for shortish strings, the entire matched string is
+displayed, and also avoids confusion with the inverse-video continuation
+marker.
+
+34. Allow "-with -" to specify non-interactive with the standard input for
+commands. Give an error if both -with and -from are set to the standard input,
+either explicitly or by default. For consistency, allow "-ver -" as well. If
+"-to -" is given, default ver to stderr; complain if both "-to -" and "-ver -"
+are given.
+
+35. Notice keyboard interruptions during "m*", and the equivalent screen
+editing key (ctrl/down usually). Useful when stuck in a very long file.
+
+36. The "?" command caused a crash if used on a line with more than 256
+characters in it.
+
+37. If used in screen mode, the "?" command was only half showing the cursor
+position (the final output line got lost). Since nobody has complained about
+this, I've decided not to bother to show the cursor position in screen mode.
+
+38. When a horizontal scroll was necessary after a command line had been
+obeyed, and screen lines that previously contained data were below the end
+of file line, they were not cleared.
+
+39. An entry was missing in the "allowed in readonly" table, causing some
+mis-alignment, but nobody seems to have noticed...
+
+40. Pressing RETURN or DELETE or another non-data but forbidden key in a
+readonly buffer produced an error message, but didn't generate the usual NE>
+prompt afterwards (^D was needed to redraw the screen).
+
+41. A search for a "word" character in a regular expression when caseless
+matching was on, but the definition of "word" included only lower case
+characters, did not match correctly.
+
+
+Version 1.13  14/09/94
+----------------------
+
+1. Searches that crossed a line containing a character with code > 128 crashed
+on systems where chars are signed.
+
+
+Version 1.12  07/09/94
+----------------------
+
+1. RISC OS version crashed (in various ways) after a bulk line delete when the
+bottom line was the eof line, but error was in the system-independent code.
+
+2. Minor infelicity in RISC OS automatic scrolling fixed.
+
+
+Version 1.11  04/08/94
+----------------------
+
+1. Improved the speed of matching non-regular-expresion qualified strings.
+
+2. Vestigial code for the "C" qualifier (hang-over from MVS E) removed.
+
+
+Version 1.00  21/06/94
+----------------------
+
+1. RISC OS: do solid icon drags when so configured.
+
+2. Provided the routines file_written() and file_setwritten() for the
+system-dependent routines to use if they want to, to keep track of files that
+have been opened for writing. This can be used to implement an automatic backup
+scheme based on file names. If #FILE_CASELESS is defined in the local system
+header file (elocal.h), then the comparison of file names is independent of case.
+
+3. Added the command "backup files [on/off]" which controls the flag
+main_backupfiles. This can be used by the system dependent routines to
+implement a local backup convention when a file is written. Note that, if
+-stream is given on the command line, the output file is opened before any
+commands are processed. If backup is required, use the stream command instead.
+
+4. If a regular expression was used for a mixture of forwards and backwards
+searches, NE got confused and used a reversed string.
+
+5. The command "detrail output" causes trailing spaces to be removed from all
+(non-binary) output lines subsequently written.
+
+6. -h = -help and -r = -readonly.
+
+7. Up to 9 file names may be given on an NE command line. Those following the
+first are loaded into additional buffers at the start of the run. If the -to or
+-stream arguments are present, they apply to the first file only. Effectively,
+a number of automatic "newbuffer" commands are obeyed after NE has initialized.
+
+8. Spurious \r after "abandoned" after a crash removed.
+
+9. Unix: if TERM = "fawn", special codes for "shift arrow" that are generated
+by "PF1, arrow" are recognized by NE.
+
+10. RISC OS: Escape built for closing a taskwindow if a "task dying" message is
+never received.
+
+11. Upper case responses to the global prompt were accepted, but not acted on!
+
+12. If no output file was supplied for a non-interactive run, looping errors
+or crashes occurred. It now gives an error message and, in the case of the W
+command, tries to write any other buffers before exiting.
+
+13. A response of Y when not expected (file name unset) caused a crash.
+
+14. The count of errors was not getting reset in interactive runs, leading to
+an unexpected exit if a long run finally got the count up to 40 (typically in
+a windowing run).
+
+15. The return code was not being set to zero for interactive runs that
+terminated other than via STOP or ABANDON.
+
+16. RISC OS: The "Line info" menu item (hot key = Shift/ctrl/F9) turns on a
+little window displaying the line number and column number. This is somewhat of
+an experiment - I want to see how it feels.
+
+17. In non-windowing modes, after "the contents of the cut buffer have not been
+pasted" is output, up to three lines of the cut buffer are reflected for
+information.
+
+18. RISC OS: A check on the cut buffer is made when the last open window is
+closed - since it will be lost at that point.
+
+19. RISC OS: A new name typed in a save window didn't always work properly.
+
+21. RISC OS: The correct file icon is now used for saves - and the icon borders
+are more generous (for easier grabbing).
+
+22. If ^W was given on a line above a line marked with ^T, and the cursor was
+at the left hand side, NE crashed.
+
+23. Unix: For some types of terminal (e.g. vt102), NE didn't reset the terminal
+correctly when exiting via the "abandon" route, leaving it in a "raw" state.
+
+24. RISC OS: Cancelling a save with escape while dragging prevents the drag
+from having any effect.
+
+25. If a file processed in stream mode contained binary zeros in the part that
+was not read before finishing, the output was corrupted. This applied to both
+binary and non-binary files.
+
+26. All writes to the error output stream (msgs_fid) are now passed through a
+system-dependent function.
+
+
+
+Version 0.99  03/05/94
+----------------------
+
+1. RISC OS crash while updating window may be fixed...
+
+2. RISC OS: Require fully qualified name for save without dragging.
+
+3. RISC OS: Dragging from another application to NE didn't work.
+
+4. RISC OS: Using s/c/copy for control char data wasn't working. Also, handling
+of characters with codes > 128 in the desktop version wasn't possible. It now
+is (but not in the command line version).
+
+5. Wording of some key action descriptions corrected.
+
+6. DTA and DTB were deleting from the start of the line, not from the cursor
+position.
+
+7. No error was given for an unexpected non-hex digit in a binary file when
+writing it.
+
+8. If -line accidentally omitted and stdin not from terminal, NE looped.
+
+9. ^Z crashed if the new cursor position was off the right-hand end of the
+screen.
+
+10. NE crashed if new characters were added to the EOF line while scrolled
+right.
+
+11. When writing tabbed lines, a tab is used even for a single space if the
+following output character is also a tab.
+
+12. Unix: from some terminals, the start/stop/flush keystrokes weren't being
+cancelled while screen editing, so (typically) ^O, ^Q, ^S didn't work. How
+was this not noticed before?
+
+13. Unix: the interrupt character is not noticed while reading in command lines
+while screen editing. Luckily it is normally ^C, which doesn't clash with the
+default NE assignments that are useful while inputting such lines.
+
+14. If ^G is still in its default state at start-up, put a message saying how
+to exit in the bottom line, for the benefit of beginners.
+
+15. LOAD, DBUFFER, and W were all continuing to prompt even when the "warn off"
+command had been given, contrary to the spec.
+
+14. SHOW KEYSTRINGS was looping when an entry in the left-hand column
+overflowed.
+
+15. BACK wasn't working properly in the Arc window environment.
+
+16. *commands were being ignored when not interactive.
+
+17. After a crash, give return code 24. For some odd reason it was giving the
+signal value...
+
+18. Unix: ESC ESC <letter> now gives the associated control character, as per
+the specification.
+
+
+Version 0.98  22/04/94
+----------------------
+
+1. Changed a couple more instances of "E" to "NE".
+
+
+Version 0.97  19/04/94
+----------------------
+
+1. Brian Holley's store leakage fix. The leak occurred when a freed block was
+contiguous with other free blocks at both ends. This fix seems to have the side
+effect of speeding up the deletion of buffers, presumably by reducing the store
+fragmentation significantly.
+
+2. Change "E" to "NE" in some messages.
+
+3. Fixed some mistakes in error messages pertaining to regular expressions.
+
+4. The default search expression for beginpar has been changed from np// to
+nps//; in other words, lines containing only spaces are considered to be blank.
+
+
+Version 0.96  24/03/94
+----------------------
+
+1. RISCOS version 0.20: ignore ESCAPE if pressed while reading a command line.
+
+2. Possible store leak for "save <name>" fixed.
+
+3. RISCOS doesn't change name for saves to <Wimp$Scrap>.
+
+4. Unix version: some terminals don't do what's expected for an upward scroll
+in a scrolling region containing only one line. Use delete/insert line instead
+in this case.
+
+
+Version 0.95  15/03/94
+----------------------
+
+1. Some key names were not being recognized.
+
+
+Version 0.93  11/03/94
+----------------------
+
+1. A stupid slip-up caused failures to find strings containing % characters to
+give silly messages.
+
+2. Failures to open files during initialization (e.g. -with) shouldn't cause a
+crash log to be written.
+
+3. A DBUFFER operation can now be interrupted.
+
+4. In the Archimedes version, the prompt for carrying on with a DBUFFER
+operation showed junk when the file was unnamed.
+
+5. The Archimedes version crashed if NO was given to a DBUFFER prompt.
+
+6. A minor display problem when command lines longer than the screen are
+recalled by up/down arrow has been fixed.
+
+7. The Archimedes version now supports taskwindow input, at least for simple
+cases.
+
+
+Version 0.92  21/02/94
+----------------------
+
+1. The store management routines have been reworked so that they are usable on
+systems where the size of a pointer is not the same as the size of an int.
+
+2. Bug in the "name" command caused overwriting for file names that were a
+multiple of 4 characters long. Applied also to "stream", and usually caused
+assorted crashes.
+
+3. Window now refreshed after obeying "stream".
+
+4. Errors in the init command string cause it to be reflected in all modes.
+
+5. An occurrence of setting the cursor row to the line number was not bracketed
+by windowing tests.
+
+6. At the end of a G command in windowing mode, the logical cursor row was not
+reset correctly.
+
+7. In the Archimedes version, if NE$taskwindow is set to "no", NE does not
+attempt to support task windows.
+
+8. In the Archimedes version, close the message window when the last text
+window is closed.
+
+9. In the Archimedes version, close the output file for a stream buffer if its
+window is closed.
+
+10. In the Archimedes version, display "S" on the title bar for stream buffers.
+
+11. The option -errorlog causes all error messages to be written to a "crash
+log" file, whose name is system-dependent, in addition to their normal
+handling. This may be helpful in tracking down problems in situations where the
+messages don't get displayed. Additional information may be logged in addition
+to the normal error messages. The name "EcrashLog" is suggested, in the absence
+of any system considerations. An implementation may decline to provide a name
+for this file.
+
+12. Even without the -errorlog option, if NE is about to bomb out, copies of
+the error messages are now written to the crash log file.
+
+13. Ctrl-T, cursor down, any character, delete (or many other characters)
+caused NE to crash. Typing a data character while any marker was set was likely
+to do this.
+
+14. The syntax  "key a=" can now be used to unset a key mapping, causing the
+key to have no effect.
+
+15. The cswl and cswr key operations now make use of the "word" definition in
+their search for the next or previous words. A word is either a sequence of
+"word" characters, or a single non-space, non-"word" character.
+
+16. The wrong error message was given for bad qualified strings of the form
+r/$q/  (unknown letter after $).
+
+17. The escape sequence $s can now be used in E-style regular expressions to
+match white space, where this is defined to be spaces and tabs.
+
+18. New conditions "sol", "eol" and "sof" added for start-of-line, end-of-line,
+and start-of-file, respectively.
+
+19. "Save" permitted for stream buffers, but only with no argument. It writes
+the rest of the buffer and does a "dbuffer". This means stream buffers can be
+used without leaving NE.
+
+20. Bug which caused rmargin to be set to 999999 if the "load" command was
+obeyed in windowing mode has been fixed. As part of this, the variable
+"default_margin" has been invented. This is used when creating new buffers from
+nothing, e.g. during the load command.
+
+21. NE should look for system environment variables called NExxx, and only if
+they are not found, revert to the old Exxx forms for compatibility. Changed in
+the Archimedes and Unix versions.
+
+22. Allow the setting of the keystrokes consisting of shift or ctrl with tab or
+arrows for xterms on Unix, since it is possible to configure these to work.
+
+23. On the Archimedes, "stop" or "w" now closes the error messages window if it
+is open.
+
+24. On the Archimedes, dragging a file into an existing NE window performs an
+insertion of the file into the edited file.
+
+25. I believe I have fixed a bug on the Arc that might have caused the random,
+non-repeatable crash reported by PDK. Can't be sure, as I could never repeat
+it.
+
+26. General support added for systems that use file types, and use of this on
+the Archimedes. However, it doesn't yet show the correct icon in the "Save"
+window -- "future objective".
+
+27. Pasting a string of text that did not end with a complete line at the start
+of the end of file marker lost the text, instead of creating a new part line.
+
+28. Using the undelete operation after deleting all characters to the left of
+the cursor regurgitated the characters in the wrong order.
+
+29. One system on which NE has been mounted does not support the %n construct
+in printf strings. There is now a macro called NO_PERCENT_N which, if set,
+causes alternative code to be used in the couple of places this occurs.
+
+
+Version 0.091 03/02/94
+----------------------
+
+1. Flush omitted for readonly error - causing it to overwrite the screen in the
+Unix version.
+
+2. Give error if command lines in buffers are too long.
+
+
+Version 0.090 30/01/94
+----------------------
+
+1. Addition of buffer streaming facilities.
+
+2. -binary is a synonym of -b.
+
+3. -readonly can be used to initialize as read-only (easier for macros).
+
+4. CBUFFER can cope with multi-line commands.
+
+5. IF in CBUFFER behaves itself (same bug as 4).
+
+6. Readonly errors better behaved in non-window, screen mode.
+
+7. Remove redundant newline after reply "N" to output prompt.
+
+8. File name put last in lower graticule.
+
+9. Default comments to \\ rather than \ and add SET {OLD,NEW}COMMENTSTYLE.
+
+
+Version 0.080 20/01/94
+----------------------
+
+1. Addition of the MAKEBUFFER command.
+
+2. The buffer number and flags indications were not being displayed in the
+bottom graticule for buffers with no names.
+
+3. Extension of the PASTE command to take a buffer number as an optional
+argument.
+
+4. Addition of the DF command. It shares the same "memory" as the F and BF
+commands.
+
+5. Addition of the READONLY [on/off] command.
+
+6. Addition of UNIXREGEXP [on/off] command and interpretation of Unix-style
+regular expressions.
+
+7. Addition of UNDELETE command, on function key 4.
+
+8. Fixed display problem when G string crosses the edge of the screen.
+
+
+
+Version 0.070 19/01/94
+----------------------
+
+1. DETRAIL marks the buffer changed if it actually removes any trailing spaces;
+otherwise it doesn't.
+
+2. On Unix, backtab was going wrong at start of command line on the Unix
+version only (output buffering problem).
+
+
+
+Version 0.060 17/01/94
+----------------------
+
+1. Support for taskwindows in the Archimedes desktop version.
+
+2. Add the DETRAIL command to remove trailing spaces in the current buffer.
+
+3. Add the DTA and DTB commands.
+
+4. Add the CBUFFER and CDBUFFER commands.
+
+5. Missing error message sometimes on bad response to "w" prompt. Displayed
+more promptly in Arc windowing version.
+
+6. Not always diagnosing bad file names correctly.
+
+
+Version 0.058 11/01/94
+----------------------
+
+1. The key actions CSLS, CSLE, CSTB and CSPTB now operate during the input of a
+command line in screen mode.
+
+2. Case-free comparisons for various "words" installed.
+
+3. Fixed bugs with delete at end of prompt string when reading commands etc. in
+screen mode. Tidied handling of left-arrow and left tab.
+
+
+Version 0.055 06/01/94
+----------------------
+
+1. The "show" error message split a word over two lines (typically). Converted
+it to a two-line message.
+
+2. When pasting into a small file, the text scrolled up unnecessarily.
+
+3. Fixed disastrous Arc bug: wouldn't open new files (introduced by change 6
+below).
+
+4. Characters with codes less than a space now displayed on screen as '?'.
+
+Version 0.054 05/01/94
+----------------------
+
+1. Arc windowing: cut not clearing the first cut line; not continuing when
+"continue" button pressed after prompt.
+
+2. Arc windowing: re-obey E$EINIT string on a restart.
+
+3. Double-spacing of lines for the i command out of a screen editing session
+fixed.
+
+4. Test file will open before initializing screen.
+
+5. Fix crash when w command given in -opt for screen run.
+
+6. Arc: give sensible error message on attempt to open directory.
+
+7. After joining two lines with DELETE, the cursor was getting vertically
+centred by mistake.
+
+8. Graticule column numbers can now consist of more than 3 digits.
+
+9. Addition of SHOW KEYACTIONS and SHOW COMMANDS.
+
+
+
+Version 0.053 30/12/93
+----------------------
+
+1. Cut buffer not cleared on fresh start - caused crash in windowing version
+when all files closed.
+
+2. Make closeback work when cursor is past the end of the line.
+
+3. Add an indication of margin on/off to the Arc window title.
+
+4. Give the focus to another window after dbuffer.
+
+5. Kill hourglass after crash in Arc window version.
+
+6. Use Esc in Arc window version to pass through any keystroke for another
+application to grab.
+
+7. Fixed pb/non-exist/ crash.
+
+
+
+Version 0.052 22/12/93
+----------------------
+
+1. Screen not cleared when reinitialized after a * command.
+
+2. Better handling of errors during reading a file.
+
+3. Fixed bug on command lines spreading over more than one physical line in
+commad files called from interactive sessions.
+
+4. Graticules weren't always being redrawn after changes of cursor position
+that caused horizontal scrolling.
+
+5. The buffer command in the Arc windowing version wasn't bringing the new
+window to the front.
+
+6. Bug in regular expression handling fixed. If a bracketed sequence was
+immediately followed by ^, the first character of the "one or more" group
+was included as part of the previous matched wild string.
+
+
+Version 0.051 22/12/93
+----------------------
+
+1. Window_vector store wasn't being re-allocated correctly after calling a *
+command.
+
+2. Tidied up sources to remove all references to Xwindow-xxx and also to
+various other inherited variables that aren't currently in use.
+
+3. Renamed window in scommon to sc_window.
+
+
+Version 0.050 21/12/93
+----------------------
+
+1. Archimedes Wimp version seems to be more or less complete and working now so
+include future changes in this log file.
+
+2. After refusing a load because the current buffer was modified, the screen wasn't
+being repainted properly.
+
+
+Version 0.047 21/12/93
+----------------------
+
+1. Deleting a buffer didn't free the store for the text part of lines.
+
+
+Version 0.046 07/12/93
+----------------------
+
+1. Closeback (shift/delete) was not working properly when used with ^B on
+more than one line.
+
+
+Version 0.045 06/12/93
+----------------------
+
+1. Flush prompt E+ when operating in line mode.
+
+2. Bug concerned with continuing command lines over several lines fixed.
+Symptoms were spurious error messages and crashes.
+
+3. Screen wasn't refreshed after obeying a command that spanned more than
+one line.
+
+4. Believe fixed occasionally spotted disastrous bug which mixes up data in
+buffers. Cannot be totally sure, because never managed to reproduce it to
+order.
+
+
+Version 0.044 ?/?/93
+--------------------
+
+Oops. Forgot to log this fix... Must try harder...
+
+
+Version 0.043 26/10/93
+----------------------
+
+1. Fixed crash with -b option when scrolling downwards.
+
+2. -tabin was writing tabs on output.
+
+3. Ctrl/C wasn't being noticed in Unix version while searching or running G
+commands or whatever.
+
+4. Changing the hex in -b mode was displaying the char badly.
+
+5. After inserting a file, "back" now goes to the top of the insert.
+
+6. Remove \n from command lines read in screensuspended mode.
+
+
+Version 0.042 ?/?/93
+--------------------
+
+Oops. Forgot to log this fix...
+
+
+Version 0.041 15/9/93
+---------------------
+
+Fixed disastrous bug which threw away whole buffers if the newbuffer command
+was obeyed when the screen was suspended.
+
+
+Version 0.04 13/9/93
+--------------------
+
+1. Addition of "closeback" command and equivalent "clb" keystroke, with
+default of shift/delete and shift/backspace.
+
+2. Mucking around in system-dependent code in all versions in order to
+get shift+ctrl distinguished with delete and backspace.
+
+
+Version 0.03 8/9/93
+-------------------
+
+1. Tidies concerned with newlines at the end, and with prompting after W.
+
+2. In Unix, if used W with screen suspended, the prompting failed.
+
+3. Paste could crash if it extended down into lines that hadn't yet been
+read into store.
+
+
+Version 0.02 6/9/93
+-------------------
+
+1. Crashed when using ^B with line operations such as ^V, ^C, ^X, etc.
+
+2. Screen was continuously updating during "all" processing of globals.
+
+3. Set non-interactive during execution of C command.
+
+4. Was not prompting for a global issued in interactive line-by-line mode.
+
+5. Was not showing numbers of matches/changes for line-by-line globals.
+
+6. Was showing (but then deleting) numbers of matches/changes for globals in screen mode.
+
+7. gb es///xxxx/ was sticking on the first line that actually had trailing spaces.
+
+8. Pressing uparrow or downarrow in a global (or other) prompt crashed NE.
+
+9. Autoalign wasn't working for power typing line splits.
+
+10. Do CR after "y" for file writing on Archimedes.
+
+*** End ***

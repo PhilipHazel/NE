@@ -1,0 +1,38 @@
+#! /bin/sh -
+
+# This script is called by "make test" to run NE tests.
+
+# Make current the directory in which this script lives.
+
+cd `dirname "$(readlink -f "$0")"`
+
+if test -f ../src/ne; then prog=../src/ne; else prog=ne; fi
+
+echo ""
+echo -n "Testing "
+$prog --version
+echo ""
+
+# Run the non-interactive tests
+
+echo "Running non-interactive tests"
+./RunTests 3 99
+if [ $? -ne 0 ] ; then exit 1; fi
+
+echo ""
+echo "Running command-driven screen tests"
+./RunTests 1 2
+if [ $? -ne 0 ] ; then exit 1; fi
+
+echo ""
+echo "Running simulated keystroke screen test"
+./RunTests 0
+if [ $? -ne 0 ] ; then 
+  echo ""
+  echo "** Failure of this test may be due to the terminal type, or to the"
+  echo "** characteristics of the terminal (e.g. not supporting UTF-8)."  
+  echo "** It is probably not a show stopper." 
+  exit 1 
+fi
+
+# End

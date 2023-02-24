@@ -1,0 +1,178 @@
+1.*
+New tests prompted by coverage testing
+1.*
+1.*
+****.
+   jumps over the lazy dog.    
+  >
+****.
+   jumps over the lazy dog.    
+  >
+comment from buffer
+comment from buffer
+
+comment from if prompt
+Marked
+****.
+    Inserted
+   >
+****.
+        Inserted
+       >
+No abc
+from buffer 10
+****.
+cattle dog catastrophe
+------------ show ckeys ------------
+
+CTRL KEYS
+ctrl/a align line(s) with cursor   ctrl/b start bulk line operation
+ctrl/c close up spaces to right    ctrl/d refresh screen
+ctrl/e copy text or rectangle      ctrl/f (57)"front"
+ctrl/g prompt for command line     ctrl/h scroll left
+ctrl/i cursor to next tab stop     ctrl/j scroll down
+ctrl/k scroll up                   ctrl/l scroll right
+ctrl/m split line                  ctrl/n set global mark
+ctrl/o (60)"overstrike"            ctrl/p paste text or rectangle
+ctrl/q delete text or rectangle    ctrl/r start rectangular operation
+ctrl/s insert rectangle of spaces  ctrl/t start text operation
+ctrl/u delete line(s)              ctrl/v delete right in line(s)
+ctrl/w cut text or rectangle       ctrl/x delete left in line(s)
+ctrl/y delete character at cursor  ctrl/z align line(s) with previous
+ctrl/\ cursor to left of screen    ctrl/^ (58)"topline"
+ctrl/_ (59)"back"                  
+------------ show fkeys ------------
+
+FUNCTION KEYS
+fkey 1  "buffer"                    fkey 3  "w"
+fkey 4  "undelete"                  fkey 5  "autoalign;rmargin"
+fkey 6  "pll"                       fkey 7  "f"
+fkey 8  "m*"                        fkey 9  "show keys"
+fkey 10 "rmargin"                   fkey 11 "pbuffer"
+fkey 16 "plr"                       fkey 17 "bf"
+fkey 18 "m0"                        fkey 19 "show fkeys"
+fkey 20 "format"                    fkey 21 delete previous character
+fkey 30 "unformat"                  
+------------ show xkeys ------------
+
+EXTRA KEYS
+backsp     same as ctrl/h              return     same as ctrl/m
+tab        same as ctrl/i              
+
+home         synonym for ctrl/up       end            synonym for ctrl/down
+page up      synonym for shift/up      page down      synonym for shift/down
+esc-q        synonym for ctrl/q (XON)  esc-s          synonym for ctrl/s (XOFF)
+esc-digit    functions 1-10            esc-esc-digit  functions 11-20
+esc-return   re-display screen         esc-tab        backwards tab
+esc-esc-char control char as data
+------------ show keys -------------
+
+CTRL KEYS
+ctrl/a align line(s) with cursor   ctrl/b start bulk line operation
+ctrl/c close up spaces to right    ctrl/d refresh screen
+ctrl/e copy text or rectangle      ctrl/f (57)"front"
+ctrl/g prompt for command line     ctrl/h scroll left
+ctrl/i cursor to next tab stop     ctrl/j scroll down
+ctrl/k scroll up                   ctrl/l scroll right
+ctrl/m split line                  ctrl/n set global mark
+ctrl/o (60)"overstrike"            ctrl/p paste text or rectangle
+ctrl/q delete text or rectangle    ctrl/r start rectangular operation
+ctrl/s insert rectangle of spaces  ctrl/t start text operation
+ctrl/u delete line(s)              ctrl/v delete right in line(s)
+ctrl/w cut text or rectangle       ctrl/x delete left in line(s)
+ctrl/y delete character at cursor  ctrl/z align line(s) with previous
+ctrl/\ cursor to left of screen    ctrl/^ (58)"topline"
+ctrl/_ (59)"back"                  
+
+EXTRA KEYS
+backsp     same as ctrl/h              return     same as ctrl/m
+tab        same as ctrl/i              
+
+home         synonym for ctrl/up       end            synonym for ctrl/down
+page up      synonym for shift/up      page down      synonym for shift/down
+esc-q        synonym for ctrl/q (XON)  esc-s          synonym for ctrl/s (XOFF)
+esc-digit    functions 1-10            esc-esc-digit  functions 11-20
+esc-return   re-display screen         esc-tab        backwards tab
+esc-esc-char control char as data
+
+FUNCTION KEYS
+fkey 1  "buffer"                    fkey 3  "w"
+fkey 4  "undelete"                  fkey 5  "autoalign;rmargin"
+fkey 6  "pll"                       fkey 7  "f"
+fkey 8  "m*"                        fkey 9  "show keys"
+fkey 10 "rmargin"                   fkey 11 "pbuffer"
+fkey 16 "plr"                       fkey 17 "bf"
+fkey 18 "m0"                        fkey 19 "show fkeys"
+fkey 20 "format"                    fkey 21 delete previous character
+fkey 30 "unformat"                  
+---------- show keystrings ---------
+
+FUNCTION KEYSTRINGS
+keystring 1  "buffer"                 keystring 3  "w"
+keystring 4  "undelete"               keystring 5  "autoalign;rmargin"
+keystring 6  "pll"                    keystring 7  "f"
+keystring 8  "m*"                     keystring 9  "show keys"
+keystring 10 "rmargin"                keystring 11 "pbuffer"
+keystring 16 "plr"                    keystring 17 "bf"
+keystring 18 "m0"                     keystring 19 "show fkeys"
+keystring 20 "format"                 keystring 30 "unformat"
+keystring 57 "front"                  keystring 58 "topline"
+keystring 59 "back"                   keystring 60 "overstrike"
+---------- show keyactions ---------
+
+KEY ACTIONS
+al     align line(s) with cursor   alp    align line(s) with previous
+cat    concatenate lines           cl     close up spaces to right
+clb    close up spaces to left     co     copy text or rectangle
+csd    cursor down                 csl    cursor left
+csle   cursor to line end          csls   cursor to line start
+csnl   cursor to next line         csr    cursor right
+cssbr  cursor to bottom right      cssl   cursor to left of screen
+csstl  cursor to top left          csptb  cursor to previous tab
+cstb   cursor to next tab stop     cstl   cursor to left of text
+cstr   cursor to right of text     csu    cursor up
+cswl   cursor to previous word     cswr   cursor to next word
+cu     cut text or rectangle       dal    delete left in line(s)
+dar    delete right in line(s)     dc     delete character at cursor
+de     delete text or rectangle    dl     delete line(s)
+dp     delete previous character   dtwl   delete to start word left
+dtwr   delete to start word right  gm     set global mark
+lb     start bulk line operation   pa     paste text or rectangle
+rb     start rectangular operation rc     prompt for command line
+rf     refresh screen              rs     insert rectangle of spaces
+sb     scroll to end of buffer     sd     scroll down
+sl     scroll left                 sp     split line
+sr     scroll right                st     scroll to top of buffer
+su     scroll up                   tb     start text operation
+----------- show commands  ---------
+
+COMMANDS
+ a              abandon        align          alignp         attn          
+ autoalign      b              back           backregion     backup        
+ beginpar       bf             break          buffer         c             
+ casematch      cbuffer        cdbuffer       center         centre        
+ cl             closeback      closeup        comment        copy          
+ cproc          csd            csu            cut            cutstyle      
+ dbuffer        dcut           debug          detrail        df            
+ dleft          dline          dmarked        drest          dright        
+ dta            dtb            dtwl           dtwr           e             
+ eightbit       endpar         f              fkeystring     fks           
+ format         front          ga             gb             ge            
+ help           i              icurrent       if             iline         
+ ispace         key            lcl            load           loop          
+ m              makebuffer     mark           mouse          n             
+ name           ne             newbuffer      overstrike     p             
+ pa             paste          pb             pbuffer        pll           
+ plr            proc           prompt         quit           readonly      
+ refresh        renumber       repeat         rmargin        sa            
+ save           sb             set            show           stop          
+ subchar        t              title          tl             topline       
+ ucl            undelete       unformat       unless         until         
+ uteof          verify         w              warn           while         
+ widechars      word           write         
+------------------------------------
+    will split after autoalign
+    0ill split after autoalign
+    4                         
+
+NO

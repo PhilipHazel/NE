@@ -1,0 +1,13 @@
+verify
+comment /Test of regular expression and bad UTF-8/
+verify off
+widechars off
+iline /ABCÿXYZ/; p
+widechars on
+f r/123/
+sa r/123/
+pa r/123/
+df r/123/
+while r/123/ do n
+if r/123/ do n
+ga r/123//456/

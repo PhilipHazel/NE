@@ -1,0 +1,10 @@
+verify on
+5i data
+renumber
+m0
+mark text
+m*
+copy
+show buffers
+dcut
+m0

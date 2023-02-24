@@ -1,0 +1,10 @@
+verify on
+beginpar(nphs//&nb/./&nb/****/&npsr"</?[^>/]++>"&nps/--/)
+endpar(phs//|b/./|b/****/|psr"</?[^>/]++>"|ps/--/)
+rmargin 79; 7format
+f b/This is a whole pile/; n
+n
+beginpar(np//&nb/./); endpar(b/./|b/ /|p//); f b/or IBM/;
+rmargin 45; format; rmargin 72
+m0; pa/á/;?sa/café./
+p;cl/ሴ/;show wordcount

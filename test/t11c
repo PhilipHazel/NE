@@ -1,0 +1,17 @@
+verify
+i
+This is some text which we are going
+to put into a buffer and they try to
+modify with the read-only switch set
+on - so it should fail.
+z
+m0; readonly on
+verify; b///******/
+iline/TITLE/
+>?#
+<$
+(>>3%)
+proc .a is (<~)
+.a
+readonly
+iline/ANOTHER TITLE/

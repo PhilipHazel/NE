@@ -1,0 +1,66 @@
+# Makefile.in for NE. The building work is done by a separate Makefile in
+# the src directory, which gets passed settings from here.
+
+mkinstalldirs = $(SHELL) mkinstalldirs
+
+# These variables get set up by the configure script.
+
+CC=@CC@
+CFLAGS=@CFLAGS@
+LDFLAGS=@LDFLAGS@
+
+INSTALL = @INSTALL@
+INSTALL_DATA = @INSTALL_DATA@
+
+BINDIR=@prefix@/bin
+MANDIR=@prefix@/man
+
+LIBS=@LIBS@
+TERMCAP=@TERMCAP@
+USE_PCRE1=@USE_PCRE1@
+VDISCARD=@VDISCARD@
+
+# The compile commands can be very long. To make the output look better,
+# they are not normally echoed in full. To get full echoing, the caller
+# must set FULLECHO='' on the command line and call make with -e. We default
+# FULLECHO to '@' to suppress the full echo. Then define an abbreviation.
+
+FULLECHO = @
+FE       = $(FULLECHO)
+
+# On a main build, remove eversion.o to ensure a new build date.
+
+build:; /bin/rm -rf src/eversion.o
+		$(MAKE) codebuild
+
+# Build without necessarily updating the build date.
+
+codebuild:; @cd src; $(MAKE) ne \
+                CC="$(CC)" \
+                CFLAGS="$(CFLAGS) $(TERMCAP) $(USE_PCRE1) $(VDISCARD)" \
+                LDFLAGS="$(LDFLAGS)" \
+                LIBS="$(LIBS)" \
+                FE="$(FE)"
+
+check:          codebuild
+		cd test; ./MakeRun
+
+test:           check
+
+clean:; cd src; $(MAKE) clean
+
+distclean:;     /bin/rm -f Makefile config.cache config.log config.status; \
+                cd src; $(MAKE) clean
+
+install:        build
+		$(mkinstalldirs) $(BINDIR)
+		$(mkinstalldirs) $(MANDIR)
+		$(mkinstalldirs) $(MANDIR)/man1
+		$(INSTALL) src/ne $(BINDIR)/ne
+		$(INSTALL_DATA) doc/ne.1 $(MANDIR)/man1
+
+uninstall:;     rm -rf \
+                $(BINDIR)/ne \
+                $(MANDIR)/ne.1
+                 
+# End

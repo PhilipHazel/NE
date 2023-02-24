@@ -1,0 +1,84 @@
+** Unexpected start of file while obeying "csu" command
+.badname##
+        >
+** Malformed procedure name (must be '.' followed by letters or digits
+' \\ bad one-char command
+  >
+** Unknown command "'"
+else \\ misplaced else
+    >
+** Unexpected ELSE (prematurely terminated IF or UNLESS?)
+rhubarb \\ unknown command
+       >
+** Unknown command "rhubarb"
+dline dline
+      >
+** Semicolon expected (characters after command end)
+) \\ unmatched
+** Unmatched closing bracket
+** Procedure calls too deeply nested
+** Command line in buffer is too long
+** cdbuffer command abandoned after obeying line 1 of buffer 10
+** Command line in buffer is too long
+** cbuffer command abandoned after obeying line 0 of buffer 10
+** Unexpected end of file while reading NE commands
+** cdbuffer command abandoned after obeying line 1 of buffer 9
+f rx/*1234/
+           >
+** Error in regular expression at offset 0:
+   quantifier does not follow a repeatable item
+** r/1234/ not found
+** r/1234/ not found
+** The contents of the cut buffer have not been pasted.
+** The first few lines are:
+Cut 
+
+** No previous a, b, or e command
+** Unexpected end of file while obeying ">" command
+** Unexpected end of file while obeying "<" command
+** Unexpected end of file while obeying "#" command
+** Unexpected end of file while obeying "$" command
+** Unexpected end of file while obeying "%" command
+** Unexpected end of file while obeying "~" command
+** Unexpected end of file while obeying "dline" command
+** Unexpected End of file while obeying "a, b, or e" command
+.nonexist
+         >
+** Procedure .nonexist not found
+** Cursor must be at line start for whole-line change
+** /abcd/ not found
+buffer 25
+         >
+** Buffer 25 does not exist
+** Failed to open file "/non/exist" for reading: No such file or directory
+notacommand
+           >
+** Unknown command "notacommand"
+c command abandoned after obeying line 1 of Etemp
+cbuffer 13
+          >
+** Buffer 13 does not exist
+dbuffer 13
+          >
+** Buffer 13 does not exist
+** Commands are being read from buffer 12, so it cannot be selected
+** cbuffer command abandoned after obeying line 1 of buffer 12
+cbuffer
+       >
+** Buffer 0 is the current data buffer, so it cannot be a command buffer
+** Unexpected End of file while obeying "cl" command
+** Attempt to cancel active procedure .bad
+cproc .nonexist
+               >
+** Procedure .nonexist not found
+** No appropriate mark set for cut command
+** Unexpected end of file while obeying "csd" command
+** The contents of the cut buffer have not been pasted.
+** The first few lines are:
+wri
+
+** Commands are being read from buffer 12, so it cannot be deleted
+** cbuffer command abandoned after obeying line 1 of buffer 12
+a/x/ r(/abc/)
+      >
+** String expected

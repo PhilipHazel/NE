@@ -1,0 +1,9 @@
+load t05f
+dline
+?
+write Eto
+load Eto
+dline
+?
+name Eto
+save

@@ -1,0 +1,97 @@
+verify on
+comment/This is a comment/
+4>; align
+n; mark line; 2n; 4>; align
+m*
+m70
+back
+beginpar(np//&nb/./); endpar(b/./|b/ /|p//)
+f b/Versions/; rmargin 45; 4format; rmargin 72; bf
+newbuffer
+buffer
+casematch; f/In/
+casematch off; f
+m0; closeup
+mark text; n; copy; paste
+p; mark text; n; cut
+paste
+cutstyle append; p; mark text; n; cut; paste
+cutstyle
+dbuffer 1
+m37; f/they/; bf; dleft
+m48; 4dline
+m30; dright
+m0; ga/,//,/
+m23; mark limit; m0; ge/,,//,/
+m*; mark unset
+m0; gb /Computer Laboratory/ /Cambridge /
+m*; i idata
+3p;
+n;
+m52; 99$
+n; 99%
+90<
+p; 99#
+m24; 50(>#)
+m17; mark rectangle; n; 17>; copy
+m17; 20>; paste
+plr
+pll
+5csu
+10csd
+f b/.xchapter/;mark text;pll;dmarked
+n;mark rectangle;4csd;10>;ispace
+m*;p;mark line;n;i idata;until mark do p;mark unset;n;drest
+bf b/where/;ucl;n;lcl;iline/This is inserted with iline./
+t*;comment//;tl*
+bf b/design/; pa/similar/
+pb/,,/
+n;a/trace// all/; b/.//./;e/The//All these/
+n;3e rv/o([a-z]+)/ r/O$1/
+4iline/short line/;4p;cl;2cl/---/
+pll;?sa/---/
+sb/---/
+m*;iline/abc abc abc123 abc123 123abc abc/
+p;pa 3w/abc/
+word/a-z/;pll;pa 3w/abc/
+i
+These lines are inserted
+by means of the i command with no argument.
+
+There is one blank line just above this.
+z
+m*;2iline/The quick brown fox jumps./;2p;icurrent;p;10>
+dline;
+60~
+n;mark text;n;cut
+paste;dcut;paste
+m*;2iline/a short line/;2p;25>;cl//
+m*;2iline/a short line/;2p;25>cl/.../
+renumber
+m0; tl 10; m*; 5p; tl*
+show wordcount
+m*; iline/a/; iline/aa/; iline/aaa/; 3p; 3(centre; n)
+m*; iline/There's a              gap/; p; pb/gap/; closeback
+m*; iline/This is a re&test./;
+p; e rw/(re|un)(|&)([a-z]+)/ r/$0 $1 $2 $3/
+m*; i
+Here are a few brief words. And a few more as as well.
+This line contains letters and digits 1234 and mix9tures.
+z
+2p; pa/ar/; dtwr; 
+pb/more/; dtwr; dtwl
+word/a-z0-9/
+f r/\d/
+f r/\D/
+pa r/\s/
+pa r/\w+/
+verify
+show wordchars
+comment /-------- show settings --------/
+show settings
+comment /------- show allsettings ------/
+show allsettings
+comment /-------------------------------/
+makebuffer 2
+buffer 2
+w

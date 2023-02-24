@@ -1,0 +1,53 @@
+\\ Yet more error testing
+load 'Non-exist'
+Name Eto
+p
+m*;dtwr
+iline/abcdefg/;p;>>>>csd
+dtwl
+f
+ge
+i "non-exist-file"
+ne non-exist-file
+
+m*; icurrent
+n
+ispace
+m1000
+makebuffer 0
+mark limit; mark limit
+mark unset
+mark text;mark rectangle
+mark unset
+paste 23
+
+proc .a is ?
+proc .a is ?
+rmargin 0
+save ""
+save /non-exist/directory
+
+f x/a/  \\ Odd character count
+f x/az/ \\ Not hex digit
+
+f vu/xxx/  \\ Invalid qualifier combination
+f vv/xxx/  \\ Repeated qualifier
+f 2v3/zz/  \\ Repeated count
+f [2,3][4,5]/x/  \\ Repeated column qualifier
+f [2/abc/        \\ Missing column terminator
+f 3b/zzz/        \\ Count with b or e
+f b;             \\ Missing string
+f ];             \\ Missing string
+
+iline v/abcd/    \\ Bad qualifier
+
+f (/a/ & )       \\ Missing se
+f (/a/ | }       \\ Missing se
+f [2](/a/)       \\ Bad qualifier
+f (/a/           \\ Bad se
+f ws(/notfound/) \\ Check showing se qualifiers
+
+\\ This must be last, tests missing z
+i
+one last line
+\\ DO NOT ADD ANYTHING HERE

@@ -1,0 +1,7 @@
+i
+These lines are inserted via a non-interactive I command
+with no argument. Here follows one blank line.
+
+This is the line after the blank.
+z
+prompt off

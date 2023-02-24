@@ -1,0 +1,209 @@
+#! /bin/sh -
+
+# Run NE tests. The optional arguments are the starting and ending test
+# numbers, optionally preceded by "valgrind". If only one number is given, run
+# just that test.
+
+# Make current the directory in which this script lives, find the program to
+# be tested, and show the version.
+
+cd `dirname "$(readlink -f "$0")"`
+
+if test -f ../src/ne; then prog=../src/ne; else prog=ne; fi
+
+# Set parameters
+
+cf="diff -u"
+valgrind=""
+start="0"
+end="35"
+
+# Check arguments
+
+if [ "$1" = "valgrind" ] ; then
+  prog="valgrind -q ${prog}"
+  shift
+fi
+
+if [ $# -gt 0 ] ; then
+  start=$1
+  shift
+  if [ $# -gt 0 ] ; then
+    if [ $1 -le $end ] ; then end=$1; fi
+  else
+    end=$start
+  fi
+fi
+
+# Run the tests
+
+tn=$start
+while test $tn -le ${end}; do
+  echo Test $tn;
+  if test $tn -lt 10; then tn=0$tn; fi;
+  fail="n";
+  to="y";
+  ver="y";
+  vd="1";
+
+  case $tn in
+   00) if test "$TERM" = "xterm"; then
+         ${prog} -withkeys t00c  -noinit -to Eto >Ever;
+       else
+         echo "Screen key input test is set up only for xterm - skipped";
+         tn=`expr $tn + 1`
+         continue;
+       fi;;
+
+   01) ver="n";
+       ASAN_OPTIONS=detect_leaks=0 ${prog} data -to Eto -noinit -opt "c t01c";;
+
+   02) ver="n";
+       ASAN_OPTIONS=detect_leaks=0 ${prog} -to Eto -noinit \
+         -opt "c t02c;refresh;m0;c t02c;w";;
+
+   03) ${prog} data -with t03c -to Eto -ver Ever -noinit;;
+
+   04) ${prog} data -with t04c -to Eto -ver Ever -noinit;;
+
+   05) to="n";
+       ${prog} -with t05c -ver Ever -noinit;
+       rc=$?;
+       if test $rc -ne 4; then
+         echo \*\*\* Test 5 gave rc=${rc} instead of 4 \*\*\*;
+         break;
+       fi;;
+
+   06) ${prog} data -with t06c -to Eto -ver Ever -noinit;;
+
+   07) ${prog} -with t07c -to Eto -ver Ever -noinit;;
+
+   08) ${prog} -with t08c -to Eto -ver Ever -noinit;;
+
+   09) fail="y";
+       ${prog} data -binary -with t09c -to Eto -ver Ever -noinit;;
+
+   10) ${prog} -with t10c -to Eto -ver Ever -noinit;;
+
+   11) fail="y";
+       ${prog} -with t11c -to Eto -ver Ever -noinit;;
+
+   12) ${prog} data -with t12c -to Eto -ver Ever -noinit;;
+
+   13) ${prog} data idata -with t13c -to Eto -ver Ever -noinit;;
+
+   14) ${prog} -with t14c -to Eto -ver Ever -noinit;;
+
+   15) ${prog} -with t15c -to Eto -ver Ever -noinit;;
+
+   16) NETABS="" ${prog} wdata -widechars -with t16c -to Eto -ver Ever -noinit;;
+
+   17) fail="y";
+       ${prog} -with t17c -to Eto -ver Ever -noinit;;
+
+   18) ${prog} -with t18c -to Eto -ver Ever -noinit;;
+
+   19) fail="y";
+       ${prog} -with t19c -to Eto -ver Ever -noinit;;
+
+   20) fail="y";
+       ${prog} -with t20c -to Eto -ver Ever -noinit;;
+
+   21) fail="y";
+       ${prog} -with t21c -to Eto -ver Ever -noinit;;
+
+   22) fail="y";
+       ${prog} -with t22c -to Eto -ver Ever -notabs -noinit;;
+
+   23) NETABS="" ${prog} tdata -with /dev/null -opt 'verify;t*;verify' -to Eto -ver Ever -noinit;
+       NETABS="tabs" ${prog} tdata -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabin" ${prog} tdata -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabout" ${prog} tdata -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabinout" ${prog} tdata -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       echo "--" >>Eto
+       echo "--" >>Ever
+       NETABS="tabout" ${prog} tdata -tabs -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabout" ${prog} tdata -tabin -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabs" ${prog} tdata -tabout -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;
+       NETABS="tabs" ${prog} tdata -tabin -tabout -with /dev/null -opt 't*' -to - -noinit >>Eto 2>>Ever;;
+
+   24) fail="y"; to="n";
+       ${prog} -with /dev/null -opt 'iline/xxx/;w' -ver Ever -noinit;;
+
+   25) fail="y"; to="n";
+       ${prog} -line -opt 'iline/xxx/;w' -to /non/existant/file -ver Ever -noinit;;
+
+   26) ver="no";
+       ${prog} -from - -with /dev/null -opt 'iline/Insert/;w' -to Eto -ver Ever -noinit <<HERE
+Inline data.
+HERE
+;;
+
+   27) fail="y"; to="n";
+       ${prog} /non/existant/file -with /dev/null -opt 'iline/xxx/;w' -to /dev/null -ver Ever -noinit;;
+
+   28) to="n"; vd="3";
+       ${prog} --help -noinit >Ever;;
+
+   29) fail="y"; to="n";
+       ${prog} -unknownarg -noinit >Ever;;
+
+   30) fail="y"; to="n";
+       ${prog} -ver /non/existant/file -noinit 2>Ever;;
+
+   31) fail="y"; to="n";
+       ${prog} -from - -with - -noinit -ver Ever;;
+
+   32) fail="y"; to="n";
+       ${prog} -to - -ver - -noinit >Ever;;
+
+   33) to="n"; vd="0";
+       NERC=inittest ${prog} -opt 'w' -ver Ever;;
+
+   34) fail="y"; to="n";
+       ${prog} -with /non/existant/file -noinit -ver Ever;;
+
+   35) fail="y"; to="n";
+       NETABS="nonsense" ${prog} tdata -with /dev/null -to - -noinit >Ever 2>&1;
+
+  esac
+
+  rc=$?
+
+  if test "$fail" = "n"; then
+    if test $rc -ne 0; then
+      echo \*\*\* Test $tn failed \(rc=${rc}\) \*\*\*
+      exit 1
+    fi
+  else
+    if test $rc -eq 0; then
+      echo \*\*\* Test $tn should have failed, but did not \*\*\*
+      exit 1
+    fi
+  fi
+
+  if test "$ver" = "y"; then
+    ${prog} Ever -opt ${vd}dline -with /dev/null -noinit -ver /dev/null
+    $cf t${tn}v Ever
+    if test $? -ne 0; then
+      echo ""
+      echo \*\*\* Test $tn failed \"ver\" comparison \*\*\*
+      exit 1
+    fi
+  fi
+
+  if test "$to" = "y"; then
+    $cf t${tn}t Eto
+    if test $? -ne 0; then
+      echo ""
+      echo \*\*\* Test $tn failed \"to\" comparison \*\*\*
+      exit 1 
+    fi
+  fi
+
+  echo OK
+  /bin/rm -rf Eto Ever Etemp
+  tn=`expr $tn + 1`
+done
+
+exit 0

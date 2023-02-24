@@ -1,0 +1,114 @@
+.xchapter Introduction
+.xchapter Introduction
+.xchapter Introduction
+    $it This is a preliminary draft of a specification for the text
+    editor called E. Neither this document nor the editor itself are
+    yet complete. $rm
+
+E is a text editor that is designed to run on a wide variety of
+32-bit machines, from mainframes to personal workstations. Its
+main use is expected to be as an interactive screen editor.
+However, it can also function as a line-by-line editor, and it is
+programmable. Because of the widely differing environments in
+which E must run, and particularly because of the
+non-availability of `single character interaction' on certain
+mainframes, the facilities are restricted in some areas.
+
+Versions of E currently exist for IBM's MVS
+operating system (driving either SSMP
+.index SSMP         .index SSMP      
+.index IBM 3270:    .index IBM 3270: 
+or IBM 3270 terminals), for DEC's VMS
+operating system (driving SSMP terminals),
+for Acorn's Panos operating system for 32016
+co-processors, and for Acorn's Arthur
+operating system for the Arch$~imedes
+computer.
+
+SM steSml cenMngmn rtclpbihdb h
+United Kingdom Joint Network Team. A number of programmable
+ter$~minals support this protocol,, including the BBC
+Micro$~computer when fitted with an appropriate ROM chip,, and the
+IBM PC (and its clones) when running the terminal emulator known
+as `Soft',,
+
+which originates from the University of Newcastle-Upon-Tyne.
+.index University of Newcastle
+There is also a `Fawn Box',, available through the Joint Network
+Team,, which can be used to add SSMP facilities to a number of
+non-programmable terminals.
+
+They are described in
+this document grouped by function,, but first there are
+definitions of some terminology and a description of the areas in
+which there are differences between the various versions of the
+program. The chapter which follows describes how to use the
+screen editing features of E,, while subsequent chapters cover the
+many different commands avail$~able. Then there is detailed
+information for each different im$~plemen$~tation and supported
+terminal type,, and finally there are keystroke and command
+summaries.
+
+
+DESIGN OF E. SIMILAR FACILITIES ARE FREQUENTLY ENCOUNTERED,, AND
+it is difficult to trace all the origins of many of them.. All these
+short lineshort line---
+short line
+---short line
+Operations On rectangles and sOme of the operations on single
+lines and groups of lines are taken from the Curlew editor
+implemented by the University of Newcastle-Upon-Tyne. Members of
+the Cambridge Computer Laboratory and a number of other users of the
+Cambridge mainframe have contributed useful ideas and criticism
+to the design process.
+.
+.
+.
+ System dependencies
+          Full details of the system-dependent and terminal-dependent
+          features for each implementation of E are given near the end of
+          this document. This chapter describes the areas in which
+          differences occur.
+          
+.section The E command
+.index command for running E
+In all current implementations,, except that for VMS,, it is
+possible to invoke E to update a file interactively by means of
+the command
+.display
+e <<file name>>
+.endd
+WHERE THE FILE NAME FOLLOWS THE STANDARD CONVENTIONS OF THE
+This is inserted with iline.
+system. in vms the command name is \ee\ rather than \e\.
+.index VMS
+Other options may be given on the command line,, for example,, to
+move to a particular line in the file before displaying the first
+screen. In the Phoenix/MVS
+.index Phoenix/MVS
+im$~plemen$~tation the syntax for this is
+.display
+e <<file name>> opt '<<E commands>>'
+.endd
+but in other implementations different syntax may be used.
+
+
+Extra line with a number 1234 in it.
+Here are a couple of lines of text to be inserted via the
+i command in E.
+These lines are inserted
+by means of the i command with no argument.
+
+There is one blank line just above this.
+abc abc abc123 abc123 123abc abc
+tHE QUICK BROWN FOX JUMPS.
+The quick brown fox jumps.
+a short line             a short line
+a short line             ...a short line
+                                   a
+                                   aa
+                                  aaa
+There's agap
+This is a re&test re & test.
+Here ara few brief words. And a as as well.
+This line contains letters and digits 1234 and mix9tures.

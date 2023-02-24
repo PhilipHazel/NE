@@ -1,0 +1,20 @@
+1.
+000000  2e 78 63 68 61 70 74 65  72 20 49 6e 74 72 6f 64  * .xchapter Introd *
+1.
+000000  78 78 63 68 61 70 74 65  72 20 49 6e 74 72 6f 64  * .xchapter Introd *
+         >
+cbuffer 0
+         >
+** Commands cannot be read from binary buffers
+1.
+000000  78 78 63 68 61 70 74 65  72 20 49 6e 74 72 6f 64  * .xchapter Introd *
+         >
+2.
+000010  75 X3 74 69 6f 6e 0a 24  69 74 20 54 68 69 73 20  * uction.$it This  *
+           >
+3.
+000020  69 7X 20 61 20 70 72 65  6c 69 6d 69 6e 61 72 79  * is a preliminary *
+            >
+** Binary file contains "X" where a hex digit is expected
+** Binary file contains " " where a hex digit is expected
+** Binary file contains "X" where a hex digit is expected

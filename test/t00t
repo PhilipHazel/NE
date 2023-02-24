@@ -1,0 +1,152 @@
+OUTPUT FROM SIMULATED SCREEN SESSION.
+    This is testing automatic 
+    line splitting when 
+    hitting the right hand 
+    margin and with auto 
+    align.
+    The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog again.
+And again and again and again.
+Hexadecimal: 0123 � unknown escape = ¢
+quick 
+
+Here is some data in columns to test rectangle handling.
+    jan red      one    
+    feb green    two    
+    mar blue     three  
+    apr yellow   four   
+
+fÔx fOx
+left      ABCD
+YYY          XXX
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+These lines ensure a filled screen.
+   Indented line
+   Multiple lines to be
+   aligned with
+   previous.
+These lines ensure a filled screen.
+Keep this line
+Keep this line
+Another line to keep
+            Now create a very long line that will exceed the right hand margin by quite a lot so we go on and on and on and on and on and on and on and on
+  Now create a very long line that will exceed the right hand margin by quite a lot so we go on and on and on and on and on and on and on and on
+One/two
+One two Three
+and Four five six.
+Pack my box with five dozen Liquor Jugs.
+   Check line split
+   with auto alignment.
+       This is testing 
+       automatic line 
+       splitting when hitting 
+       the right hand margin 
+       and with auto align.
+          
+123456789bcdef
+OneTwo
+Three
+
+A very long line that will exceed the right hand margin by quite a lot so we go on and on and on and on and on and on and on and on: extend extend
+The quick brown fox.
+Literal? ¥ Â Ê
+
+Type on end of file line
+Corrected

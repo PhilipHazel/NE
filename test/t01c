@@ -1,0 +1,60 @@
+m37; refresh; cl/ /; refresh; plr; refresh
+pll; pa/,/; refresh;
+pll; refresh
+plr; refresh;
+m52; 3(3cl/ /; n); 3p; mark text; 3n; copy; paste; refresh
+100>; refresh; paste; refresh
+rmargin 60; m52; format
+newbuffer;
+name /dev/null; prompt off; refresh; i
+a
+b
+c
+d
+e
+f
+g
+h
+i
+j
+k
+l
+m
+n
+o
+p
+q
+r
+s
+t
+u
+v
+w
+x
+y
+z
+refresh
+buffer;
+refresh
+buffer;
+buffer;
+m*; 5p; dline; refresh
+m*;i
+
+the quick brown fox jumps over the lazy dog
+pack my box with five dozen liquor jugs
+z
+refresh
+topline
+bf p//; n; rmargin 79; format; refresh
+prompt off
+subchar !
+
+m*
+iline/the quick brown fox/
+p;24>mark text; refresh
+mark unset;mark limit; refresh
+
+(
+w  \\ tests continuation
+)

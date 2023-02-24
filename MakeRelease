@@ -1,0 +1,46 @@
+#! /bin/sh
+
+if [ ! "$1" ]; then
+  echo "*** Version number missing ***"
+  exit 1
+fi
+
+case $1 in *-*) echo "*** Just give the version number ***" ;; esac
+
+dir=Releases/ne-$1
+mkdir $dir
+ 
+echo "Created directory $dir"
+
+# Single files
+
+cp INSTALL LICENCE NOTICE README Makefile.in configure configure.ac \
+  install-sh mkinstalldirs $dir
+
+# Source
+
+mkdir $dir/src
+cp src/Makefile src/*.c src/*.h  src/*.in $dir/src
+
+# Documentation
+
+mkdir $dir/doc
+cp doc/ChangeLog $dir/doc
+cp doc/ne.1 $dir/doc
+cp doc/ne.pdf $dir/doc
+cp doc/ne.xfpt $dir/doc
+
+# Testing
+
+mkdir $dir/test
+cp test/* $dir/test
+
+# Tar and compress
+
+cd Releases
+tar cf ne-$1.tar ne-$1
+gzip -v --best ne-$1.tar
+
+echo Releases/ne-$1.tar.gz created
+
+####

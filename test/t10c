@@ -1,0 +1,60 @@
+verify on
+i
+Test of               closeback     
+Have some trailing spaces for detrail              
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog.
+This will get deleted.
+This will get deleted.
+This will get deleted.
+This will get deleted.
+This line should not get deleted.
+Here's a line for testing simple regular expressions. [bracketed]
+Trains and boats and planes and trains and boats
+The function of government is to do those things for a community that
+it requires to be done, but which cannot be done separately and
+individually by its members.
+z
+
+m0; renumber
+pb/close/; closeback;
+pa e//; closeback;
+detrail
+2n; dta/fox/
+n; dtb/fox/
+
+icurrent; p; b.."e p/"; b e.."//Pack my box with five dozen liquor jugs./"
+pll; mark text; n; cut
+makebuffer 99
+paste 99
+cdbuffer 99
+n; df w/not/
+
+n
+pa r/l./
+pll; 3pa r/i[no]/
+pll; pa r/l[a-z]/
+pll; pa r/a[a-z]*/
+pll; pa r/a[a-z]+/
+pll; pa r/a[a-z]? /
+     pa r/a[a-z]? /
+pll; pb r/\[/
+
+n;   pa r/boats|planes/
+pll; if r/^trains/ then comment/trains start/
+     if r/^boats/ then comment/boats start/
+     if r/boats/ then comment/boats exist/
+     if r/boats$/ then comment/boats end/
+     
+pa r/(trains|planes) and (boats|trains)/   
+pa r/(trains|planes) and (boats|trains)/   
+
+n; dline;
+undelete
+##########
+10undelete
+
+renumber;m*; 4p; mark text; 2n; cut
+m*; 2paste; 4p; tl*
+renumber; mark text; 2n; copy
+m*; paste; 2p; tl*

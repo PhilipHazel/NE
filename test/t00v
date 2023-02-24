@@ -1,0 +1,168 @@
+
+
+CTRL KEYS
+ctrl/a align line(s) with cursor   ctrl/b start bulk line operation
+ctrl/c close up spaces to right    ctrl/d refresh screen
+ctrl/e copy text or rectangle      ctrl/f (57)"front"
+ctrl/g prompt for command line     ctrl/h scroll left
+ctrl/i cursor to next tab stop     ctrl/j scroll down
+ctrl/k scroll up                   ctrl/l scroll right
+ctrl/m split line                  ctrl/n set global mark
+ctrl/o (60)"overstrike"            ctrl/p paste text or rectangle
+ctrl/q delete text or rectangle    ctrl/r start rectangular operation
+ctrl/s insert rectangle of spaces  ctrl/t start text operation
+ctrl/u delete line(s)              ctrl/v delete right in line(s)
+ctrl/w cut text or rectangle       ctrl/x delete left in line(s)
+ctrl/y delete character at cursor  ctrl/z align line(s) with previous
+ctrl/\ cursor to left of screen    ctrl/^ (58)"topline"
+ctrl/_ (59)"back"                  
+
+EXTRA KEYS
+up         cursor up                   s/up       scroll up
+c/up       scroll to top of buffer     down       cursor down
+s/down     scroll down                 c/down     scroll to end of buffer
+left       cursor left                 s/left     scroll left
+c/left     cursor to left of text      right      cursor right
+s/right    scroll right                c/right    cursor to right of text
+delete     delete previous character   s/delete   close up spaces to left
+c/delete   delete left in line(s)      backsp     same as ctrl/h
+return     same as ctrl/m              tab        same as ctrl/i
+c/tab      cursor to previous tab      insert     paste text or rectangle
+
+home         synonym for ctrl/up       end            synonym for ctrl/down
+page up      synonym for shift/up      page down      synonym for shift/down
+esc-q        synonym for ctrl/q (XON)  esc-s          synonym for ctrl/s (XOFF)
+esc-digit    functions 1-10            esc-esc-digit  functions 11-20
+esc-return   re-display screen         esc-tab        backwards tab
+esc-esc-char control char as data
+
+FUNCTION KEYS
+fkey 1  "buffer"                    fkey 3  "w"
+fkey 4  "undelete"                  fkey 6  "pll"
+fkey 7  "f"                         fkey 8  "m*"
+fkey 9  "show keys"                 fkey 10 "rmargin"
+fkey 11 "pbuffer"                   fkey 16 "plr"
+fkey 17 "bf"                        fkey 18 "m0"
+fkey 19 "show fkeys"                fkey 20 "format"
+fkey 21 delete previous character   fkey 30 "unformat"
+
+NE: 
+append:           off
+attn:              on
+autoalign:        off
+autovmousescroll:   1
+autovscroll:        1
+casematch:        off
+commentstyle:     new
+detrail output:   off
+eightbit:         off
+overstrike:       off
+mouse:             on
+prompt:            on
+readonly:         off
+splitscrollrow:     3
+tab setting:    -tabs
+warn:              on
+widechars:        off
+NE: ** Cannot set rectangle mark because text mark is already set
+** The current buffer is read-only
+
+key^backspace=dc
+                >
+** Error in key definition string (at character 9):
+   "backspace" cannot be independently configured in this version of NE
+   ("backspace" is the same as ctrl/h)
+
+key^return=dc
+             >
+** Error in key definition string (at character 6):
+   "return" cannot be independently configured in this version of NE
+   ("return" is the same as ctrl/m)
+
+key
+   >
+** Key definition(s) expected
+
+key^ 
+     >
+** Key definition(s) expected
+
+key^%
+     >
+** Error in key definition string (at character 1):
+   Key name or number expected
+
+key^a=dc,  
+           >
+** Error in key definition string (at character 7):
+   Key name or number expected
+
+key^200=dc
+          >
+** Error in key definition string (at character 3):
+   Incorrect function key number (not in range 1-30)
+
+key^s/return=dc
+               >
+** Error in key definition string (at character 8):
+   "s/return" cannot be independently configured in this version of NE
+   ("return" is the same as ctrl/m)
+
+key^c/return=dc
+               >
+** Error in key definition string (at character 8):
+   "c/return" cannot be independently configured in this version of NE
+   ("return" is the same as ctrl/m)
+
+key^s/c/return=dc
+                 >
+** Error in key definition string (at character 10):
+   "s/c/return" cannot be independently configured in this version of NE
+   ("return" is the same as ctrl/m)
+
+key^k/return=dc
+               >
+** Error in key definition string (at character 0):
+   s/ or c/ expected
+key^k/return=dc
+               >
+** Error in key definition string (at character 8):
+   "return" cannot be independently configured in this version of NE
+   ("return" is the same as ctrl/m)
+
+key^xxx=dc
+          >
+** Error in key definition string (at character 3):
+   xxx is not a valid key name
+
+key^f=300
+         >
+** Error in key definition string (at character 5):
+   Incorrect function keystring number (not in range 1-60)
+
+key^f=%
+       >
+** Error in key definition string (at character 2):
+   Key action (letters or a number) expected
+
+key^f%
+      >
+** Error in key definition string (at character 1):
+   Equals sign or colon expected
+
+key^f=3.
+        >
+** Error in key definition string (at character 3):
+   Comma expected
+
+set^autovscroll 0
+                 >
+** Incorrect value for autovscroll (not in range 1 to display depth - 1)
+
+eof
+
+
+
+****.*
+
+

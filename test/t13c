@@ -1,0 +1,15 @@
+verify
+iline/this       has lots of     white space/
+p; pa r/this\s*has/
+if sol then comment/start of line/ else comment/not start of line/
+pll; if sol then comment/start of line/ else comment/not start of line/
+if eol then comment/end of line/ else comment/not end of line/
+plr; if eol then comment/end of line/ else comment/not end of line/
+if sof then comment/start of file/ else comment/not start of file/
+m0; if sol then comment/start of file/ else comment/not start of file/
+if eof then comment/end of file/ else comment/not end of file/
+m*; if sol then comment/end of file/ else comment/not end of file/
+
+p; mark text; 10>; cut
+m*; paste
+dleft; 10undelete

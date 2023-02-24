@@ -1,0 +1,173 @@
+1.*
+New tests for errors provoked by coverage checking
+1.*
+Also tests deleting the only buffer
+1.*
+ge///abc/
+    >
+** The B, E, or P qualifier is required for an empty search string in a global command
+1.*
+e#abc##
+ >
+** String or search expression expected
+1.*
+b/a/#y#
+    >
+** String expected
+1.*
+pb#x#
+  >
+** String or search expression expected
+1.*
+autoalign rhubarb
+                 >
+** "on" or "off" expected
+1.*
+backup rhubarb
+              >
+** "files" expected
+1.*
+beginpar ##
+         >
+** String or search expression expected
+1.*
+comment ##
+         >
+** String expected
+1.*
+cutstyle rhubarb
+                >
+** "append" or "replace" expected
+1.*
+detrail rhubarb
+               >
+** "output" expected
+1.*
+f#a#
+ >
+** String or search expression expected
+1.*
+fkeystring 100 /x/
+              >
+** Function key number not in range 1-60
+1.*
+if #f# then ?
+   >
+** String or search expression expected
+1.*
+if prompt #abc# then ?
+           >
+** String expected
+1.*
+if eof rhubarb
+              >
+** "then" or "do" expected
+1.*
+if eof then ? rhubarb
+                     >
+** else expected
+1.*
+iline #line#
+      >
+** String expected
+1.*
+key;
+   >
+** Key definition(s) expected
+1.*
+m+
+ >
+** Number or "*" expected
+1.*
+makebuffer number
+           >
+** Number expected
+1.*
+mark line rhubarb
+                 >
+** "hold" expected
+1.*
+1.*
+mark rhubarb
+            >
+** "limit", "line", "rectangle", "text" or "unset" expected
+1.*
+name;
+    >
+** File name expected
+1.*
+** Illegal filename "a b c" ((contains a space))
+1.*
+1.*
+proc ###
+      >
+** Malformed procedure name (must be '.' followed by letters or digits
+1.*
+proc .xyz rhubarb
+                 >
+** "is" expected
+1.*
+rmargin rhubarb
+               >
+** "on" or "off" or a number expected
+1.*
+set splitscrollrow 0
+                    >
+** Positive number expected
+1.*
+set rhubarb
+           >
+** "autovscroll", "autovmousescroll", "splitscrollrow", "oldcommentstyle", or "newcommentstyle" expected
+1.*
+show rhubarb
+            >
+** keys, ckeys, fkeys, xkeys, keystrings, keyactions, buffers, commands,
+   wordchars, wordcount, [all]settings, or version expected
+1.*
+** Character U+001b is not displayable
+1.*
+until /xxx/ do  \\ gives error
+                >
+** Missing second argument for "until" command
+1.*
+word #abc#
+      >
+** String expected
+1.*
+word /abc"/
+           >
+** Error in argument for "word" (at character 4): unexpected end
+1.*
+word //
+         >
+** Error in argument for "word" (at character 1): Only ASCII characters may be specified
+1.*
+word /abc-/
+           >
+** Error in argument for "word" (at character 4): unexpected end
+1.*
+word /a-/
+           >
+** Error in argument for "word" (at character 3): Only ASCII characters may be specified
+1.*
+word /A-z/
+          >
+** Error in argument for "word" (at character 3): 
+   only digits or letters of the same case are allowed in a range
+1.*
+word /z-a/
+          >
+** Error in argument for "word" (at character 3): characters out of order in a range
+1.*
+word /0-A/
+          >
+** Error in argument for "word" (at character 3): 
+   only digits or letters of the same case are allowed in a range
+1.*
+1.*
+1.*
+** The contents of buffer 0 have not been saved
+
+1.*
+1.*
+1.*

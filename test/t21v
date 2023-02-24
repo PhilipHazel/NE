@@ -1,0 +1,75 @@
+** The contents of buffer 0 have not been saved
+
+** Failed to open file "Non-exist" for reading: No such file or directory
+** Unexpected start of file while obeying "p" command
+** Unexpected End of file while obeying "dtwr" command
+** Unexpected End of file while obeying "dtwl" command
+** No previous search command
+** No previous global command
+** Failed to open file "non-exist-file" for reading: No such file or directory
+** Failed to open file "non-exist-file" for reading: No such file or directory
+** Unexpected End of file in ICURRENT command
+** Unexpected end of file while obeying "n" command
+** No appropriate mark set for ispace command
+m1000
+     >
+** Line 1000 not found
+** Buffer 0 already exists
+** Cannot set global limit mark because global limit mark is already set
+** Cannot set rectangle mark because text mark is already set
+paste 23
+        >
+** Buffer 23 does not exist
+proc .a is ?
+            >
+** Procedure .a already exists
+** 0 not allowed as an argument for RMARGIN
+** Output file not specified for buffer 0 - not written
+** Failed to open file "/non-exist/directory" for writing: No such file or directory
+f x/a/  \\ Odd character count
+        >
+** Error in hexadecimal string: character count is odd
+f x/az/ \\ Not hex digit
+        >
+** Error in hexadecimal string at character 1: not a hex digit
+f vu/xxx/  \\ Invalid qualifier combination
+   >
+** Repeated or incompatible qualifier
+f vv/xxx/  \\ Repeated qualifier
+   >
+** Repeated or incompatible qualifier
+f 2v3/zz/  \\ Repeated count
+    >
+** Repeated or incompatible qualifier
+f [2,3][4,5]/x/  \\ Repeated column qualifier
+       >
+** Repeated or incompatible qualifier
+f [2/abc/        \\ Missing column terminator
+    >
+** "]" expected
+f 3b/zzz/        \\ Count with b or e
+    >
+** Repeated or incompatible qualifier
+f b;             \\ Missing string
+   >
+** String expected
+f ];             \\ Missing string
+  >
+** String or search expression expected
+iline v/abcd/    \\ Bad qualifier
+       >
+** Only x qualifiers allowed on insertion strings for this command
+f (/a/ & )       \\ Missing se
+         >
+** String or search expression expected
+f (/a/ | }       \\ Missing se
+         >
+** String or search expression expected
+f [2](/a/)       \\ Bad qualifier
+     >
+** n, s, u and w are the only qualifiers allowed with a search expression
+f (/a/           \\ Bad se
+                  >
+** "&" or "|" expected
+** sw(/notfound/) not found
+** Unexpected End of file in I command

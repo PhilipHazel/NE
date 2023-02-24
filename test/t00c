@@ -1,0 +1,245 @@
+\* This is a file of fake keystrokes for testing NE's screen editing. Backslash
+\* is an escape character. \* indicates that the rest of the line is comment.
+\* Backslash followed by a capital letter or one of @[\]^_ gives CTRL values
+\* 0-31. Backslash followed by a hexadecimal digit, in lower case for a-f,
+\* specifies a keystroke in hex (up to two hex digits are read). Backslash
+\* followed by # and a number specifies a function key. Backslash followed by =
+\* and a name specifies a keystroke by name. It may be preceded by a repeat
+\* count and/or by s+ or c+ to indicate Shift or Ctrl. Backslash followed by 
+\* anything else treats the anything else as literal.
+\*
+\* Until a backslash is encountered in a line, all characters are treated as
+\* data. After a backslash, white space (including the newline) is ignored. The
+\* simulated keystrokes that follow were created to exercise the code.
+\*
+\*
+\G \=left \=up 
+\1b [ M \60 \00 \00  \* Mouse scroll up
+\=5right Very long line to test left/right scrolling in the command line area. Note that all spaces here are being ignored so we must make this line very, very long indeed. Then wipe it out. 
+\=c+left \=left \=200left \=c+right \=3right 
+\U\M
+\G\C
+\G\1b u1234 \1b
+\G Run\I Run\09 \=c+tab \#21 \Y \U\M
+\*
+\G (\M )\M  \* Tests continuation in parens
+The quick brown fox jumps over the lazy dog.
+The quick brown fox jumps over the lazy dog again.
+And again and again and again.
+Hexadecimal: \30 \31 \32 \33 \20 \a2 \20 unknown \20 escape \20 \1b = \20
+\G widechars\M \c2 \a2 \G \=up \=down \=up \M
+\A   \* Align line with cursor
+\\   \* Cursor to left of screen
+\C   \* Close up spaces to the right
+\=up \* Cursor up
+\=3right                 \* Cursor right x 3
+\=s+up                   \* Shift cursor up
+\=down \=left            \* Cursor down left
+\=delete  h              \* Delete h then restore it
+\G m0\M                  \* Command "m0"
+\N \N                    \* Set then unset global limit
+\B \B \B                 \* Cycle "mark lines" states
+\=4right
+\T \=6right
+\E                       \* Copy text "quick "
+\P                       \* Paste it back
+\T \=6left
+\W                       \* Cut text "quick "
+\G m*\M                  \* Command "m*"
+\P                       \* Paste the cut text
+\=down \M                \* Insert blank line
+Here is some data in columns to test rectangle handling.
+red      one    jan
+green    two    feb
+blue     three  mar
+yellow   four   apr
+\=4up
+\=c+right \=right \R     \* Start rectangle
+\=4left \=3down \W
+\=c+left \=3up \P
+\R \=3down \=2right \S
+\R \=3up \=2left \S
+\*
+\#9 \M
+\*
+\* -----------------
+\* Testing non-screen output; the blank line is important
+\G *\Mshow settings
+
+\* -----------------
+\*
+\=c+down \N \N           \* Global limit on EOF line
+\T\T                     \* Other limit on EOF line
+\T\R\T                   \* Test mark clash
+\Greadonly\M \U          \* Test readonly violation
+\Greadonly\M
+\=c+down \=c+left fox \20 fox \=2left \O O
+\=c+left \=right \G widechars \20 on\M \c3 \94 \O \=down \=c+left
+erased left erased\=7left \V \=4left \X
+\=s+right ABCD \=2s+left \* 2xleft tests redundant scroll
+\*
+\G key\20 2=csnl\M \#2 \=s+right XXX \G key\20 2=csls\M \#2 YYY
+\=s+right \1b \09 \09\09\09\09\09\09\09\09\09\09\09\09\09\09\09\09 \#2
+\*
+\G m*;100iline/These\20lines\20ensure\20a\20filled\20screen./\M
+\=s+up \=2s+down
+\1b [ M \60 \00 \00  \* Mouse scroll up
+\=down               \* Should hit screen bottom and scroll
+\1b [ M \60 \00 \00  \* Mouse scroll up
+\1b [ M \61 \00 \00  \* Mouse scroll down
+\*
+   Indented line
+Multiple lines to be
+ aligned with
+    previous.
+\T \=up \B \=2up \Z
+\=c+down \=c+left
+Keep this line
+Remove this line
+Remove this line
+Remove this line
+Keep this line
+\=2up \B \=2up \U  \* Delete a block of lines
+\*
+\=down \B \=down \U
+Another bottom line, to be deleted
+Another line to keep
+\1b [ M \60 \00 \00  \* Mouse scroll up
+\1b [ M \60 \00 \00  \* Mouse scroll up
+\B \U                \* Delete block when bottom is last on screen
+\*
+\=down \#10          \* Turn off margin
+Now create a very long line that will exceed the right hand margin by quite a lot so we go on and on and on and on and on and on and on and on
+\=up \=s+right \=4right \A
+\=s+left \=c+left \=3left \A
+\=right \A
+\*
+\=down
+\G key\20 2=clb\M
+One/           two\=3left \#2
+\=c+left \=s+right To be deleted \X
+\*
+\=up \G icurrent\M
+\=s+right \20\20\20 \#2
+\*
+\G m0 \M             \* Top of file
+\=10right \=4down    \* Move away from top
+\1b [ M \20 \21 \22  \* Mouse left click at top LHS
+OUTPUT FROM SIMULATED SCREEN SESSION
+\*
+\=left .
+\=200right \=c+left
+\=up
+\*
+\G pll\M
+X\=left \Y
+X\=left \O \Y \O \Y
+X\O \#21 \O \Y
+\*
+\G key\20 2=cssbr\M \#2
+\G key\20 2=csstl\M \#2
+\*
+\G m* \M
+\G key\20 2=cswl\M
+\G key\20 12=cswr\M
+\G one\20 two\20 three \#2 \#2 \#12 \U\M
+One two three
+four five six
+Pack my box with five dozen liquor jugs.\#2 \#2 \Y L \#12 \Y J
+\=c+left \=up \#2 \Y T \#12 \Y F
+\G key\20 2=csle\M
+\G key\20 12=csls\M
+\G one\20 two\20 three \#12 \#2\U\M
+\#2 . \#12 and\20
+\*
+\G autoalign; m*\M
+   Check line split
+with auto alignment.
+\*
+\#10  \* Turn margin on again
+\G rmargin\20 30\M
+    This is testing automatic line splitting when hitting the right hand margin and with auto align.
+\* Need to do the same higher up the screen
+\G m0;n\M
+    This is testing automatic \=s+right
+line splitting when hitting the right hand margin and with auto align.
+\G rmargin\20 79\M
+\*
+\=s+right \=left
+\G m* \M \=12up \=left
+\*
+\G m0 \M \1b [ M \61 \00 \00  \* Mouse scroll down
+\=up
+\1b \M   \* ESC <return> does screen re-show
+\*
+\G m* \M
+A
+123456789abcdef\=s+right \=5left \#21
+\=c+left \#21 \#21
+\=down \#21
+\=c+left \=down \M \#21
+\*
+One
+Two
+Three
+\=2up \#21
+\*
+\=c+left \=c+down \#10
+A very long line that will exceed the right hand margin by quite a lot so we go on and on and on and on and on and on and on and on
+: extend extend\=c+left \#21 \#10
+\*
+\G key\20 2=dtwl\M
+\G key\20 12=dtwr\M
+\G The|quick|brown|fox \#2 |elephant|fox.\=13left \#12 \U
+\G m* \M
+The quick brown fox \#2
+elephant fox.\=13left \#12
+\*
+\G m0 \M \=s+down \=s+up
+\G m0 \M \1b [ M \61 \00 \00  \* Mouse scroll down
+\=s+up
+\*
+\G m* \M \=s+up \=s+down
+\G m* \M \1b [ M \60 \0 \0  \* Mouse scroll up
+\=s+down
+\=c+up
+\*
+\G m* \M
+Literal\? \20 \1b\1b\a5 \20 \1b A^ \20 \1b uca \1b \M
+\1b [ M \0 \0 \0  \* Mouse unknown
+\G \#1
+\*
+\* These should all trigger errors
+\G key^ backspace=dc \M
+\G key^ return=dc \M
+\G key\M
+\G key^\20\M
+\G key^ %\M
+\G key^ a=dc,\20\20 \M
+\G key^ 200=dc\M
+\G key^ s/return=dc\M
+\G key^ c/return=dc\M
+\G key^ s/c/return=dc\M
+\G key^ k/return=dc\M
+\G key^ xxx=dc\M
+\G key^ f=300\M
+\G key^ f=%\M
+\G key^ f%\M
+\G key^ f=3.\M
+\G set^ autovscroll\20 0\M
+\* ------------------------------
+\* These are valid
+\G key^ delete=dc\M
+\G key^ f=\M 
+\G key^ f=3\M
+\* ------------------------------
+\*
+\G m*;
+if eof then comment/eof/; else comment /not eof/\M\M\M
+Type on end of file line\=down\G?\M
+\G m0\M \=10down \G iline/to go/\M \=up \G dline\M 
+\G abc\X m*; iline/Corrrrected/ \=7left \Y \#21 \=40right abc \=3left \V\M 
+\*
+\***** End off *****
+\*
+\G w \M y \M             \* Windup

@@ -1,0 +1,244 @@
+verify
+comment /New tests prompted by coverage testing/
+eightbit;eightbit off; i
+   The quick brown fox.
+jumps over the lazy dog.    
+z
+p;#undelete; alignp;
+verify
+backregion 20
+backup files
+
+newbuffer
+iline /comment'comment from buffer'/
+pbuffer; ?
+cbuffer 1
+cdbuffer 1
+cutstyle append
+mark text; >>>>>>>>; copy;
+n;p;
+mark text; >>>>>>>>; copy;
+n;
+iline/----/; paste; n; iline/----/
+cutstyle replace
+detrail output
+if prompt /prompt: / then comment/comment from if prompt/
+m*; iline/Inserted/; p
+mark line hold; if mark then comment/Marked/ else comment/Not Marked/
+>>>> align;? >>>> align;? align; <<<<align
+rmargin off
+set autovscroll 1
+set autovmousescroll 1
+set splitscrollrow 1
+set oldcommentstyle
+\ This is a comment in the old style.
+set newcommentstyle
+unless /abc/ do comment /No abc/
+fks 5 'autoalign;rmargin'
+m*
+*echo xxxxx >Etemp
+i Etemp
+
+makebuffer 10
+buffer 10
+iline/if "xx" then ?
+iline/comment "from buffer 10"/
+buffer 0
+cdbuffer 10
+
+makebuffer 9
+buffer 9
+iline /if "xx" then ?
+buffer 0
+cdbuffer 9
+
+m*; iline/cattle cat catastrophe/
+p; ge rx/\b63\x{61}74\b//dog/; ?
+
+m*; i
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+z
+p
+e r/^.*$/ r/$0$0$0$0$0$0$0$0$0$0$0$0$0$0$0$0/
+
+m*
+mark unset
+backregion 1
+i
+one
+two
+three
+four
+five
+six
+seven
+eight
+nine
+ten
+z
+bf/three/; b///3 /
+2p;mark text;4n; cut
+6n;iline/---/;paste
+
+m*;i
+alpha gamma
+delta beta
+z
+2p;pb/gamma/;mark text;n;pb/beta/; cut
+n;paste
+
+m*;i
+first
+second
+third
+fourth
+fifth
+z
+5p;>>>mark text;3n;>>>>;dmarked
+
+m*;i
+first
+second
+third
+fourth
+fifth
+z
+5p;mark text;3n;>>>>;dmarked
+
+m*;iline/12345/
+p;>>mark text;>>>>>>>>>>dmarked
+
+\\ Rectangle cut, start > end
+m*;i
+abc def ghi
+abc def ghi
+z
+2p;8>;mark rectangle
+n;4>;cut;p;paste
+
+\\ Rectangle delete, start < end
+m*;i
+abc def ghi
+abc def ghi
+z
+2p;4>;mark rectangle
+n;8>;dmarked
+
+\\ Rectangle delete, start > end
+m*;i
+abc def ghi
+abc def ghi
+z
+2p;8>;mark rectangle
+n;4>;dmarked
+
+m*;4iline/4 lines/
+p;mark line;p;dline
+p;b l/// add/
+b
+
+attn off;attn;autoalign
+back; back
+
+*echo break >Etemp
+repeat c Etemp
+
+\\ New buffers go at the head of the buffer chain. Exercise deleting one that
+\\ isn't at the head.
+
+makebuffer 6
+makebuffer 7
+dbuffer 6
+dbuffer 7
+
+front
+m*;iline/A line for global test/;p
+ge/for//FOR/
+gb
+ga b///Start: /
+
+pa v/FOR/; mark limit; pll; ge/for//for/; mark unset
+ge/notfound//notfound shouldn't cause an error/
+
+makebuffer 6
+buffer 6; iline/i/; iline/inserted by cbuffer/; iline/z/
+buffer 0
+m*;cdbuffer 6
+
+m*;i
+Lines for some ispace testing
+Lines for some ispace testing
+z
+2p;pa/is/;mark rectangle;n;pb/is/;ispace
+mark rectangle;p;>>>ispace
+mouse         \\ just to exercise it
+overstrike    \\ ditto
+prompt        \\ ditto
+warn off;warn \\ ditto
+
+ne idata
+dbuffer
+rmargin on
+rmargin
+
+\\ Check writing to a different file but then rename for subsequent output.
+save /dev/null
+name Eto
+
+i
+    Indented line which will split after autoalign
+z
+autoalign on
+p;sa/which/     
+
+comment /------------ show ckeys ------------/
+show ckeys
+comment /------------ show fkeys ------------/
+show fkeys
+comment /------------ show xkeys ------------/
+show xkeys
+comment /------------ show keys -------------/
+show keys
+comment /---------- show keystrings ---------/
+show keystrings
+comment /---------- show keyactions ---------/
+show keyactions
+comment /----------- show commands  ---------/
+show commands
+comment /------------------------------------/
+
+t1;#b// x/04/;t1
+
+m*;i
+one
+two
+three
+four
+z
+4p;unformat
+
+while prompt "Prompt: " do break
+until eol do >
+until sol do <
+until sof do p
+
+mark lines
+3n; write /dev/null
+mark lines
+3p; write /dev/null
+
+m*; 110 iline/junk/
+110p; 108dline
+mark limit; dline; mark unset
+mark text; #####
+dline;mark unset
+
+iline/yet another line/;p
+pb/line/; mark text; pll; sa/yet /
+mark unset; pb/line/; mark limit; pll; sb/ /
+
+m*;iline//;p;format
+
+m*;iline/This line has at least three instances of the letter i./
+p;b 2l/i//>>/
+if n(/cat/|/dog/) then comment/NO/ else comment/YES/

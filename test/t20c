@@ -1,0 +1,97 @@
+\\ More tests for errors
+csu
+.badname##
+' \\ bad one-char command
+else \\ misplaced else
+rhubarb \\ unknown command
+dline dline
+) \\ unmatched
+proc .x is (.y);
+proc .y is (.x);
+.x
+makebuffer 10
+buffer 10
+\\ This tests joining on making the line too long
+iline/if "xx" then ?
+20 iline/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/
+20p
+19cl//
+buffer 0
+cdbuffer 10
+
+\\ This tests reading a long line
+buffer 10
+m0;dline
+buffer
+cbuffer 10
+
+makebuffer 9
+buffer 9
+iline/( \\ missing closing parens/
+buffer 0
+cdbuffer 9
+
+f rx/*1234/
+m*
+2 iline/abcd/
+p
+f r/1234/
+bf
+
+m*;iline/Cut overwrite check/
+p;mark text;>>>>cut;mark text;>>>>cut;pa l//;paste
+
+\\ No previous
+e
+
+\\ EOF errors
+m*
+>
+<
+#
+$
+%
+~
+mark line; dline
+b///fail/
+
+.nonexist
+p;>>>a n/abcd//xyz/
+a/abcd//xyz/
+
+buffer 25
+c /non/exist
+*echo notacommand >Etemp
+c Etemp
+
+cbuffer 13
+dbuffer 13
+
+makebuffer 12
+buffer 12; iline/buffer 12/
+buffer 0; cbuffer 12
+
+cbuffer
+
+m*;p;cl//
+
+proc .bad is (cproc .bad)
+.bad
+cproc .nonexist
+
+mark limit; cut
+mark unset
+
+m*;csd
+p;mark text;>>>;cut
+m*;p;mark text;>>>;cut
+paste
+
+buffer 12;dbuffer
+
+makebuffer 12
+buffer 12;iline/dbuffer 12/
+buffer 0
+cbuffer 12
+
+a/x/ r(/abc/)

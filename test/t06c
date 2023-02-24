@@ -1,0 +1,15 @@
+verify
+3(if w/is/ then comment/is/ else comment /is not/; n)
+m80; until eof do (b// /**/; n); comment /reached EOF/
+m76; uteof(f b/.endd/; ?; n); comment /reached EOF again/
+m24; repeat(
+       while np// do (b/// /;n);
+       n; if b/in/ then break
+       )
+p; repeat(n; if"." then loop else if p// then break; a///>>/);
+m70; mark line
+m64; until mark do (b e///<</; n); mark unset
+m*; iline/the quick brown fox/
+p; if/fox/ then comment/fox/; else comment/not fox/
+if /cow/ then comment/not cow/
+  else comment/not cow/

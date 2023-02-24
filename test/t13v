@@ -1,0 +1,42 @@
+1.
+.xchapter Introduction
+1.
+.xchapter Introduction
+****.
+this       has lots of     white space
+             >
+not start of line
+****.
+this       has lots of     white space
+             >
+start of line
+****.
+this       has lots of     white space
+not end of line
+****.
+this       has lots of     white space
+end of line
+****.
+this       has lots of     white space
+                                     >
+not start of file
+****.
+this       has lots of     white space
+                                     >
+start of file
+****.
+this       has lots of     white space
+not end of file
+****.
+this       has lots of     white space
+end of file
+93.*
+93.*
+92.
+ with a number 1234 in it.
+93.
+Extra line
+         >
+93.
+Extra line
+         >
