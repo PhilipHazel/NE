@@ -33,7 +33,7 @@
 . the <bookinfo> element must also be updated for each new edition.
 . /////////////////////////////////////////////////////////////////////////////
 
-.set version "3.20"
+.set version "3.21"
 .set R "&#x261e;"
 .set B "&#x200B;"
 
@@ -58,13 +58,13 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>24 February 2023</date>
+<date>05 May 2023</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
-  <revnumber>3.20</revnumber>
-  <date>24 February 2023</date>
+  <revnumber>3.21</revnumber>
+  <date>05 May 2023</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
 <copyright><year>2023</year><holder>Philip Hazel</holder></copyright>
@@ -84,7 +84,7 @@
 
 
 .chapter "Introduction"
-NE is a text editor that was designed in the early 1990s. In the past it ran on
+NE is a text editor that dates from the early 1990s. In the past it ran on
 a number of operating systems, but the current version supports only Unix-like
 environments. The main use of NE is expected to be as an interactive screen
 editor, but it can also function as a line-by-line editor, and it is

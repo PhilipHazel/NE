@@ -1,31 +1,31 @@
-.TH NE 1 "12 February 2023" "NE 3.20"
+.TH NE 1 "05 May 2023" "NE 3.21"
 .SH NAME
 NE - a text editor
 .SH SYNOPSIS
-.B ne [options] [source file(s)]
+.B ne [options] [source file(s)] [options]
 .
 .SH DESCRIPTION
 .rs
 .sp
-NE is a text editor that was originally designed in the early 1990s. In the
-past it ran on a number of operating systems, but the current version supports
-only Unix-like systems. The main use of NE is expected to be as an interactive
-screen editor. However, it can also function as a line-by-line editor, and it
-is programmable, so it can be run non-interactively as a text manipulation
-tool.
+NE is a text editor that dates from the early 1990s. In the past it ran on a
+number of operating systems, but the current version supports only Unix-like
+systems. The main use of NE is expected to be as an interactive screen editor.
+However, it can also function as a line-by-line editor, and it is programmable,
+so it can be run non-interactively as a text manipulation tool.
 
-NE can process data files in three ways: as single-byte characters - the 
-default, as UTF-8 multi-byte characters, or as binary bytes displayed and 
+NE can process data files in three ways: as single-byte characters (the
+default), as UTF-8 multi-byte characters, or as binary bytes displayed and
 edited mainly in hexadecimal.
 
-NE is a re-implementation of a previous editor that was called E, which in turn 
-evolved from one called Zed and a number of predecessors that ran on IBM 
-mainframes. The lineage can be traced back to some very early Cambridge text 
-editors of the 1960s that ran on Titan (a prototype Atlas 2) and earlier on 
+NE is a re-implementation of a previous editor that was called E, which in turn
+evolved from one called Zed and a number of predecessors that ran on IBM
+mainframes. The lineage can be traced back to some very early Cambridge text
+editors of the 1960s that ran on Titan (a prototype Atlas 2) and earlier on
 EDSAC 2.
 .
 .SH OPTIONS
 .rs
+Options may be given before or after source file names on the command line.
 .TP 10
 \fB-binary\fP \fB-b\fP
 Run in binary mode.
@@ -68,16 +68,16 @@ Expand tabs in input lines, do not retab on output.
 Use tabs in all output lines.
 .TP
 \fB-tabs\fP
-Expand tabs in input lines, and retab those lines on output. This is the 
+Expand tabs in input lines, and retab those lines on output. This is the
 default unless overridden by the NETABS environment variable.
 .TP
 \fB-to\fP \fI<file>\fP
-Specify the output for the first input file. The default is to overwrite the 
-input, and this is true for all other input files (though output destinations 
+Specify the output for the first input file. The default is to overwrite the
+input, and this is true for all other input files (though output destinations
 can be changed while editing).
 .TP
 \fB-ver\fP \fI<file>\fP
-Specify the output file for editing verifications when in line-by-line or 
+Specify the output file for editing verifications when in line-by-line or
 non-interactive mode.
 .TP
 \fB--version\fP \fB-version\fP \fB-v\fP
@@ -110,15 +110,15 @@ from the file called \fB.nerc\fP in the user's home directory.
 .SH "FURTHER INFORMATION"
 .rs
 .sp
-The NE manual gives a full description of the program and the features that 
+The NE manual gives a full description of the program and the features that
 it provides.
 .
 .
 .SH "DIAGNOSTICS AND RETURN CODES"
 .rs
 .sp
-Error messages are written to the standard error stream. The return code is 0 
-for success, 4 for warnings, 8 for errors, 12 for serious errors, and 16 for 
+Error messages are written to the standard error stream. The return code is 0
+for success, 4 for warnings, 8 for errors, 12 for serious errors, and 16 for
 disasters (a little bit of IBM history here).
 .
 .
@@ -135,6 +135,6 @@ Cambridge, England.
 .rs
 .sp
 .nf
-Last updated: 12 February 2023
+Last updated: 05 May 2023
 Copyright (c) 2023 Philip Hazel
 .fi

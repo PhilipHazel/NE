@@ -40,19 +40,19 @@ an xterm window.
 UNINSTALLING
 ------------
 
-Runnint "make uninstall" removes the files that are installed by "make
+Running "make uninstall" removes the files that are installed by "make
 install", which are the ne binary and the ne man page.
 
 
 HISTORY
 -------
 
-E was a text editor that was designed to run on a variety of hardware and under
-a variety of operating systems. The first implementation was written BCPL to
-run under Phoenix/MVS on IBM mainframes. There was a complete re-write in C in
-the early 1990s, undertaken because BCPL was no longer widely available. The
-program no longer ran under MVS, and was renamed NE. It still ran on several
-other operating systems, including MSDOS and Acorn's RISC OS. There are still
+E was a text editor that ran on a variety of hardware and under a variety of
+operating systems. The first implementation was written BCPL to run under
+Phoenix/MVS on IBM mainframes. There was a complete re-write in C in the early
+1990s, undertaken because BCPL was no longer widely available. The program no
+longer ran under MVS, and was renamed NE. It still ran on several other
+operating systems, including MSDOS and Acorn's RISC OS. There are still
 vestiges of these past glories in the way the code is organized and in some of
 the conditional compilation macros.
 
@@ -79,7 +79,7 @@ See the doc/ChangeLog file for a list of changes in the various releases.
 Philip Hazel
 Email local part: Philip.Hazel
 Email domain: gmail.com
-February 2023
+May 2023
 
 
 LICENCE
