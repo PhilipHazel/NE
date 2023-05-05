@@ -5,7 +5,7 @@
 /* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: March 2023 */
 
 
 /* This is the main header file, imported by all other sources. */
@@ -469,6 +469,7 @@ extern BOOL    msgs_tty;               /* TRUE if msgs_fid is a tty */
 
 extern sestr  *par_begin;
 extern sestr  *par_end;
+extern BOOL    passive_commands;
 
 #ifndef USE_PCRE1
 extern pcre2_general_context *re_general_context;

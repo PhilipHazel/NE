@@ -5,7 +5,7 @@
 /* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: May 2023 */
 
 
 /* This file contains code for the top-level handling of a command line, and
@@ -19,9 +19,9 @@ for compiling the line into an internal form. */
 static BOOL SpecialCmd;
 
 /* This list must be in alphabetical order, and must be kept in step with the
-two tables at the end of ecmdarg, and also with the following table of
-read-only permissions. This table is global so that it can be output by the
-SHOW command. */
+two tables at the end of ecmdarg, and also with the following tables of
+read-only permissions and passive command indications. This table is global so
+that it can be output by the SHOW command. */
 
 uschar *cmd_list[] = {
   US"a",
@@ -148,142 +148,280 @@ commands. */
 
 /* Indicators for commands that are permitted in readonly buffers */
 
-uschar cmd_readonly[] = {
-  0, /* a */
-  1, /* abandon */
-  0, /* align */
-  0, /* alignp */
-  1, /* attn */
-  1, /* autoalign */
-  0, /* b */
-  0, /* back */
-  0, /* backregion */
-  1, /* backup */
-  1, /* beginpar */
-  1, /* bf */
-  1, /* break */
-  1, /* buffer */
-  1, /* c */
-  1, /* casematch */
-  1, /* cbuffer */
-  1, /* cdbuffer */
-  0, /* center */
-  0, /* centre */
-  0, /* cl */
-  0, /* closeback */
-  0, /* closeup */
-  1, /* comment */
-  1, /* copy */
-  1, /* cproc */
-  1, /* csd */
-  1, /* csu */
-  0, /* cut */
-  1, /* cutstyle */
-  1, /* dbuffer */
-  1, /* dcut */
-  1, /* debug */
-  0, /* detrail */
-  0, /* df */
-  0, /* dleft */
-  0, /* dline */
-  0, /* dmarked */
-  0, /* drest */
-  0, /* dright */
-  0, /* dta */
-  0, /* dtb */
-  0, /* dtwl */
-  0, /* dtwr */
-  0, /* e */
-  1, /* eightbit */
-  1, /* endpar */
-  1, /* f */
-  1, /* fkeystring */
-  1, /* fks */
-  0, /* format */
-  0, /* front */
-  0, /* ga */
-  0, /* gb */
-  0, /* ge */
-  1, /* help */
-  0, /* i */
-  0, /* icurrent */
-  1, /* if */
-  0, /* iline */
-  0, /* ispace */
-  1, /* key */
-  0, /* lcl */
-  1, /* load */
-  1, /* loop */
-  1, /* m */
-  1, /* makebuffer */
-  1, /* mark */
-  1, /* mouse */
-  1, /* n */
-  1, /* name */
-  1, /* ne */
-  1, /* newbuffer */
-  1, /* overstrike */
-  1, /* p */
-  1, /* pa */
-  0, /* paste */
-  1, /* pb */
-  1, /* pbuffer */
-  1, /* pll */
-  1, /* plr */
-  1, /* proc */
-  1, /* prompt */
-  1, /* quit */
-  1, /* readonly */
-  1, /* refresh */
-  0, /* renumber */
-  1, /* repeat */
-  1, /* rmargin */
-  0, /* sa */
-  1, /* save */
-  0, /* sb */
-  1, /* set */
-  1, /* show */
-  1, /* stop */
-  1, /* subchar */
-  1, /* t */
-  1, /* title */
-  1, /* tl */
-  1, /* topline */
-  0, /* ucl */
-  0, /* undelete */
-  0, /* unformat */
-  1, /* unless */
-  1, /* until */
-  1, /* uteof */
-  1, /* verify */
-  1, /* w */
-  1, /* warn */
-  1, /* while */
-  1, /* wide */
-  1, /* word */
-  1, /* write */
+static uschar cmd_readonly[] = {
+  FALSE, /* a */
+   TRUE, /* abandon */
+  FALSE, /* align */
+  FALSE, /* alignp */
+   TRUE, /* attn */
+   TRUE, /* autoalign */
+  FALSE, /* b */
+  FALSE, /* back */
+  FALSE, /* backregion */
+   TRUE, /* backup */
+   TRUE, /* beginpar */
+   TRUE, /* bf */
+   TRUE, /* break */
+   TRUE, /* buffer */
+   TRUE, /* c */
+   TRUE, /* casematch */
+   TRUE, /* cbuffer */
+   TRUE, /* cdbuffer */
+  FALSE, /* center */
+  FALSE, /* centre */
+  FALSE, /* cl */
+  FALSE, /* closeback */
+  FALSE, /* closeup */
+   TRUE, /* comment */
+   TRUE, /* copy */
+   TRUE, /* cproc */
+   TRUE, /* csd */
+   TRUE, /* csu */
+  FALSE, /* cut */
+   TRUE, /* cutstyle */
+   TRUE, /* dbuffer */
+   TRUE, /* dcut */
+   TRUE, /* debug */
+  FALSE, /* detrail */
+  FALSE, /* df */
+  FALSE, /* dleft */
+  FALSE, /* dline */
+  FALSE, /* dmarked */
+  FALSE, /* drest */
+  FALSE, /* dright */
+  FALSE, /* dta */
+  FALSE, /* dtb */
+  FALSE, /* dtwl */
+  FALSE, /* dtwr */
+  FALSE, /* e */
+   TRUE, /* eightbit */
+   TRUE, /* endpar */
+   TRUE, /* f */
+   TRUE, /* fkeystring */
+   TRUE, /* fks */
+  FALSE, /* format */
+  FALSE, /* front */
+  FALSE, /* ga */
+  FALSE, /* gb */
+  FALSE, /* ge */
+   TRUE, /* help */
+  FALSE, /* i */
+  FALSE, /* icurrent */
+   TRUE, /* if */
+  FALSE, /* iline */
+  FALSE, /* ispace */
+   TRUE, /* key */
+  FALSE, /* lcl */
+   TRUE, /* load */
+   TRUE, /* loop */
+   TRUE, /* m */
+   TRUE, /* makebuffer */
+   TRUE, /* mark */
+   TRUE, /* mouse */
+   TRUE, /* n */
+   TRUE, /* name */
+   TRUE, /* ne */
+   TRUE, /* newbuffer */
+   TRUE, /* overstrike */
+   TRUE, /* p */
+   TRUE, /* pa */
+  FALSE, /* paste */
+   TRUE, /* pb */
+   TRUE, /* pbuffer */
+   TRUE, /* pll */
+   TRUE, /* plr */
+   TRUE, /* proc */
+   TRUE, /* prompt */
+   TRUE, /* quit */
+   TRUE, /* readonly */
+   TRUE, /* refresh */
+  FALSE, /* renumber */
+   TRUE, /* repeat */
+   TRUE, /* rmargin */
+  FALSE, /* sa */
+   TRUE, /* save */
+  FALSE, /* sb */
+   TRUE, /* set */
+   TRUE, /* show */
+   TRUE, /* stop */
+   TRUE, /* subchar */
+   TRUE, /* t */
+   TRUE, /* title */
+   TRUE, /* tl */
+   TRUE, /* topline */
+  FALSE, /* ucl */
+  FALSE, /* undelete */
+  FALSE, /* unformat */
+   TRUE, /* unless */
+   TRUE, /* until */
+   TRUE, /* uteof */
+   TRUE, /* verify */
+   TRUE, /* w */
+   TRUE, /* warn */
+   TRUE, /* while */
+   TRUE, /* wide */
+   TRUE, /* word */
+   TRUE, /* write */
+
+/* The single-character special commands have ids that follow on from the
+command words. Keep this in step with the string below. */
+
+   TRUE, /* * */
+   TRUE, /* ? */
+   TRUE, /* > */
+   TRUE, /* < */
+  FALSE, /* # */
+  FALSE, /* $ */
+  FALSE, /* % */
+  FALSE, /* ~ */
+
+/* Finally, bracketed sequences and procedures use values that follow. */
+
+   TRUE, /* brackets */
+   TRUE  /* procedure */
+};
+
+/* Indicators for commands that are "passive", that is, they neither change the
+file nor move the current point. This is not quite the same as being allowed in
+readonly mode, though the set of passive commands is by definition a subset of
+the readonly ones. */
+
+static uschar cmd_passive[] = {
+  FALSE, /* a */
+   TRUE, /* abandon */
+  FALSE, /* align */
+  FALSE, /* alignp */
+   TRUE, /* attn */
+   TRUE, /* autoalign */
+  FALSE, /* b */
+  FALSE, /* back */
+  FALSE, /* backregion */
+   TRUE, /* backup */
+   TRUE, /* beginpar */
+  FALSE, /* bf */
+   TRUE, /* break */
+  FALSE, /* buffer */
+   TRUE, /* c */
+   TRUE, /* casematch */
+   TRUE, /* cbuffer */
+   TRUE, /* cdbuffer */
+  FALSE, /* center */
+  FALSE, /* centre */
+  FALSE, /* cl */
+  FALSE, /* closeback */
+  FALSE, /* closeup */
+   TRUE, /* comment */
+   TRUE, /* copy */
+   TRUE, /* cproc */
+  FALSE, /* csd */
+  FALSE, /* csu */
+  FALSE, /* cut */
+   TRUE, /* cutstyle */
+  FALSE, /* dbuffer */
+   TRUE, /* dcut */
+   TRUE, /* debug */
+  FALSE, /* detrail */
+  FALSE, /* df */
+  FALSE, /* dleft */
+  FALSE, /* dline */
+  FALSE, /* dmarked */
+  FALSE, /* drest */
+  FALSE, /* dright */
+  FALSE, /* dta */
+  FALSE, /* dtb */
+  FALSE, /* dtwl */
+  FALSE, /* dtwr */
+  FALSE, /* e */
+   TRUE, /* eightbit */
+   TRUE, /* endpar */
+  FALSE, /* f */
+   TRUE, /* fkeystring */
+   TRUE, /* fks */
+  FALSE, /* format */
+  FALSE, /* front */
+  FALSE, /* ga */
+  FALSE, /* gb */
+  FALSE, /* ge */
+   TRUE, /* help */
+  FALSE, /* i */
+  FALSE, /* icurrent */
+   TRUE, /* if */
+  FALSE, /* iline */
+  FALSE, /* ispace */
+   TRUE, /* key */
+  FALSE, /* lcl */
+  FALSE, /* load */
+   TRUE, /* loop */
+  FALSE, /* m */
+   TRUE, /* makebuffer */
+   TRUE, /* mark */
+   TRUE, /* mouse */
+  FALSE, /* n */
+   TRUE, /* name */
+  FALSE, /* ne */
+  FALSE, /* newbuffer */
+   TRUE, /* overstrike */
+  FALSE, /* p */
+  FALSE, /* pa */
+  FALSE, /* paste */
+  FALSE, /* pb */
+  FALSE, /* pbuffer */
+  FALSE, /* pll */
+  FALSE, /* plr */
+   TRUE, /* proc */
+   TRUE, /* prompt */
+   TRUE, /* quit */
+   TRUE, /* readonly */
+   TRUE, /* refresh */
+  FALSE, /* renumber */
+   TRUE, /* repeat */
+   TRUE, /* rmargin */
+  FALSE, /* sa */
+   TRUE, /* save */
+  FALSE, /* sb */
+   TRUE, /* set */
+   TRUE, /* show */
+   TRUE, /* stop */
+   TRUE, /* subchar */
+  FALSE, /* t */
+   TRUE, /* title */
+  FALSE, /* tl */
+  FALSE, /* topline */
+  FALSE, /* ucl */
+  FALSE, /* undelete */
+  FALSE, /* unformat */
+   TRUE, /* unless */
+   TRUE, /* until */
+   TRUE, /* uteof */
+   TRUE, /* verify */
+   TRUE, /* w */
+   TRUE, /* warn */
+   TRUE, /* while */
+   TRUE, /* wide */
+   TRUE, /* word */
+   TRUE, /* write */
 
 /* The single-character special commands have ids that follow on from the
 command words. Keep this in step with the string just below. */
 
-  1, /* * */
-  1, /* ? */
-  1, /* > */
-  1, /* < */
-  0, /* # */
-  0, /* $ */
-  0, /* % */
-  0, /* ~ */
+   TRUE, /* * */
+   TRUE, /* ? */
+  FALSE, /* > */
+  FALSE, /* < */
+  FALSE, /* # */
+  FALSE, /* $ */
+  FALSE, /* % */
+  FALSE, /* ~ */
 
 /* Finally, bracketed sequences and procedures use values that follow. */
 
-  1, /* brackets */
-  1  /* procedure */
+   TRUE, /* brackets */
+   TRUE  /* procedure */
 };
 
 /* Single-character special commands; we have star at the front of the string
 to allocate it an id, though it is never matched via this string. If ever this
-is changed, keep the readonly table above in step. */
+is changed, keep the readonly and passive tables above in step. */
 
 static uschar *xcmdlist = US"*?><#$%~";
 
@@ -645,8 +783,10 @@ while (cmd != NULL && yield == done_continue)
     break;
     }
 
-  /* OK the command is permitted. */
+  /* OK the command is permitted. Remember if any non-passive command is
+  obeyed. Then get on with it. */
 
+  passive_commands &= cmd_passive[(usint)(cmd->id)];
   count =
     ((int)(cmd->id) >= cmd_specialbase && (int)(cmd->id) < cmd_specialend)?
       1 : cmd->count;

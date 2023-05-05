@@ -1,6 +1,17 @@
 Change Log for New E (NE)
 -------------------------
 
+Version 3.21 05-May-2023
+------------------------
+
+1. In screen mode, when a command line had been obeyed (either from a keystroke
+or by typing it in), the re-displayed screen always put the current line 
+vertically in the middle, which often was an unexpcted (and unwanted) scroll.
+Now, if all commands in the line are "passive" - that is, they neither change
+the file nor move the current point - the screen is re-displayed as it was
+before.
+
+
 Version 3.20 24-February-2023
 -----------------------------
 

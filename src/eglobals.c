@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2022 */
+/* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: December 2022 */
+/* This file last modified: March 2023 */
 
 
 /* This file contains all the global variables. */
@@ -180,6 +180,7 @@ BOOL  no_signal_traps = FALSE;
 
 sestr *par_begin = NULL;
 sestr *par_end = NULL;
+BOOL  passive_commands;
 
 #ifndef USE_PCRE1
 pcre2_general_context *re_general_context = NULL;

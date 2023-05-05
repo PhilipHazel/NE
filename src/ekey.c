@@ -5,7 +5,7 @@
 /* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: May 2023 */
 
 
 /* This file contains code for handling individual function keystrokes when
@@ -141,6 +141,7 @@ s_printf("%s%s%s", gmsg, sc, mmsg);
 static void
 key_obey_commands(uschar *cmdline)
 {
+passive_commands = TRUE;
 for (;;)
   {
   main_pendnl = TRUE;
@@ -177,6 +178,12 @@ if (main_screensuspended)
   if (withkey_fid != NULL) sleep(withkey_sleep);  /* Testing feature */
   scrn_restore();
   }
+
+/* passive_commands is still true if no command made a significant change to
+the data nor moved the current point. In this case, we can keep the screen as
+it was. */
+
+if (passive_commands) scrn_hint(sh_topline, 0, window_vector[0]);
 
 if (!main_done)
   {
@@ -871,8 +878,8 @@ else for (;;)
         cursor_max = window_width + cursor_offset;
         scrn_afterhscroll();
         }
-      else if (longline) line->flags |= lf_shn; 
-      else s_hscroll(0, row, window_width, row, 
+      else if (longline) line->flags |= lf_shn;
+      else s_hscroll(0, row, window_width, row,
         (int)cursor_offset - (int)cursor_col);
       }
     break;
@@ -886,7 +893,7 @@ else for (;;)
       line_deletech(line, cursor_col, count, TRUE);
       if (onscreen && count > 0)
         {
-        if (longline) line->flags |= lf_shn; 
+        if (longline) line->flags |= lf_shn;
         else s_hscroll((int)cursor_col - (int)cursor_offset, row, window_width,
           row, -count);
         }
