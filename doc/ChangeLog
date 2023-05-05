@@ -11,6 +11,11 @@ Now, if all commands in the line are "passive" - that is, they neither change
 the file nor move the current point - the screen is re-displayed as it was
 before.
 
+2. When the screen was scrolled to the right and a line was split in autoalign 
+mode, with the new line's start visible (because the indent was more than the 
+scroll amount) the screen was not correctly updated; parts of the old line were 
+left visible.
+
 
 Version 3.20 24-February-2023
 -----------------------------

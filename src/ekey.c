@@ -1239,7 +1239,12 @@ switch (function)
       scrn_displayline(lineold, cursor_row - 1, cursor_col);
       scrn_displayline(main_current, cursor_row, 0);
       }
-    else adjustscroll();
+    else
+      {
+      adjustscroll();
+      scrn_displayline(lineold, cursor_row - 1, cursor_col);
+      scrn_displayline(main_current, cursor_row, cursor_col);
+      }
     }
   break;
 
