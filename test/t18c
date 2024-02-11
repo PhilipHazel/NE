@@ -242,3 +242,9 @@ m*;iline//;p;format
 m*;iline/This line has at least three instances of the letter i./
 p;b 2l/i//>>/
 if n(/cat/|/dog/) then comment/NO/ else comment/YES/
+
+m*; **echo "--" >Etemp
+m*; 2(**echo "Input is $@" >>Etemp
+*echo "--" >>Etemp
+)
+i Etemp

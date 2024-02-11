@@ -1,19 +1,32 @@
 Change Log for New E (NE)
 -------------------------
 
+Version 3.22 10-February 2024
+-----------------------------
+
+1. Removed an old variable (endscolon) that was being set but no longer used in
+command parsing.
+
+2. Implemented ** system commands, with $@ to insert the current buffer name
+into the command line.
+
+3. Allow a system command to follow other commands on a line, and to appear
+inside parentheses.
+
+
 Version 3.21 05-May-2023
 ------------------------
 
 1. In screen mode, when a command line had been obeyed (either from a keystroke
-or by typing it in), the re-displayed screen always put the current line 
+or by typing it in), the re-displayed screen always put the current line
 vertically in the middle, which often was an unexpcted (and unwanted) scroll.
 Now, if all commands in the line are "passive" - that is, they neither change
 the file nor move the current point - the screen is re-displayed as it was
 before.
 
-2. When the screen was scrolled to the right and a line was split in autoalign 
-mode, with the new line's start visible (because the indent was more than the 
-scroll amount) the screen was not correctly updated; parts of the old line were 
+2. When the screen was scrolled to the right and a line was split in autoalign
+mode, with the new line's start visible (because the indent was more than the
+scroll amount) the screen was not correctly updated; parts of the old line were
 left visible.
 
 
@@ -52,8 +65,8 @@ Version 3.20 24-February-2023
       have disappeared since the mptable.c auxiliary program was run.
   . Allow shift and ctrl with Delete in xterm.
   , Make -o a synonym of -to and "Quit" a synonym of "Stop".
-  . After a crash, debug and crashlog files were being closed twice (once in 
-      the crash handler and again in atexit(). This could cause "double free" 
+  . After a crash, debug and crashlog files were being closed twice (once in
+      the crash handler and again in atexit(). This could cause "double free"
       errors and crash looping.
 
 

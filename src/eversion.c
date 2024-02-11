@@ -5,13 +5,13 @@
 /* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: January 2023 */
+/* This file last modified: February 2024 */
 
 /* This file contains just one function that sets up the current version and
 copyright strings. */
 
-#define VERSION    "3.21"
-#define COPYRIGHT  "Copyright (c) University of Cambridge 2023"
+#define VERSION    "3.22"
+#define COPYRIGHT  "Copyright (c) University of Cambridge 2024"
 
 #include "ehdr.h"
 

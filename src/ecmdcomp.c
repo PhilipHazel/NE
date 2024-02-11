@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: May 2023 */
+/* This file last modified: February 2024 */
 
 
 /* This file contains code for the top-level handling of a command line, and
@@ -434,7 +434,7 @@ on the end, after those for named commands and single-character commands. */
 
 /* Allow for mutual recursion between command sequence and command compile */
 
-static cmdstr *CompileSequence(int *endscolon);
+static cmdstr *CompileSequence(void);
 
 
 
@@ -442,7 +442,11 @@ static cmdstr *CompileSequence(int *endscolon);
 *         Compile "system" command               *
 *************************************************/
 
-/* The "system" command is a command line that begins with an asterisk. */
+/* The "system" command is an entire command line that begins with an asterisk.
+The single argument of the compiled command is a string that is passed to
+system(). It is generated from the rest of the current input line. If the line
+begins with two asterisks, appearances of $@ within the line are replaced with
+the current file name. */
 
 static cmdstr *
 CompileSysLine(void)
@@ -455,9 +459,39 @@ yield->flags |= cmdf_arg1 + cmdf_arg1F;
 string->type = cb_sttype;
 string->delim = 0;
 string->hexed = FALSE;
-string->text = store_copystring(cmd_ptr + 1);
 
-while (*cmd_ptr) cmd_ptr++;
+if (cmd_ptr[1] != '*') string->text = store_copystring(cmd_ptr + 1); else
+  {
+  int n = 0;
+  int clen = 0;
+  uschar *q;
+  uschar *fn = (main_filename == NULL)? US"" : main_filename;
+  size_t nlen = Ustrlen(fn);
+
+  for (uschar *p = cmd_ptr + 2; *p != 0; p++)
+    {
+    clen++;
+    if (*p == '$' && p[1] == '@') n++;
+    }
+  clen += n * (nlen - 2);
+  q = string->text = store_Xget(clen + 1);
+
+  for (uschar *p = cmd_ptr + 2; *p != 0; p++)
+    {
+    if (*p == '$' && p[1] == '@')
+      {
+      Ustrcpy(q, fn);
+      p++;
+      q += nlen;
+      }
+    else *q++ = *p;
+    }
+
+  *q = 0;
+  }
+
+cmd_ptr += Ustrlen(cmd_ptr);
+
 yield->arg1.string = string;
 return yield;
 }
@@ -493,13 +527,12 @@ if (cmd_word[0] == 0)
 
   if (*cmd_ptr == '(')
     {
-    int dummy;
     cmdstr *yield = cmd_getcmdstr(cmd_sequence);
     yield->count = count;
     cmd_ptr++;
 
     cmd_bracount++;
-    yield->arg1.cmds = CompileSequence(&dummy);
+    yield->arg1.cmds = CompileSequence();
     yield->flags |= cmdf_arg1 | cmdf_arg1F;
     cmd_bracount--;
 
@@ -618,58 +651,53 @@ else
 *************************************************/
 
 /*
-Argument:    variable to set TRUE if line ended with a semicolon
 Returns:     pointer to the first cmdstr in a chain or NULL if first is bad
 */
 
 static cmdstr *
-CompileSequence(BOOL *endscolon)
+CompileSequence(void)
 {
 cmdstr *yield = NULL;
 cmdstr *last = NULL;
-BOOL firsttime = TRUE;
 
 SpecialCmd = TRUE;       /* no advance cmdptr first time */
 
-/* Loop compiling commands - repeat condition is at the bottom */
+/* Loop compiling commands - repeat condition is at the bottom. Note that a
+"system" command uses the rest of the line, but there can be following commands
+on the next line if this is within parentheses. */
 
 do
   {
-  *endscolon = FALSE;
-
   if (*cmd_ptr == ';' || SpecialCmd)
     {
     cmdstr *next;
     if (!SpecialCmd) cmd_ptr++;
-    next = cmd_compile();
+    mac_skipspaces(cmd_ptr);
+    next = (*cmd_ptr == '*')? CompileSysLine(): cmd_compile();
     mac_skipspaces(cmd_ptr);
     if (last == NULL) yield = next; else last->next = next;
-    if (next == NULL)
-      {
-      if (!firsttime) *endscolon = TRUE;
-      }
-    else last = next;
+    if (next != NULL) last = next;
     }
   else
     {
-    error_moan_decode(8);
+    error_moan_decode(8);  /* Semicolon expected */
     break;
     }
 
   /* Deal with the case of a logical command line extending over more than one
   physical command line. */
 
-  while (!cmd_faildecode && cmd_bracount > 0 && (*cmd_ptr == 0 || *cmd_ptr == '\n' ||
+  while (!cmd_faildecode && cmd_bracount > 0 &&
+           (*cmd_ptr == 0 || *cmd_ptr == '\n' ||
            (*cmd_ptr == '\\' && (main_oldcomment || cmd_ptr[1] == '\\'))))
     {
     if (main_interrupted(ci_read)) { cmd_faildecode = TRUE; break; }
     cmd_joinline(FALSE);      /* join on next line, error if eof */
     }                         /* cmd_ptr will be at an initial semicolon */
-
-  firsttime = FALSE;
   }
 while (!cmd_faildecode && *cmd_ptr != 0 && *cmd_ptr != '\n' &&
-  (*cmd_ptr != '\\' || (!main_oldcomment && cmd_ptr[1] != '\\')) && *cmd_ptr != ')');
+  (*cmd_ptr != '\\' || (!main_oldcomment && cmd_ptr[1] != '\\')) &&
+  *cmd_ptr != ')');
 
 return yield;
 }
@@ -685,14 +713,13 @@ return yield;
 Arguments:
    cmdline    the line being compiled; may be changed by CompileSequence if
               the line is continued onto other physical input lines
-   endscolon  must be set TRUE if the line ended in a semicolon
 
 Returns:      pointer to the first cmdstr in a chain
               or NULL for an empty line or if the first command is bad
 */
 
 static cmdstr *
-CompileCmdLine(uschar *cmdline, BOOL *endscolon)
+CompileCmdLine(uschar *cmdline)
 {
 cmdstr *yield;
 cmd_faildecode = FALSE;
@@ -700,17 +727,12 @@ cmd_cmdline = cmd_ptr = cmdline;
 cmd_bracount = 0;
 
 mac_skipspaces(cmd_ptr);
-*endscolon = FALSE;
-
-if (*cmd_ptr == '*') yield = CompileSysLine(); else
+yield = CompileSequence();
+if (*cmd_ptr != 0 && *cmd_ptr != '\n' &&
+     (*cmd_ptr != '\\' || (!main_oldcomment && cmd_ptr[1] != '\\')) &&
+     !cmd_faildecode)
   {
-  yield = CompileSequence(endscolon);
-  if (*cmd_ptr != 0 && *cmd_ptr != '\n' &&
-       (*cmd_ptr != '\\' || (!main_oldcomment && cmd_ptr[1] != '\\')) &&
-       !cmd_faildecode)
-    {
-    error_moan_decode(7);             /* unmatched ')' */
-    }
+  error_moan_decode(7);             /* unmatched ')' */
   }
 
 return yield;
@@ -873,11 +895,10 @@ int
 cmd_obey(uschar *cmdline)
 {
 int yield = done_error;
-BOOL endscolon;
 cmdstr *compiled;
 
 main_cicount = 0;
-compiled = CompileCmdLine(cmdline, &endscolon);
+compiled = CompileCmdLine(cmdline);
 
 /* Save the command line, whether or not it compiled correctly, unless it is
 null or identical to the previous line. */

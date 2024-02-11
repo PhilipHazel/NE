@@ -33,7 +33,7 @@
 . the <bookinfo> element must also be updated for each new edition.
 . /////////////////////////////////////////////////////////////////////////////
 
-.set version "3.21"
+.set version "3.22"
 .set R "&#x261e;"
 .set B "&#x200B;"
 
@@ -58,16 +58,16 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>05 May 2023</date>
+<date>10 February 2024</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
-  <revnumber>3.21</revnumber>
-  <date>05 May 2023</date>
+  <revnumber>3.22</revnumber>
+  <date>10 February 2024</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
-<copyright><year>2023</year><holder>Philip Hazel</holder></copyright>
+<copyright><year>2024</year><holder>Philip Hazel</holder></copyright>
 </bookinfo>
 .literal off
 
@@ -2664,8 +2664,8 @@ command), the replacement string can also be subject to special interpretation
 
 Current versions of NE support Perl-like regular expressions, via the PCRE
 library, which must be installed before compiling NE. From release 3.10 NE by
-default expects to use a PCRE2 library, but it can be built to use use a legacy
-PCRE1 library if PCRE2 is not available.
+default expects to use the PCRE2 library, but it can be built to use use a
+legacy PCRE1 library if PCRE2 is not available.
 
 A description of the regular expressions that PCRE supports can be found in its
 documentation. When NE is run in wide character mode (&R; &<<SECTwidechars>>&)
@@ -5321,17 +5321,34 @@ number of the keystring is shown in brackets before its contents.
 .
 .chapter "Calling other programs" CHAPother
 .index "calling other programs"
-You can call other programs without leaving NE. A command line beginning with
-an asterisk causes the remainder of the line to be handed to a shell for
-interpretation as an operating system command.
+You can call other programs without leaving NE. A command that begins with
+an asterisk causes the remainder of the command line to be handed to a shell
+for interpretation as an operating system command line. Because it uses the
+rest of the line as its argument, if such a command occurs within brackets, the
+closing bracket must appear on a following line. This is incorrect:
+.code
+2(*echo something)
+.endd
+This is correct:
+.code
+2(*echo something
+)
+.endd
+In the first case, what is passed to the shell is &`echo something)`& which is
+invalid shell syntax. If a command starts with two asterisks, the remainder of
+the line is processed before being passed to a shell. The only change is to
+replace all instances of the two-character sequence &`$@`& with the file name
+associated with the current buffer. This makes it possible to set up function
+keys or procedures that, for example, save the current buffer and then process
+the file externally.
 
-If screen editing is in progress, NE exits from its screen-handling mode and
-line-by-line mode is temporarily selected while the command is being obeyed.
-This means that, when reading a subsequent line of NE commands afterwards, the
-normal line-by-line input conventions are in force instead of those used when
-in screen mode, and NE's command line history mechanism is not available. To
-indicate this, the prompt that is given in these circumstances is &`NE:`&
-instead of &`NE>`&.
+If screen editing is in progress when a system command is encountered, NE exits
+its screen-handling mode and line-by-line mode is temporarily selected while
+the command is being obeyed. This means that, when reading a subsequent line of
+NE commands afterwards, the normal line-by-line input conventions are in force
+instead of those used when in screen mode, and NE's command line history
+mechanism is not available. To indicate this, the prompt that is given in these
+circumstances is &`NE:`& instead of &`NE>`&.
 
 When control returns to NE, a line of NE commands, or a further system command
 line (beginning with an asterisk) is expected. An empty line causes NE to
@@ -5624,12 +5641,12 @@ command, and exit code 4 is never given.
 .index "shell commands"
 .index "calling other programs"
 A command line starting with &`*`& can be used to cause shell commands to be
-executed from within NE. It is a Unix convention that an empty shell escape
-starts a new interactive shell. However, it is an NE convention that an empty
-&`*`& command issued in screen mode puts NE temporarily into line mode. This is
-particularly useful on terminals that re-display the scrolling screen when
-returning to line mode. To create a new interactive shell, you have to
-explicitly use a command line like this:
+executed from within NE (see chapter &<<CHAPother>>&). It is a Unix convention
+that an empty shell escape starts a new interactive shell. However, it is an NE
+convention that an empty &`*`& command issued in screen mode puts NE
+temporarily into line mode. This is particularly useful on terminals that
+re-display the scrolling screen when returning to line mode. To create a new
+interactive shell, you have to explicitly use a command line like this:
 .code
 */bin/bash
 .endd
@@ -6066,6 +6083,7 @@ operations.
 .index "summaries" "commands"
 .itable none 0 0 2  180 left  230 left
 .row "&***& &'<text>'&" "pass command line to operating system"
+.row "&****& &'<text>'&" "pass modified command line to operating system"
 .row "&*?*&" "verify current line"
 .row "&*<*&" "move cursor one place left"
 .row "&*>*&" "move cursor one place right"
