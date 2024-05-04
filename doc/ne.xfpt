@@ -58,13 +58,13 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>10 February 2024</date>
+<date>03 May 2024</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
   <revnumber>3.22</revnumber>
-  <date>10 February 2024</date>
+  <date>03 May 2024</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
 <copyright><year>2024</year><holder>Philip Hazel</holder></copyright>
@@ -89,10 +89,13 @@ a number of operating systems, but the current version supports only Unix-like
 environments. The main use of NE is expected to be as an interactive screen
 editor, but it can also function as a line-by-line editor, and it is
 programmable, so it can be run non-interactively as a text manipulation tool.
+Function keys and some others are fully configurable in interactive screen
+mode.
 
-NE can process data files in three ways: as single-byte characters (the
-default), as UTF-8 multi-byte characters, or as binary bytes displayed and
-edited mainly in hexadecimal.
+NE can process data files in three ways: as single-byte characters, as UTF-8
+multi-byte characters, or as binary bytes displayed and edited mainly in
+hexadecimal. The default is single-byte characters, though this can be changed
+to UTF-8 by a setting in the user's &*~/.nerc*& file.
 
 NE is a re-implementation of a previous editor that was called E, which in turn
 evolved from one called Zed and a number of predecessors that ran on IBM
@@ -176,7 +179,7 @@ with arrows on them that appear on many keyboards are referred to as
 
 The word &'keystroke'& is used to refer to keyboard operations that are seen by
 NE as a single action but which may on some terminals require more than one
-keypress. For example, on some keyboards you mignt have to press the &\ESC\&
+keypress. For example, on some keyboards you might have to press the &\ESC\&
 key followed by the digit 2 (two keypresses) to generate the keystroke
 &*function-2*&, whereas on other keyboards a function key labelled &*F2*& may
 be available.
@@ -886,7 +889,8 @@ Any Unicode code point can be entered by pressing &*esc*& followed by &*u*&
 followed by up to five hexadecimal digits. The code value is terminated by a
 non-hexadecimal digit or a second press of &*esc*&. If you enter a code point
 greater than U+00FF by this means when NE is not running in wide character
-mode, NE beeps and ignores the character.
+mode, NE ignores the character, but outputs a BEL character (U+0007) to the 
+screen. The may cause the screen to flash or a beep to sound.
 
 If a non-printing character can be entered from the keyboard, but would have
 some kind of action if pressed on its own (for example the &*tab*& key), it can
@@ -1790,9 +1794,10 @@ The main part of NE is not entered.
 &*-widechars*& or &*-w*& causes NE to start up in wide character mode, in which
 UTF-8 sequences in the data being edited are interpreted as individual Unicode
 character code points. This option is mutually exclusive with &*-b*&. If you
-want NE always to start up in wide character mode, you can place a
-&*widechars*& command in your &*.nerc*& file (&R; &<<SECTenvvar>>&). The mode
-can be changed during an editing session &CR(WIDECHARS,SECTwidechars).
+want NE always to start up in wide character mode (unless &*-b*& is present),
+you can place a &*widechars*& command in your &*.nerc*& file (&R;
+&<<SECTenvvar>>&). The mode can be changed during an editing session
+&CR(WIDECHARS,SECTwidechars).
 
 .index "&*-with*&"
 The &*-with*& keyword is used to specify an input file containing editing
@@ -1829,7 +1834,7 @@ standard error stream.
 
 .section "Debugging options"
 Some options exist only for the purpose of debugging NE and are of interest
-only to the mainainer. They are listed briefly here.
+only to the maintainer. They are listed briefly here.
 
 .index "&*-notraps*&"
 Normally, NE traps signals such as `segmentation fault' and tries to save the

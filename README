@@ -1,7 +1,7 @@
 The NE Text Editor
 ------------------
 
-Copyright (c) 2023 University of Cambridge
+Copyright (c) 2024 University of Cambridge
 
 This version of NE should run on all Unix-like systems. It should just be a
 matter of typing
@@ -56,9 +56,9 @@ operating systems, including MSDOS and Acorn's RISC OS. There are still
 vestiges of these past glories in the way the code is organized and in some of
 the conditional compilation macros.
 
-Recent versions are the result of a big tidy-up to make the Unix version
+Recent versions are the result of a big tidy-up to make the Unix-like version
 buildable in the standard "configure/make/make install" manner. The code has
-been tested only on Unix(-like) systems (most recently Linux), and the code for
+been tested only on Unix-like systems (most recently Linux), and the code for
 other environments has been gradually stripped out.
 
 February 2011: There has been a lot of hacking about to add the -widechars
@@ -79,7 +79,7 @@ See the doc/ChangeLog file for a list of changes in the various releases.
 Philip Hazel
 Email local part: Philip.Hazel
 Email domain: gmail.com
-May 2023
+May 2024
 
 
 LICENCE
