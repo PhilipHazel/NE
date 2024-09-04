@@ -2,15 +2,15 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2024 */
+/* This file last modified: September 2024 */
 
 /* This file contains just one function that sets up the current version and
 copyright strings. */
 
-#define VERSION    "3.22"
+#define VERSION    "3.23"
 #define COPYRIGHT  "Copyright (c) University of Cambridge 2024"
 
 #include "ehdr.h"
@@ -24,12 +24,7 @@ uschar today[20];
 
 version_copyright = US COPYRIGHT;
 version_string = US VERSION;
-
-#ifdef USE_PCRE1
-Ustrcpy(version_pcre, pcre_version());
-#else  /* PCRE2 */
 (void)pcre2_config(PCRE2_CONFIG_VERSION, version_pcre);
-#endif
 
 p = version_pcre + Ustrlen(version_pcre);
 while (p > version_pcre && !isspace(p[-1])) p--;

@@ -5,23 +5,47 @@ f r/123/
         >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   
 sa r/123/
          >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   
 pa r/123/
          >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   
 df r/123/
          >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   
 while r/123/ do n
                  >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   
 ;ga r/123//456/;
                 >
 ** Error while matching regular expression:
    UTF-8 error: illegal byte (0xfe or 0xff)
+** The error was found in this line:
+****.
+ABCfXYZ
+   f   

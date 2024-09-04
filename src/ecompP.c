@@ -2,15 +2,14 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 
-/* This file contains code for interfacing to the PCRE library for handling
-regular expressions. A macro determines whether PCRE1 (legacy) or PCRE2 (now
-the default) is used. */
+/* This file contains code for interfacing to the PCRE2 library for handling
+regular expressions. */
 
 #include "ehdr.h"
 
@@ -22,21 +21,7 @@ match. */
 #define ExtractSize 20
 static int ExtractNumber;
 static int ExtractStartAt;
-
-/* In PCRE1 we have to supply the ovector. In PCRE2 it is part of the
-match_data block. Set up appropriate PCRE flag names. */
-
-#ifdef USE_PCRE1
-static int Extracted[ExtractSize*3];
-#define RE_ANCHORED PCRE_ANCHORED
-#define RE_CASELESS PCRE_CASELESS
-#define RE_UTF      PCRE_UTF8
-#else
 PCRE2_SIZE *Extracted = NULL;
-#define RE_ANCHORED PCRE2_ANCHORED
-#define RE_CASELESS PCRE2_CASELESS
-#define RE_UTF      PCRE2_UTF
-#endif
 
 
 
@@ -44,7 +29,6 @@ PCRE2_SIZE *Extracted = NULL;
 *  Custom memory management interface for PCRE2  *
 *************************************************/
 
-#ifndef USE_PCRE1
 static void *
 re_store_get(PCRE2_SIZE size, void *userdata)
 {
@@ -58,7 +42,6 @@ re_store_free(void *pointer, void *userdata)
 (void)userdata;
 store_free(pointer);
 }
-#endif
 
 
 
@@ -68,7 +51,7 @@ store_free(pointer);
 
 /* NE was originally written with its own regex code; we put in the calls to
 PCRE with the minimal of disturbance so that two different versions of NE were
-easy to maintain. This makes this a bit awkward in places. Now that only PCRE
+easy to maintain. This makes this a bit awkward in places. Now that only PCRE2
 support exists, this could be tidied up one day.
 
 Argument:  a qualified string
@@ -78,15 +61,10 @@ Returns:   TRUE on success, FALSE for compile error
 BOOL
 cmd_makeCRE(qsstr *qs)
 {
-#ifdef USE_PCRE1
-int offset;
-#else
 int errorcode;
 PCRE2_SIZE offset;
-#endif
-
 int flags = qs->flags;
-usint options = ((flags & (qsef_V | qsef_FV)) == 0)? RE_CASELESS : 0;
+usint options = ((flags & (qsef_V | qsef_FV)) == 0)? PCRE2_CASELESS : 0;
 usint offset_adjust = 0;
 const uschar *error;
 uschar *temp = NULL;
@@ -132,16 +110,6 @@ if ((flags & qsef_X) != 0)
   pattern = temp2;
   }
 
-/* PCRE1 and PCRE2 handle custom memory managers differently. */
-
-#ifdef USE_PCRE1
-/* These really only ever need to be done once, but setting that up probably
-costs more than just doing it every time! */
-
-pcre_malloc = (void *(*)(size_t))store_Xget;
-pcre_free = store_free;
-#else
-
 /* Set up PCRE2 contexts, which are needed for custom memory management, and a
 match data block, if they do not already exist. */
 
@@ -154,7 +122,6 @@ if (re_general_context == NULL)
     re_general_context);
   Extracted = pcre2_get_ovector_pointer(re_match_data);
   }
-#endif
 
 /* NE flags implying "from end" matching can be handled by adding to the
 beginning or end of the incoming regex. Remember that this was done. Adjust the
@@ -171,34 +138,27 @@ if ((flags & qsef_L) != 0 ||
   }
 else qs->flags &= ~qsef_REV;
 
-/* The B & H flags can be done by a PCRE flag. */
+/* The B & H flags can be done by a PCRE2 flag. */
 
-if ((flags & (qsef_B|qsef_H)) != 0) options |= RE_ANCHORED;
+if ((flags & (qsef_B|qsef_H)) != 0) options |= PCRE2_ANCHORED;
 
-/* When wide characters are in use, we must tell PCRE to use UTF-8 */
+/* When wide characters are in use, we must tell PCRE2 to use UTF-8 */
 
-if (allow_wide) options |= RE_UTF;
+if (allow_wide) options |= PCRE2_UTF;
 
 /* Do the compilation */
 
-#ifdef USE_PCRE1
-qs->cre = pcre_compile(CS pattern, options, (const char **)(&error), &offset,
-  NULL);
-#else
 qs->cre = pcre2_compile(pattern, PCRE2_ZERO_TERMINATED, options, &errorcode,
   &offset, re_compile_context);
-#endif
 
 if (temp != NULL) store_free(temp);
 if (temp2 != NULL) store_free(temp2);
 
 if (qs->cre == NULL)
   {
-#ifndef USE_PCRE1
   uschar error_buffer[256];
   pcre2_get_error_message(errorcode, error_buffer, sizeof(error_buffer));
   error = error_buffer;
-#endif
   if (offset_adjust > (usint)offset) offset = 0; else offset -= offset_adjust;
   error_moan(63, offset, error);
   return FALSE;
@@ -284,19 +244,6 @@ if (((flags & qsef_B) != 0 && leftpos != wleft) ||
 
 else if (chars != NULL) for (;;)
   {
-  #ifdef USE_PCRE1
-  ExtractNumber = pcre_exec((const pcre *)qs->cre, NULL,
-    CS chars + leftpos, rightpos - leftpos, 0, 0, Extracted,
-      sizeof(Extracted)/sizeof(int));
-  if (ExtractNumber == PCRE_ERROR_NOMATCH) break;
-  if (ExtractNumber < 0)
-    {
-    const char *detail = (ExtractNumber == PCRE_ERROR_BADUTF8)?
-      ": bad UTF-8 string" : "";
-    error_moan(65, ExtractNumber, detail);
-    return MATCH_ERROR;
-    }
-  #else  /* Using PCRE2 */
   ExtractNumber = pcre2_match(qs->cre, chars + leftpos, rightpos - leftpos,
     0, 0, re_match_data, NULL);
   if (ExtractNumber == PCRE2_ERROR_NOMATCH) break;
@@ -305,9 +252,10 @@ else if (chars != NULL) for (;;)
     uschar error_buffer[256];
     pcre2_get_error_message(ExtractNumber, error_buffer, sizeof(error_buffer));
     error_moan(65, error_buffer);
+    error_printf("** The error was found in this line:\n");
+    line_verify(line, TRUE, FALSE);
     return MATCH_ERROR;
     }
-  #endif
 
   if (ExtractNumber == 0) ExtractNumber = ExtractSize;
 

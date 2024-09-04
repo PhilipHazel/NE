@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This file contains initializing code, including the main program, which is
@@ -364,7 +364,7 @@ return TRUE;
 static
 void givehelp(void)
 {
-printf("NE %s %s using PCRE %s\n%s\n\n", version_string, version_date,
+printf("NE %s %s using PCRE2 %s\n%s\n\n", version_string, version_date,
   version_pcre, version_copyright);
 printf("-b[inary]        run in binary mode\n");
 printf("-from <files>    input files, default null, - means stdin, key can be omitted\n");
@@ -453,7 +453,7 @@ if (rdargs(argc, argv, argstring, results) != 0)
 
 if (results[arg_id].data.number != 0)
   {
-  printf("NE %s %s using PCRE %s\n", version_string, version_date,
+  printf("NE %s %s using PCRE2 %s\n", version_string, version_date,
     version_pcre);
   exit(EXIT_SUCCESS);
   }
@@ -723,7 +723,7 @@ uschar *toname = (arg_to_name == NULL)? arg_from_name : arg_to_name;
 if (main_interactive)
   {
   /* LCOV_EXCL_START */
-  printf("NE %s %s using PCRE %s\n", version_string, version_date,
+  printf("NE %s %s using PCRE2 %s\n", version_string, version_date,
     version_pcre);
   main_verify = main_shownlogo = TRUE;
   /* LCOV_EXCL_STOP */
@@ -818,11 +818,9 @@ if (crash_logfile != NULL) fclose(crash_logfile);
 /* The PCRE2 free() functions do nothing if the argument is NULL (not
 initialised) so there's no need to check. */
 
-#ifndef USE_PCRE1
 pcre2_general_context_free(re_general_context);
 pcre2_compile_context_free(re_compile_context);
 pcre2_match_data_free(re_match_data);
-#endif
 
 sys_tidy_up();
 store_free_all();

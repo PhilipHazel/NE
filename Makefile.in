@@ -17,7 +17,6 @@ MANDIR=@prefix@/man
 
 LIBS=@LIBS@
 TERMCAP=@TERMCAP@
-USE_PCRE1=@USE_PCRE1@
 VDISCARD=@VDISCARD@
 
 # The compile commands can be very long. To make the output look better,
@@ -37,7 +36,7 @@ build:; /bin/rm -rf src/eversion.o
 
 codebuild:; @cd src; $(MAKE) ne \
                 CC="$(CC)" \
-                CFLAGS="$(CFLAGS) $(TERMCAP) $(USE_PCRE1) $(VDISCARD)" \
+                CFLAGS="$(CFLAGS) $(TERMCAP) $(VDISCARD)" \
                 LDFLAGS="$(LDFLAGS)" \
                 LIBS="$(LIBS)" \
                 FE="$(FE)"
@@ -62,5 +61,5 @@ install:        build
 uninstall:;     rm -rf \
                 $(BINDIR)/ne \
                 $(MANDIR)/ne.1
-                 
+
 # End

@@ -7,9 +7,6 @@ intcall:;      @cd ..; $(MAKE);
 
 # As well as compiler-specific flags, CFLAGS may contain the following:
 #
-#   -DUSE_PCRE1     Use the PCRE1 library (old API) instead of the default
-#                   PCRE2 library (new API)
-#
 #   -DHAVE_TERMCAP  Should be set on systems where termcap is used. If
 #                   it is not set, the use of terminfo is assumed.
 #
@@ -23,7 +20,7 @@ intcall:;      @cd ..; $(MAKE);
 
 # LIBS contains libraries, including the appropriate library for the type of
 # terminal handling in use (typically either -lcurses or -ltermcap), and
-# the PCRE library (-lpcre or -lpcre2-8).
+# the PCRE library (-lpcre2-8).
 
 
 # Compile step for the modules

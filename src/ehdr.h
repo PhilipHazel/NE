@@ -2,10 +2,10 @@
 *             The E text editor - 3rd incarnation          *
 ***********************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: March 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This is the main header file, imported by all other sources. */
@@ -18,12 +18,8 @@
 #include "config.h"
 #include "mytypes.h"
 
-#ifdef USE_PCRE1
-#include <pcre.h>
-#else
 #define PCRE2_CODE_UNIT_WIDTH 8
 #include <pcre2.h>
-#endif
 
 #include <ctype.h>
 #include <errno.h>
@@ -471,11 +467,9 @@ extern sestr  *par_begin;
 extern sestr  *par_end;
 extern BOOL    passive_commands;
 
-#ifndef USE_PCRE1
 extern pcre2_general_context *re_general_context;
 extern pcre2_compile_context *re_compile_context;
 extern pcre2_match_data *re_match_data;
-#endif
 
 extern BOOL    screen_autoabove;
 extern BOOL    screen_forcecls;        /* Force a complete refresh */
@@ -498,7 +492,7 @@ extern const   uschar utf8_table4[];   /* Globally used UTF-8 table */
 extern uschar *version_copyright;      /* Copyright string */
 extern uschar  version_date[];         /* Identity date */
 extern uschar *version_string;         /* Identity of program version */
-extern uschar  version_pcre[];         /* Which PCRE is in use */
+extern uschar  version_pcre[];         /* Which PCRE2 is in use */
 
 extern linestr **window_vector;        /* points to vector of lines being displayed */
 

@@ -1,6 +1,15 @@
 Change Log for New E (NE)
 -------------------------
 
+Version 3.23 04 September 2024
+------------------------------
+
+1. When there is a regular expression match error (e.g. bad UTF-8), show the
+line in which the error occurred.
+
+2. Removed support for obsolete PCRE1.
+
+
 Version 3.22 03 May 2024
 ------------------------
 

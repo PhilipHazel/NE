@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This file contains code for handling errors */
@@ -119,11 +119,7 @@ static error_struct error_data[] = {
 { rc_serious,  TRUE,  US"Error in regular expression at offset %d:\n   %s\n" },
 { rc_serious,  FALSE, US"-binary and -widechars are mutually exclusive\n" },
 /* 65-69 */
-#ifdef USE_PCRE1
-{ rc_serious,  TRUE,  US"Error %d while matching regular expression%s\n" },
-#else
 { rc_serious,  TRUE,  US"Error while matching regular expression:\n   %s\n" },
-#endif
 { rc_serious,  FALSE, US"A line longer than %d bytes has been split\n" },
 { rc_warning,  FALSE, US"Ignored \"key\" command in line mode\n" },
 { rc_disaster, FALSE, US"Call to atexit() failed\n" },
@@ -239,7 +235,7 @@ the start. */
 
 if (!main_shownlogo)
   {
-  error_printf("NE %s %s using PCRE %s\n", version_string, version_date,
+  error_printf("NE %s %s using PCRE2 %s\n", version_string, version_date,
     version_pcre);
   main_shownlogo = TRUE;
   }

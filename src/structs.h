@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 /* This file contains all the structure definitions, together with parameters
 that control the size of some of them. */
@@ -66,7 +66,7 @@ typedef struct buffer {
 
   backstr *backlist;         /* vector of saved positions */
   size_t binoffset;          /* offset for reading file in binary */
-   
+
   usint backtop;             /* top of list */
   usint backnext;            /* position in list */
   int bufferno;              /* buffer number */
@@ -121,11 +121,7 @@ typedef struct qsstr {
   short int windowleft;        /* window values */
   short int windowright;
   short int length;            /* length of original string */
-  #ifdef USE_PCRE1
-  pcre *cre;                   /* pointer to compiled regex */
-  #else
   pcre2_code *cre;             /* pointer to compiled regex */
-  #endif
   uschar *hexed;               /* hexed chars for non-R */
   uschar *text;                /* data chars */
   usint map[qsmapsize];        /* bit map for contained chars */
