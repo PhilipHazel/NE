@@ -667,8 +667,7 @@ for (int i = 0; i < (int)Ustrlen((const uschar *)delims); i++)
   ch_tab[delims[i]] |= (ch_delim + ch_filedelim);
 
 for (int i = 0; i < (int)Ustrlen(cmd_qualletters); i++)
-  ch_tab[cmd_qualletters[i]] =
-  ch_tab[cmd_qualletters[i]] | ch_qualletter;
+  ch_tab[cmd_qualletters[i]] |= ch_qualletter;
 
 /* Table to translate a single letter key name into a "control code". This
 table is used only in implementing the KEY command in a way that is independent

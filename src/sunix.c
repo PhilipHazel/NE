@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This file contains screen-handling code, originally for use with termcap
@@ -1076,7 +1076,7 @@ if (init_init(fid, fromname, toname))
     y = s_y();
     s_selwindow(message_window, 0, 0);
     if (screen_max_col > 36)
-      s_printf("NE %s %s using PCRE %s", version_string, version_date,
+      s_printf("NE %s %s using PCRE2 %s", version_string, version_date,
         version_pcre);
     main_shownlogo = TRUE;
     if (key_table[7] == ka_rc && screen_max_col > 64) /* The default config */

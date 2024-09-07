@@ -68,12 +68,12 @@ static error_struct error_data[] = {
 { rc_serious,  TRUE,  US"Only %s qualifiers allowed on insertion strings for this command\n" },
 { rc_serious,  TRUE,  US"n, s, u and w are the only qualifiers allowed with a search expression\n" },
 { rc_serious,  FALSE, US"Keyboard interrupt\n" },
-{ rc_warning,  FALSE, US"The contents of buffer %d have not been saved\n" },
+{ rc_warning,  FALSE, US"Warning: The contents of buffer %d have not been saved\n" },
 /* 25-29 */
 { rc_serious,  TRUE,  US"Line %d not found\n" },
 { rc_serious,  TRUE,  US"Buffer %d does not exist\n" },
 { rc_serious,  TRUE,  US"The B, E, or P qualifier is required for an empty search string in a global command\n" },
-{ rc_warning,  FALSE, US"The contents of the cut buffer have not been pasted.\n" },
+{ rc_warning,  FALSE, US"Warning: The contents of the cut buffer have not been pasted.\n" },
 { rc_serious,  FALSE, US"Unexpected %s in %s command\n" },
 /* 30-34 */
 { rc_serious,  FALSE, US"Unexpected %s while obeying \"%s\" command\n" },
@@ -121,7 +121,7 @@ static error_struct error_data[] = {
 /* 65-69 */
 { rc_serious,  TRUE,  US"Error while matching regular expression:\n   %s\n" },
 { rc_serious,  FALSE, US"A line longer than %d bytes has been split\n" },
-{ rc_warning,  FALSE, US"Ignored \"key\" command in line mode\n" },
+{ rc_warning,  FALSE, US"Warning: Ignored \"key\" command in line mode\n" },
 { rc_disaster, FALSE, US"Call to atexit() failed\n" },
 { rc_serious,  TRUE,  US"Buffer %d is the current data buffer, so it cannot be a command buffer\n" },
 /* 70-74 */
@@ -129,7 +129,9 @@ static error_struct error_data[] = {
 { rc_serious,  FALSE, US"Environment variable NETABS value \"%s\" is invalid\n" },
 { rc_disaster, FALSE, US"\"-withkeys\" is not valid in line-by-line mode\n" },
 { rc_serious,  FALSE, US"\"%s\" in -withkeys file is not a known keyname - NE abandoned\n" },
-{ rc_disaster, FALSE, US"Internal failure: -withkeys name \"%s\": Pkey code %d not found - NE abandoned\n" }
+{ rc_disaster, FALSE, US"Internal failure: -withkeys name \"%s\": Pkey code %d not found - NE abandoned\n" },
+/* 75-79 */
+{ rc_warning,  FALSE, US"Warning: The 'i' qualifier has no effect without 'r'\n" }
 };
 
 #define error_maxerror (int)(sizeof(error_data)/sizeof(error_struct))
@@ -353,23 +355,16 @@ cmd_faildecode = TRUE;
 
 /* Sub-function to format flags */
 
-static int flagbits[] = {
-  0x0003, 0x0001, 0x0002, 0x0004, 0x0008, 0x0010, 0x0020,
-  0x0040, 0x0080, 0x0100, 0x0200, 0x0400, 0};
-
-static uschar *
-flagchars = US "pbehlnrsuvwx";
-
 static uschar *
 format_qseflags(uschar *b, int flags)
 {
 int i;
-for (i = 0; flagbits[i]; i++)
+for (i = 0; cmd_qualbits[i]; i++)
   {
-  if ((flags & flagbits[i]) == flagbits[i])
+  if ((flags & cmd_qualbits[i]) == cmd_qualbits[i])
     {
-    *b++ = flagchars[i];
-    flags &= ~flagbits[i];
+    *b++ = cmd_qualletters[i];
+    flags &= ~cmd_qualbits[i];
     }
   }
 return b;

@@ -142,9 +142,14 @@ else qs->flags &= ~qsef_REV;
 
 if ((flags & (qsef_B|qsef_H)) != 0) options |= PCRE2_ANCHORED;
 
-/* When wide characters are in use, we must tell PCRE2 to use UTF-8 */
+/* When wide characters are in use, we must tell PCRE2 to use UTF-8; the I flag
+enables matching within invalid UTF-8 strings. */
 
-if (allow_wide) options |= PCRE2_UTF;
+if (allow_wide)
+  {
+  options |= PCRE2_UTF;
+  if ((flags & qsef_I) != 0) options |= PCRE2_MATCH_INVALID_UTF;
+  }
 
 /* Do the compilation */
 

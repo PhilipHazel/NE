@@ -5,7 +5,7 @@
 /* Copyright (c) University of Cambridge, 1991 - 2023 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: January 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This file contains code for reading search expressions and qualified
@@ -14,16 +14,14 @@ strings. */
 
 #include "ehdr.h"
 
-/* This table is global because it is used when initializing the ch_tab. */
+/* These tables are global because the first is used when initializing the
+ch_tab and both are used when reflecting a qualified string in an error
+message. */
 
-uschar *cmd_qualletters = US"pbehlnrsuvwx";
-
-/* Table of flag bits corresponding to the above letters. */
-
-static int qualbits[] = {
-  qsef_B + qsef_E,   /* P is shorthand for B+E */
-  qsef_B, qsef_E, qsef_H, qsef_L, qsef_N, qsef_R,
-  qsef_S, qsef_U, qsef_V, qsef_W, qsef_X };
+uschar *cmd_qualletters = US"pbehilnrsuvwx";
+int cmd_qualbits[] = { qsef_B + qsef_E,   /* P is shorthand for B+E */
+  qsef_B, qsef_E, qsef_H, qsef_I, qsef_L, qsef_N, qsef_R, qsef_S, qsef_U,
+  qsef_V, qsef_W, qsef_X };
 
 /* Table of flag bits that are not allowed with each qualifier. */
 
@@ -32,6 +30,7 @@ static int qualXbits[] = {
   /* b */ qsef_B + qsef_E + qsef_L + qsef_H,
   /* e */ qsef_B + qsef_E + qsef_L + qsef_H,
   /* h */ qsef_B + qsef_E + qsef_L + qsef_H + qsef_S,
+  /* i */ 0,
   /* l */ qsef_B + qsef_E + qsef_L + qsef_H,
   /* n */ 0,
   /* r */ 0,
@@ -250,7 +249,7 @@ for (;;)
   if ((ch_tab[ch] & ch_qualletter) != 0)
     {
     int p = Ustrchr(cmd_qualletters, ch) - cmd_qualletters;
-    int q = qualbits[p];
+    int q = cmd_qualbits[p];
     int r = qualXbits[p];
 
     /* Most checking for illegal combinations is done using the tables.
@@ -321,7 +320,8 @@ for (;;)
     }
 
   /* Not a recognized qualifier in any form; try for valid end of qualifiers,
-  then forbid a count with either B or E. */
+  then forbid a count with either B or E. Give a warning if 'i' is used without
+  'r'. */
 
   else if ((seposs && ch == '(') || (ch_tab[ch] & ch_delim) != 0)
     {
@@ -333,6 +333,8 @@ for (;;)
         return FALSE;
         }
       }
+
+    if ((flags & (qsef_I | qsef_R)) == qsef_I) error_moan(75);
 
     /* Hand back qualifiers via address arguments */
 
@@ -352,7 +354,7 @@ for (;;)
     return FALSE;
     }
 
-  /* Valid qualifier read, but expect  */
+  /* Valid qualifier read, but missing string */
 
   if (cmd_atend())
     {

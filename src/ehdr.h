@@ -330,6 +330,7 @@ extern BOOL    cmd_eoftrap;            /* Trapping eof */
 extern BOOL    cmd_onecommand;         /* Command line is a single command */
 extern uschar *cmd_ptr;                /* Current pointer */
 extern BOOL    cmd_refresh;            /* Refresh needed */
+extern int     cmd_qualbits[];         /* Qualifier flag bits */
 extern uschar *cmd_qualletters;        /* Qualifier letters */
 extern uschar *cmd_stack[];            /* Stack of old command lines */
 extern int     cmd_stackptr;           /* Pointer in command stack */

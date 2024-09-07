@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2024 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: September 2024 */
 
 
 /* This file contains code for obeying commands: Part IV */
@@ -475,7 +475,7 @@ switch (cmd->misc)
 
   /* LCOV_EXCL_START */
   case show_version:
-  error_printf("NE %s %s using PCRE %s\n", version_string, version_date,
+  error_printf("NE %s %s using PCRE2 %s\n", version_string, version_date,
     version_pcre);
   break;
   /* LCOV_EXCL_STOP */
@@ -786,7 +786,7 @@ if ((cmd->flags & cmdf_arg1) != 0) main_verify = cmd->arg1.value;
   else main_verify = !main_verify;
 if (main_verify && !main_shownlogo)
   {
-  error_printf("NE %s %s using PCRE %s\n", version_string, version_date,
+  error_printf("NE %s %s using PCRE2 %s\n", version_string, version_date,
     version_pcre);
   main_shownlogo = TRUE;
   }

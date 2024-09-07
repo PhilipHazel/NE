@@ -159,24 +159,26 @@ typedef struct sestr {
 #define qsef_B      0x0001u
 #define qsef_E      0x0002u
 #define qsef_H      0x0004u
-#define qsef_L      0x0008u
-#define qsef_N      0x0010u
-#define qsef_R      0x0020u
-#define qsef_S      0x0040u
-#define qsef_U      0x0080u
-#define qsef_V      0x0100u
-#define qsef_W      0x0200u
-#define qsef_X      0x0400u
-#define qsef_AND    0x0800u  /* AND flag for se nodes */
-#define qsef_REV    0x1000u  /* Reversed flag for regular expressions */
-#define qsef_FV     0x2000u  /* Regex compiled verbatim by USW */
+#define qsef_I      0x0008u
+#define qsef_L      0x0010u
+#define qsef_N      0x0020u
+#define qsef_R      0x0040u
+#define qsef_S      0x0080u
+#define qsef_U      0x0100u
+#define qsef_V      0x0200u
+#define qsef_W      0x0400u
+#define qsef_X      0x0800u
+#define qsef_AND    0x1000u  /* AND flag for se nodes */
+#define qsef_REV    0x2000u  /* Reversed flag for regular expressions */
+#define qsef_FV     0x4000u  /* Regex compiled verbatim by USW */
 
 /* Both of E and B */
 #define qsef_EB     (qsef_E + qsef_B)
 
 /* Not allowed in search expressions */
 
-#define qsef_NotSe (qsef_REV+qsef_AND+qsef_X+qsef_R+qsef_L+qsef_H+qsef_E+qsef_B)
+#define qsef_NotSe (qsef_REV + qsef_AND + qsef_X + qsef_R + qsef_L + \
+  qsef_I + qsef_H + qsef_E + qsef_B)
 
 /* Plain String */
 

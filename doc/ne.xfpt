@@ -33,7 +33,7 @@
 . the <bookinfo> element must also be updated for each new edition.
 . /////////////////////////////////////////////////////////////////////////////
 
-.set version "3.22"
+.set version "3.23"
 .set R "&#x261e;"
 .set B "&#x200B;"
 
@@ -58,13 +58,13 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>03 May 2024</date>
+<date>06 September 2024</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
-  <revnumber>3.22</revnumber>
-  <date>03 May 2024</date>
+  <revnumber>3.23</revnumber>
+  <date>06 September 2024</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
 <copyright><year>2024</year><holder>Philip Hazel</holder></copyright>
@@ -296,7 +296,7 @@ underscore).
 &`&*End of file*&`&
 
 &`&*1    IRUA  testfile ----*----3----*----4----*----|*&`&
-&`NE version 3.20 (14-Feb-2023) using PCRE 10.42 `&
+&`NE version 3.23 (7-Sep-2024) using PCRE2 10.44 `&
 .endd
 .
 The screen display consists of four sections. The top line is an inverse
@@ -889,7 +889,7 @@ Any Unicode code point can be entered by pressing &*esc*& followed by &*u*&
 followed by up to five hexadecimal digits. The code value is terminated by a
 non-hexadecimal digit or a second press of &*esc*&. If you enter a code point
 greater than U+00FF by this means when NE is not running in wide character
-mode, NE ignores the character, but outputs a BEL character (U+0007) to the 
+mode, NE ignores the character, but outputs a BEL character (U+0007) to the
 screen. The may cause the screen to flash or a beep to sound.
 
 If a non-printing character can be entered from the keyboard, but would have
@@ -1489,9 +1489,10 @@ but which cause the second string to be inserted after or before occurrences of
 the first string, respectively.
 
 NE contains facilities for more complicated kinds of change, including the use
-of `wild card' characters in strings. The chapters entitled &'Context
-matching'& (&<<CHAPcontext>>&), &'Inserting new text'& (&<<CHAPinsert>>&), and
-&'Global changes'& (&<<CHAPglobals>>&) contain further details.
+of `wild card' characters in strings by means of regular expressions. The
+chapters entitled &'Context matching'& (&<<CHAPcontext>>&), &'Inserting new
+text'& (&<<CHAPinsert>>&), and &'Global changes'& (&<<CHAPglobals>>&) contain
+further details.
 .next
 .index "&*load*&"
 &*Load*& &'<file name>'& causes NE to load a new file for editing. If the old
@@ -2443,6 +2444,10 @@ conditional commands such as &*if*& and &*while*&. &*H*& can be combined with
 &*p*& (&R; &<<SECTqualp>>&) in order to test the rest of the line from the
 current cursor position.
 
+.subsection "The I qualifier"
+The &*i*& qualifier is useful only in conjunction with the &*r*& qualifier,
+whose action it modifies. See section &<<SECTregex>>& for details.
+
 .subsection "The L qualifier"
 The &*l*& qualifier specifies that the search for the string in the line is to
 proceed in the reverse direction to normal, that is, from right to left instead
@@ -2450,7 +2455,7 @@ of left to right. This means that, if a match occurs, it is the &'last'&
 occurrence on the line that is found. If a column qualifier (&R;
 &<<SECTqualcol>>&) is also present, it changes the effect of the &*l*&
 qualifier so that, if a match occurs, it is the last occurrence in the column,
-rather than the line, which is found.
+rather than the line, that is found.
 
 .subsection "The N qualifier"
 The &*n*& qualifier negates the result of the string match. If, taking into
@@ -2481,7 +2486,7 @@ of a line by specifying an empty string.
 The &*r*& qualifier specifies that the characters in the string are not to be
 used for a literal match against the line, but instead are to be interpreted as
 a &'regular expression'&. For details, including how &*r*& interacts with
-&*x*&, see section &<<SECTregex>>&.
+&*i*& and &*x*&, see section &<<SECTregex>>&.
 
 .subsection "The S qualifier"
 The &*s*& qualifier causes NE to ignore leading and trailing spaces when
@@ -2649,10 +2654,12 @@ condition that are not possible with search expressions using ordinary
 qualified strings. A regular expression is essentially a pattern or template
 that is matched to the line. Since a regular expression is itself a kind of
 qualified string, it can form a component of a search expression if necessary.
+
 The &*r*& qualifier, when present on a qualified string, causes NE to interpret
 the given string as a pattern for a regular expression instead of an ordinary
-text string. Other qualifiers may also be present, and all except &*x*& have
-their usual effect.
+text string. The &*i*& qualifier modifies the action of &*r*& when NE is in
+wide character mode (see below). Other qualifiers may also be present, and all
+except &*x*& have their usual effect.
 
 When &*r*& is combined with &*x*&, instead of treating the entire search string
 as a sequence of hexadecimal digits, some heuristic processing allows for the
@@ -2667,15 +2674,20 @@ replaces it or inserts another string alongside it (for example, the &*ge*&
 command), the replacement string can also be subject to special interpretation
 (&R; &<<SECTwildins>>&).
 
-Current versions of NE support Perl-like regular expressions, via the PCRE
-library, which must be installed before compiling NE. From release 3.10 NE by
-default expects to use the PCRE2 library, but it can be built to use use a
-legacy PCRE1 library if PCRE2 is not available.
+NE supports Perl-like regular expressions via the PCRE2 library, which must be
+installed before compiling NE. The legacy PCRE1 library is no longer supported.
+A description of the regular expressions that PCRE2 supports can be found in
+its documentation.
 
-A description of the regular expressions that PCRE supports can be found in its
-documentation. When NE is run in wide character mode (&R; &<<SECTwidechars>>&)
-it calls PCRE in UTF-8 mode. If the version of PCRE that is installed does not
-support UTF-8 character strings, an error occurs.
+When NE is running in wide character mode (&R; &<<SECTwidechars>>&) it calls
+PCRE2 in UTF-8 mode. If the version of PCRE2 that is installed does not include
+UTF-8 character string support, an error occurs. In this mode, PCRE2 checks
+each string that it searches for UTF-8 validity. If an invalid sequence of
+bytes is found, an error occurs by default. However, if the &*i*& qualifier is
+specified with &*r*&, PCRE2 is invoked in a mode that handles invalid UTF-8
+strings by treating them as a sequence of valid fragments separated by invalid
+sequences. Only the valid fragments are searched and any resulting match will
+always be entirely within a valid fragment.
 .
 . /////////////////////////////////////////////////////////////////////////////
 .
@@ -4913,7 +4925,7 @@ NE to change to the opposite state. Wide character mode can be set at the start
 of editing by the &*-widechars*& (or &*-w*&) command line option. You can make
 it the default by putting a &*widechars*& command in your &*.nerc*& file. If a
 regular expression match (&R; &<<SECTregex>>&) is used in wide character mode,
-NE calls the PCRE library in UTF-8 mode. If the version of PCRE that is
+NE calls the PCRE2 library in UTF-8 mode. If the version of PCRE2 that is
 installed does not support UTF-8 character strings, an error occurs.
 
 

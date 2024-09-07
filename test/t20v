@@ -29,7 +29,7 @@ f rx/*1234/
    quantifier does not follow a repeatable item
 ** r/1234/ not found
 ** r/1234/ not found
-** The contents of the cut buffer have not been pasted.
+** Warning: The contents of the cut buffer have not been pasted.
 ** The first few lines are:
 Cut 
 
@@ -73,7 +73,7 @@ cproc .nonexist
 ** Procedure .nonexist not found
 ** No appropriate mark set for cut command
 ** Unexpected end of file while obeying "csd" command
-** The contents of the cut buffer have not been pasted.
+** Warning: The contents of the cut buffer have not been pasted.
 ** The first few lines are:
 wri
 

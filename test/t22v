@@ -1,7 +1,7 @@
 ** ((/a/ & /b/) | /c/) not found
 ** 3/notfound/ not found
 ** [5,10]/z/ not found
-** The contents of the cut buffer have not been pasted.
+** Warning: The contents of the cut buffer have not been pasted.
 ** The first few lines are:
 one
 two
