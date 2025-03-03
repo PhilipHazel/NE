@@ -2,16 +2,16 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2024 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: September 2024 */
+/* This file last modified: March 2025 */
 
 /* This file contains just one function that sets up the current version and
 copyright strings. */
 
-#define VERSION    "3.23"
-#define COPYRIGHT  "Copyright (c) University of Cambridge 2024"
+#define VERSION    "3.24-DEV"
+#define COPYRIGHT  "Copyright (c) University of Cambridge 2025"
 
 #include "ehdr.h"
 

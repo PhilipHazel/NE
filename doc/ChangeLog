@@ -1,6 +1,13 @@
 Change Log for New E (NE)
 -------------------------
 
+Version 3.24-DEV 03-March-2025
+--------------------------
+
+1. The "mark-line" keystroke was incorrectly being locked out in read-only 
+mode.
+
+
 Version 3.23 07 September 2024
 ------------------------------
 

@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: May 2023 */
+/* This file last modified: March 2025 */
 
 
 /* This file contains code for handling individual function keystrokes when
@@ -53,7 +53,7 @@ static uschar key_readonly[] = {
   0, /* ka_dtwr */
   0, /* ka_gm */
   0, /* ka_join */
-  0, /* ka_lb */
+  1, /* ka_lb */
   0, /* ka_pa */
   1, /* ka_rb */
   0, /* ka_reshow */
