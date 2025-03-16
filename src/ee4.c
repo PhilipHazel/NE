@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2024 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: September 2024 */
+/* This file last modified: March 2025 */
 
 
 /* This file contains code for obeying commands: Part IV */
@@ -173,14 +173,15 @@ return done_continue;
 *            The SHOW command                    *
 *************************************************/
 
-/* Subroutine to check for filling the screen. */
+/* Subroutine to check for filling the screen,, but don't pause if running the 
+test with simulated keystrokes. */
 
 static void
 check_screen_lines(usint needed, usint *count)
 {
 if (!main_screenOK) return;   /* Not in screen mode */
 /* LCOV_EXCL_START */
-if (screen_max_row - *count < needed)
+if (screen_max_row - *count < needed && withkey_fid == NULL)
   {
   int c;
   error_printf("Press RETURN to continue ");
