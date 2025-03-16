@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2024 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: September 2024 */
+/* This file last modified: March 2025 */
 
 
 /* This file contains screen-handling code, originally for use with termcap
@@ -486,7 +486,8 @@ if (k != 254)
     {
     /* LCOV_EXCL_START - on an xterm these never occur */
     *type = ktype_function;
-    c = (c >= Pkey_f0)? s_f_umax + k - Pkey_f0 : Pkeytable[k - 127];
+    c = (c == 127)? Pkey_bsp : (c >= Pkey_f0)? s_f_umax + k - Pkey_f0 : 
+      Pkeytable[k - 127];
     /* LCOV_EXCL_STOP */
     }
   return c;
@@ -981,7 +982,7 @@ if (fromname != NULL && fromname[0] != 0 && Ustrcmp(fromname, "-") != 0)
 
 key_controlmap    = 0xFFFFFFFEu;    /* exclude nothing */
 key_functionmap   = 0x7FFFFFFEu;    /* allow 1-30 */
-key_specialmap[0] = 0x0000001Fu;    /* del, arrows */
+key_specialmap[0] = 0x0000003Fu;    /* bsp, del, arrows */
 key_specialmap[1] = 0x00000000u;    /* nothing shifted */
 key_specialmap[2] = 0x00000000u;    /* nothing ctrled */
 key_specialmap[3] = 0x00000000u;    /* nothing shifted+ctrled */
@@ -990,7 +991,7 @@ key_specialmap[3] = 0x00000000u;    /* nothing shifted+ctrled */
 
 if (tt_special == tt_special_xterm)
   {
-  key_specialmap[0] = 0x0000011Fu;  /* insert, del, arrows */
+  key_specialmap[0] = 0x0000013Fu;  /* insert, bsp, del, arrows */
   key_specialmap[1] = 0x0000009Fu;  /* shifted tab, delete, shifted arrows */
   key_specialmap[2] = 0x0000009Fu;  /* ctrl tab, delete, ctrl arrows */
   }

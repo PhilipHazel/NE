@@ -7,6 +7,13 @@ Version 3.24-DEV 03-March-2025
 1. The "mark-line" keystroke was incorrectly being locked out in read-only 
 mode.
 
+2. For some reason the backspace key was being locked out as always synonymous 
+with ctrl/H. It is sometimes, but not always. Allow it as an independent key 
+(this is when it generates 0x7F rather than 0x08).
+
+3. When running the simulated keystroke test, don't do the "Press RETURN to 
+continue" check.
+
 
 Version 3.23 07 September 2024
 ------------------------------

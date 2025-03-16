@@ -25,7 +25,7 @@ left       cursor left                 s/left     scroll left
 c/left     cursor to left of text      right      cursor right
 s/right    scroll right                c/right    cursor to right of text
 delete     delete previous character   s/delete   close up spaces to left
-c/delete   delete left in line(s)      backsp     same as ctrl/h
+c/delete   delete left in line(s)      backsp     delete previous character
 return     same as ctrl/m              tab        same as ctrl/i
 c/tab      cursor to previous tab      insert     paste text or rectangle
 
@@ -66,12 +66,6 @@ warn:              on
 widechars:        off
 NE: ** Cannot set rectangle mark because text mark is already set
 ** The current buffer is read-only
-
-key^backspace=dc
-                >
-** Error in key definition string (at character 9):
-   "backspace" cannot be independently configured in this version of NE
-   ("backspace" is the same as ctrl/h)
 
 key^return=dc
              >

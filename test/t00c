@@ -210,7 +210,6 @@ Literal\? \20 \1b\1b\a5 \20 \1b A^ \20 \1b uca \1b \M
 \G \#1
 \*
 \* These should all trigger errors
-\G key^ backspace=dc \M
 \G key^ return=dc \M
 \G key\M
 \G key^\20\M
