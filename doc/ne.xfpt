@@ -33,7 +33,7 @@
 . the <bookinfo> element must also be updated for each new edition.
 . /////////////////////////////////////////////////////////////////////////////
 
-.set version "3.23"
+.set version "3.24"
 .set R "&#x261e;"
 .set B "&#x200B;"
 
@@ -58,16 +58,16 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>06 September 2024</date>
+<date>18 March 2025</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
-  <revnumber>3.23</revnumber>
-  <date>06 September 2024</date>
+  <revnumber>3.24</revnumber>
+  <date>18 March 2025</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
-<copyright><year>2024</year><holder>Philip Hazel</holder></copyright>
+<copyright><year>2025</year><holder>Philip Hazel</holder></copyright>
 </bookinfo>
 .literal off
 
@@ -5950,10 +5950,21 @@ configured appropriately:
 .row &*ctrl/down*&       &{scroll-bottom}&
 .row &*ctrl/tab*&        &{previous-tab}&
 .endtable
-The &*backspace*& key is distinguishable from &*ctrl/h*&, and it is initially
-defined to have the same effect as the &*delete*& key. The function keys
-correspond to NE's function keystrokes, and &\SHIFT\& may be used with any of
-them to add 10 to its value.
+The function keys correspond to NE's function keystrokes, and &\SHIFT\& may be
+used with any of them to add 10 to its value. 
+
+There can be problems with the &*backspace*& and &*delete*& keys, which can
+each be configured to transmit one of two different character sequences. NE
+needs the &*backspace*& key to send the DEL character (code 127) and the
+&*delete*& key to send a four-character escape sequence that starts with ESC
+(code 27). This makes the &*backspace*& key distinguishable from &*delete*& and 
+&*ctrl/h*&, though it is initially defined to have the same effect as the
+&*delete*& key.
+
+From version 3.24 of NE, if it determines that it is running in an xterm that 
+is emulating VT300 or above, it reads the current settings for the 
+&*backspace*& and &*delete*& keys so that, if necessary, it can reconfigure 
+them and then reset the previous setting on exit.
 
 
 .section "Character code escapes" SECTescapes

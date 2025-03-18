@@ -1,17 +1,24 @@
 Change Log for New E (NE)
 -------------------------
 
-Version 3.24-DEV 03-March-2025
+Version 3.24 07-March-2025
 --------------------------
 
 1. The "mark-line" keystroke was incorrectly being locked out in read-only 
 mode.
 
-2. For some reason the backspace key was being locked out as always synonymous 
-with ctrl/H. It is sometimes, but not always. Allow it as an independent key 
-(this is when it generates 0x7F rather than 0x08).
+2. For some reason the backspace key was being locked out as changeable as it 
+was assumed always to be synonymous with ctrl/H. It is sometimes, but not
+always. Allow it as an independent key. 
 
-3. When running the simulated keystroke test, don't do the "Press RETURN to 
+3. In xterm, backspace generates either character 8 (bsp) or 127 (del). NE 
+under xterm now finds out what is set, forces it to be 127, then resets it if 
+necessary on exit. This makes backspace distinguishable from ctrl/H and also 
+the default sequence for Delete, which is "ESC [ 3 ~". It is possible to set 
+xterm so that Delete sends 127, in which case it will behave like Backspace.
+I have not found a way of reading or forcing this setting.
+
+4. When running the simulated keystroke test, don't do the "Press RETURN to 
 continue" check.
 
 

@@ -79,6 +79,8 @@ int window_changed;   /* SIGWINSZ received */
 *************************************************/
 
 static int sunix_setrendition = s_r_normal;
+static BOOL reset_backspace = FALSE;
+static BOOL reset_delete = FALSE;
 
 /* Buffer for key input bytes that looked like the start of an escape sequence,
 but weren't. */
@@ -486,7 +488,7 @@ if (k != 254)
     {
     /* LCOV_EXCL_START - on an xterm these never occur */
     *type = ktype_function;
-    c = (c == 127)? Pkey_bsp : (c >= Pkey_f0)? s_f_umax + k - Pkey_f0 : 
+    c = (c == 127)? Pkey_bsp : (c >= Pkey_f0)? s_f_umax + k - Pkey_f0 :
       Pkeytable[k - 127];
     /* LCOV_EXCL_STOP */
     }
@@ -547,9 +549,9 @@ for (;;)
       {
       int event = ((kbbackptr > 0)? kbback[--kbbackptr] : sunix_getchar()) - 32;
 
-      /* Do not do the -33 subtraction here because mouse_col and mouse_row are 
-      unsigned and the values may be zero for scroll operations. */ 
-       
+      /* Do not do the -33 subtraction here because mouse_col and mouse_row are
+      unsigned and the values may be zero for scroll operations. */
+
       mouse_col = (kbbackptr > 0)? kbback[--kbbackptr] : sunix_getchar();
       mouse_row = (kbbackptr > 0)? kbback[--kbbackptr] : sunix_getchar();
 
@@ -904,6 +906,8 @@ sys_mouse(FALSE);
 if (tc_s_ke != NULL) outTCstring(tc_s_ke, 0);
 if (tc_s_te != NULL) outTCstring(tc_s_te, 0);
 sunix_flush();
+if (reset_backspace && write(ioctl_fd, "\x1b[?67h", 6)){};
+if (reset_delete && write(ioctl_fd, "\x1b[?1037h", 8)){};
 tcsetattr(ioctl_fd, TCSANOW, &oldtermparm);
 }
 
@@ -1012,13 +1016,58 @@ CSI. */
 
 if (tt_special == tt_special_xterm)
   {
-  char buff[8];
+  char buff[16];
   outTCstring(tc_s_cl, 0);                  /* clear the screen */
   outTCstring(tgoto(CS tc_s_cm, 1, 1), 0);  /* move to top left */
   sunix_flush();
   if (write(ioctl_fd, "\xc3\xa1\x1b\x5b\x36\x6e", 6)){};
   if (read(ioctl_fd, buff, 6)){};
   main_utf8terminal = buff[4] == '3';
+
+  /* xterm treats the backspace key specially; it can return either 0x08
+  (ctrl/H) or 0x7f, according to an option. In NE we would like it always to
+  return 0x7f so that it can be distinguished from ctrl/H. Similarly, we would
+  like the Delete key always to return the escape sequence "ESC [ 3 ~" in order
+  to distinguish it from Backspace. For xterm emulations VT300 and above there
+  is an escape sequence for reading the current state. If we can do this, we
+  can force the setting for backspace and/or delete and reset them on exit.
+  First find out whether the emulation is VT300 or above. The response from
+  this is of variable length; we have to read to the terminating 'c'. */
+
+  if (write(ioctl_fd, "\x1b[>0c", 5)){};
+  if (read(ioctl_fd, buff, 9)){};
+  for (int i = 8; i < 14;)        /* Limit on i is a failsafe (max 12). */
+    {
+    if (buff[i++] == 'c') break;
+    if (read(ioctl_fd, buff+i, 1)){};
+    }
+
+  /* The return from the "ESC { > 0 c" query is "ESC [ > Pp ; Pv ; Pc c",
+  where any of the P's can be more than one digit. Pp is what we are interested
+  in; a value of 2 or less is VT100 or VT200. The values for VT300 and up are
+  all more than one digit. Thus, a test for not semicolon on offset 4 is
+  sufficient. The query for reading the current backspace state is to send "ESC
+  [ ? 6 7 $ p", and the reply is "ESC [ ? 6 7 ; Ps $ y" where Ps is 1 when
+  backspace sends 8 and 2 when it sends 127. Similarly for delete, using 1037
+  instead of 67, with 1 for 127 and 2 for "ESC [ 3 ~". */
+
+  if (buff[4] != ';')
+    {
+    if (write(ioctl_fd, "\x1b[?67$p", 7)){};    /* Query backspace state */
+    if (read(ioctl_fd, buff, 9)){};
+    if (buff[6] == '1')                         /* Need to set and reset */
+      {
+      if (write(ioctl_fd, "\x1b[?67l", 6)){};   /* Set backspace = 127 */
+      reset_backspace = TRUE;
+      }
+    if (write(ioctl_fd, "\x1b[?1037$p", 9)){};  /* Query delete state */
+    if (read(ioctl_fd, buff, 11)){};
+    if (buff[8] == '1')                         /* Need to set and reset */
+      {
+      if (write(ioctl_fd, "\x1b[?1037l", 8)){}; /* Set delete = escape seq */
+      reset_delete = TRUE;
+      }
+    }
   }
 
 /* Now set up the screen */
