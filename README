@@ -1,7 +1,7 @@
 The NE Text Editor
 ------------------
 
-Copyright (c) 2024 University of Cambridge
+Copyright (c) 2025 University of Cambridge
 
 This version of NE should run on all Unix-like systems. It should just be a
 matter of typing
@@ -73,12 +73,16 @@ of the tests using coverage checking. Some minor updates.
 
 September 2024: Removal of support for the legacy PCRE1 library.
 
+March 2025: Improved behaviour in xterm environments: the Backspace and Delete
+keys behave the same under all xterm settings, and NE also now copes if xterm's
+control characters are set to 8-bit.
+
 See the doc/ChangeLog file for a list of changes in the various releases.
 
 Philip Hazel
 Email local part: Philip.Hazel
 Email domain: gmail.com
-September 2024
+March 2025
 
 
 LICENCE

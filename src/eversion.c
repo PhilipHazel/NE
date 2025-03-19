@@ -10,7 +10,7 @@
 /* This file contains just one function that sets up the current version and
 copyright strings. */
 
-#define VERSION    "3.24-DEV"
+#define VERSION    "3.24"
 #define COPYRIGHT  "Copyright (c) University of Cambridge 2025"
 
 #include "ehdr.h"
