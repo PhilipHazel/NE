@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2024 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: September 2024 */
+/* This file last modified: March 2025 */
 
 
 /* This file contains code for interfacing to the PCRE2 library for handling
@@ -111,13 +111,19 @@ if ((flags & qsef_X) != 0)
   }
 
 /* Set up PCRE2 contexts, which are needed for custom memory management, and a
-match data block, if they do not already exist. */
+match data block, if they do not already exist. If the version of PCRE2 is new
+enough to have the "never callout" option, set it, so as to get an error rather
+than silently ignoring a callout. */
 
 if (re_general_context == NULL)
   {
   re_general_context = pcre2_general_context_create(re_store_get,
     re_store_free, 0);
   re_compile_context = pcre2_compile_context_create(re_general_context);
+#ifdef PCRE2_EXTRA_NEVER_CALLOUT
+  (void)pcre2_set_compile_extra_options(re_compile_context,
+    PCRE2_EXTRA_NEVER_CALLOUT);
+#endif
   re_match_data = pcre2_match_data_create(ExtractSize,
     re_general_context);
   Extracted = pcre2_get_ovector_pointer(re_match_data);
