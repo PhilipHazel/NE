@@ -81,6 +81,7 @@ int window_changed;   /* SIGWINSZ received */
 static int sunix_setrendition = s_r_normal;
 static BOOL reset_backspace = FALSE;
 static BOOL reset_delete = FALSE;
+static BOOL reset_8bit = FALSE;
 
 /* Buffer for key input bytes that looked like the start of an escape sequence,
 but weren't. */
@@ -908,6 +909,7 @@ if (tc_s_te != NULL) outTCstring(tc_s_te, 0);
 sunix_flush();
 if (reset_backspace && write(ioctl_fd, "\x1b[?67h", 6)){};
 if (reset_delete && write(ioctl_fd, "\x1b[?1037h", 8)){};
+if (reset_8bit && write(ioctl_fd, "\x1b G", 3)){};
 tcsetattr(ioctl_fd, TCSANOW, &oldtermparm);
 }
 
@@ -1021,7 +1023,22 @@ if (tt_special == tt_special_xterm)
   outTCstring(tgoto(CS tc_s_cm, 1, 1), 0);  /* move to top left */
   sunix_flush();
   if (write(ioctl_fd, "\xc3\xa1\x1b\x5b\x36\x6e", 6)){};
-  if (read(ioctl_fd, buff, 6)){};
+
+  /* The return starts with CSI, which might be a single 8-bit character, or a
+  two byte 7-bit sequence that starts with ESC. We read one byte to see which.
+  Then, if necessary, switch to 7-bit mode and arrange to reset on exit. */
+
+  if (read(ioctl_fd, buff, 1)){};
+  if (*buff != 0x1b)  /* Set to 8-bit */
+    {
+    buff[0] = 0x1b;
+    buff[1] = '[';
+    if (read(ioctl_fd, buff + 2, 4)){};
+    if (write(ioctl_fd, "\x1b F", 3)){};
+    reset_8bit = TRUE;
+    }
+  else if (read(ioctl_fd, buff + 1, 5)){};
+
   main_utf8terminal = buff[4] == '3';
 
   /* xterm treats the backspace key specially; it can return either 0x08

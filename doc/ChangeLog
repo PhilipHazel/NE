@@ -1,24 +1,28 @@
 Change Log for New E (NE)
 -------------------------
 
-Version 3.24 07-March-2025
+Version 3.24 19-March-2025
 --------------------------
 
-1. The "mark-line" keystroke was incorrectly being locked out in read-only 
+1. The "mark-line" keystroke was incorrectly being locked out in read-only
 mode.
 
-2. For some reason the backspace key was being locked out as changeable as it 
+2. For some reason the backspace key was being locked out as changeable as it
 was assumed always to be synonymous with ctrl/H. It is sometimes, but not
-always. Allow it as an independent key. 
+always. Allow it as an independent key.
 
-3. In xterm, backspace generates either character 8 (bsp) or 127 (del). NE 
-under xterm now finds out what is set, forces it to be 127, then resets it if 
-necessary on exit. This makes backspace distinguishable from ctrl/H and also 
-the default sequence for Delete, which is "ESC [ 3 ~". It is possible to set 
-xterm so that Delete sends 127, in which case it will behave like Backspace.
-I have not found a way of reading or forcing this setting.
+3. In xterm, backspace generates either character 8 (bsp) or 127 (del). NE
+under xterm now finds out what is set, forces it to be 127, then resets it if
+necessary on exit. This makes backspace distinguishable from ctrl/H and also
+the default sequence for Delete, which is "ESC [ 3 ~". However, Delete can also
+be changed to 127. NE checks this and forces it to the escape sequence so as to
+be different from Backspace, again re-setting on exit.
 
-4. When running the simulated keystroke test, don't do the "Press RETURN to 
+4. Another xterm issue: NE now detects whether xterm is configured to send
+7-bit or 8-bit control codes when responding to queries (such as mouse clicks).
+The mode is forced to 7-bit for the duration of the NE session.
+
+5. When running the simulated keystroke test, don't do the "Press RETURN to
 continue" check.
 
 
