@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2025 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: July 2025 */
 
 
 /* This file contains the system-specific routines for Unix-like environments,
@@ -291,6 +291,26 @@ static esc_item xterm_escapes[] = {
   { US "\033Ov", Pkey_sh_right },
   { US "\033Ox", Pkey_sh_up },
   { US "\033Or", Pkey_sh_down },
+  
+  /* These are the sequences used by xfce4-terminal, and are possibly what a 
+  raw xterm (without configuration changes) uses. Some are the same as above,
+  but I've left them in so that the list is complete. */ 
+  
+  { US "\033[1;2D", Pkey_sh_left },
+  { US "\033[1;2C", Pkey_sh_right },
+  { US "\033[1;2A", Pkey_sh_up },
+  { US "\033[1;2B", Pkey_sh_down },
+  { US "\033[Z",    Pkey_ct_tab },   // Doesn't support shift/tab
+
+  { US "\033[3;5~", Pkey_ct_del127 },
+  
+  { US "\033[1;5D", Pkey_ct_left },
+  { US "\033[1;5C", Pkey_ct_right },
+  { US "\033[1;5A", Pkey_ct_up },
+  { US "\033[1;5B", Pkey_ct_down },
+  // { US "\033[4;t", Pkey_ct_tab },  Same as tab
+  // { US "\033[3;b", Pkey_sh_bsp },  Same as backspace
+  // { US "\033[4;b", Pkey_ct_bsp },  Same as ct/H
 
   /* These allocations require suitable configuration of the xterm */
 
