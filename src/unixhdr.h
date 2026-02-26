@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2026 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: January 2023 */
+/* This file last modified: February 2026 */
 
 /* This file is specific to the support modules for Unix-like environments. */
 
@@ -29,7 +29,7 @@
   #endif
 #endif
 
-#if defined GWINSZ_IN_SYS_IOCTL && GWINSZ_IN_SYS_IOCTL
+#if HAVE_SYS_IOCTL_H
 #include <sys/ioctl.h>
 #endif
 

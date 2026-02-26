@@ -3,6 +3,7 @@
 of some header files vary from system to system */
 
 #define HAVE_SYS_FCNTL_H    0
+#define HAVE_SYS_IOCTL_H    0
 #define HAVE_TERMIO_H       0
 #define HAVE_TERMIOS_H      0
 

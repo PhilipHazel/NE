@@ -25,7 +25,7 @@ dline dline
 ** cdbuffer command abandoned after obeying line 1 of buffer 9
 f rx/*1234/
            >
-** Error in regular expression at offset 0:
+** Error in regular expression at offset 1:
    quantifier does not follow a repeatable item
 ** r/1234/ not found
 ** r/1234/ not found

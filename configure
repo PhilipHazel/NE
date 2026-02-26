@@ -2267,6 +2267,7 @@ as_fn_append ac_header_c_list " sys/stat.h sys_stat_h HAVE_SYS_STAT_H"
 as_fn_append ac_header_c_list " sys/types.h sys_types_h HAVE_SYS_TYPES_H"
 as_fn_append ac_header_c_list " unistd.h unistd_h HAVE_UNISTD_H"
 as_fn_append ac_header_c_list " sys/fcntl.h sys_fcntl_h HAVE_SYS_FCNTL_H"
+as_fn_append ac_header_c_list " sys/ioctl.h sys_ioctl_h HAVE_SYS_IOCTL_H"
 as_fn_append ac_header_c_list " termio.h termio_h HAVE_TERMIO_H"
 as_fn_append ac_header_c_list " termios.h termios_h HAVE_TERMIOS_H"
 
@@ -3740,6 +3741,7 @@ then :
 printf "%s\n" "#define STDC_HEADERS 1" >>confdefs.h
 
 fi
+
 
 
 

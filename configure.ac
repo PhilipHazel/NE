@@ -19,7 +19,7 @@ AC_PROG_INSTALL
 
 dnl Checks for header files.
 
-AC_CHECK_HEADERS_ONCE(sys/fcntl.h termio.h termios.h)
+AC_CHECK_HEADERS_ONCE(sys/fcntl.h sys/ioctl.h termio.h termios.h)
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 

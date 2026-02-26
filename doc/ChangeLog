@@ -1,6 +1,17 @@
 Change Log for New E (NE)
 -------------------------
 
+Version 3.25 xx-xx-2026
+-----------------------
+
+1. Added some escape sequences from xfce4-terminal to the build-in ones used 
+for xterminals.
+
+2. Always include sys/ioctl.h if it exists. This was prompted by the 
+abandonment of termio.h by Arch Linux. It was previously included under some 
+contraints that I no longer understand.
+
+
 Version 3.24 19-March-2025
 --------------------------
 
