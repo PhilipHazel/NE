@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2026 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: February 2026 */
 
 
 /* This file contains code for making changes to individual lines */
@@ -92,7 +92,7 @@ line_charcount(uschar *ptr, usint len)
 {
 uschar *pe;
 int yield = 0;
-if (len == 0) return 0;  /* Avoids problem if ptr is NULL */
+if (ptr == NULL) return 0;  /* Empty line may be NULL with zero length */
 pe = ptr + len;
 while (ptr < pe)
   {

@@ -239,6 +239,9 @@ Type on end of file line\=down\G?\M
 \G m0\M \=10down \G iline/to go/\M \=up \G dline\M 
 \G abc\X m*; iline/Corrrrected/ \=7left \Y \#21 \=40right abc \=3left \V\M 
 \*
+\* Test fix for ABE command on empty line
+\G m*; \M \M \=up \=right \=right \G e///inserted/ \M
+\*
 \***** End off *****
 \*
 \G w \M y \M             \* Windup
