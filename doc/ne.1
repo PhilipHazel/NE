@@ -1,4 +1,4 @@
-.TH NE 1 "03 May 2024" "NE 3.22"
+.TH NE 1 "01 March 2026" "NE 3.25"
 .SH NAME
 NE - a text editor
 .SH SYNOPSIS
@@ -44,7 +44,7 @@ Show the current version and then exit.
 \fB-line\fP
 Run in line-by-line mode.
 .TP
-\fB-noinit\fP
+\fB-noinit\fP \fB-norc\fP
 Do not obey the caller's \fB.nerc\fP file.
 .TP
 \fB-notabs\fP
@@ -78,8 +78,10 @@ input, and this is true for all other input files (though output destinations
 can be changed while editing).
 .TP
 \fB-ver\fP \fI<file>\fP
-Specify the output file for editing verifications when in line-by-line or
-non-interactive mode.
+This option implies \fB-line\fP. It specifies the output file for editing
+verifications. The default is the standard output unless this is being used for
+the main output, in which case verifications are sent to the standard error
+stream.
 .TP
 \fB--version\fP \fB-version\fP \fB-v\fP
 Show the current version number and then exit.
@@ -88,7 +90,8 @@ Show the current version number and then exit.
 Recognize UTF-8 characters in data and command lines.
 .TP
 \fB-with\fP \fI<file>\fP
-Read editing commands from this file.
+Read editing commands from this file. This implies line-by-line non-interactive
+editing.
 .TP
 \fB-withkeys\fP \fI<file>\fP
 This debugging option simulates keystrokes for testing screen editing. The file
@@ -136,6 +139,6 @@ Cambridge, England.
 .rs
 .sp
 .nf
-Last updated: 03 May 2024
-Copyright (c) 2024 Philip Hazel
+Last updated: 01 March 2026
+Copyright (c) 2026 Philip Hazel
 .fi

@@ -11,9 +11,9 @@ for xterminals.
 abandonment of termio.h by Arch Linux. It was previously included under some
 contraints that I no longer understand.
 
-3. Fixed a long-existing but never previously noticed bug: if an A, B, or E
-command was issued in screen mode when the cursor was on an empty line, but not
-at the start, NE crashed.
+3. Fixed a long-existing but never previously noticed bug: if a command that 
+modifies the current line (for example, E///X/) was issued in screen mode when
+the cursor was on an empty line, but not at the start, NE crashed.
 
 
 Version 3.24 19-March-2025

@@ -33,7 +33,7 @@
 . the <bookinfo> element must also be updated for each new edition.
 . /////////////////////////////////////////////////////////////////////////////
 
-.set version "3.24"
+.set version "3.25"
 .set R "&#x261e;"
 .set B "&#x200B;"
 
@@ -58,16 +58,16 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>18 March 2025</date>
+<date>08 March 2026</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
-  <revnumber>3.24</revnumber>
-  <date>18 March 2025</date>
+  <revnumber>3.25</revnumber>
+  <date>08 March 2026</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
-<copyright><year>2025</year><holder>Philip Hazel</holder></copyright>
+<copyright><year>2026</year><holder>Philip Hazel</holder></copyright>
 </bookinfo>
 .literal off
 
@@ -84,24 +84,24 @@
 
 
 .chapter "Introduction"
-NE is a text editor that dates from the early 1990s. In the past it ran on
-a number of operating systems, but the current version supports only Unix-like
-environments. The main use of NE is expected to be as an interactive screen
-editor, but it can also function as a line-by-line editor, and it is
-programmable, so it can be run non-interactively as a text manipulation tool.
-Function keys and some others are fully configurable in interactive screen
-mode.
+NE is a text editor that dates from the early 1990s. In the past it ran on a
+number of operating systems, but the current version supports only Unix-like
+environments. When NE was first implemented, many different types of terminal
+and keyboard were in common use, which is why there is so much discussion of
+them in this manual. NE is a re-implementation of a previous editor that was
+called E, which in turn evolved from one called Zed and a number of
+predecessors that ran on IBM mainframes. The lineage can be traced even further
+back to some very early Cambridge text editors of the 1960s that ran on Titan
+(prototype Atlas 2) and earlier on EDSAC 2.
 
-NE can process data files in three ways: as single-byte characters, as UTF-8
-multi-byte characters, or as binary bytes displayed and edited mainly in
-hexadecimal. The default is single-byte characters, though this can be changed
-to UTF-8 by a setting in the user's &*~/.nerc*& file.
-
-NE is a re-implementation of a previous editor that was called E, which in turn
-evolved from one called Zed and a number of predecessors that ran on IBM
-mainframes. The lineage can be traced even further back to some very early
-Cambridge text editors of the 1960s that ran on Titan (prototype Atlas 2) and
-earlier on EDSAC 2.
+The main use of NE is expected to be as an interactive screen editor, but it
+can also function as a line-by-line editor, and it is programmable, so it can
+be run non-interactively as a text manipulation tool. Function keys and some
+others are fully configurable in interactive screen mode. NE can process data
+files in three ways: as single-byte characters, as UTF-8 multi-byte characters,
+or as binary bytes displayed and edited mainly in hexadecimal. The default is
+single-byte characters, though this can be changed to UTF-8 by a setting in the
+user's &*~/.nerc*& file.
 
 NE's facilities are described in this document grouped by function, but first
 there are definitions of some terminology. The chapter that follows describes
@@ -296,7 +296,7 @@ underscore).
 &`&*End of file*&`&
 
 &`&*1    IRUA  testfile ----*----3----*----4----*----|*&`&
-&`NE version 3.23 (7-Sep-2024) using PCRE2 10.44 `&
+&`NE version 3.25 (1-Mar-2026) using PCRE2 10.47 `&
 .endd
 .
 The screen display consists of four sections. The top line is an inverse
@@ -1069,16 +1069,16 @@ last character.
 
 Two different views of text are supported by the cut, paste and deletion
 operations. It can either be considered as a stream of characters, with a
-notional `newline' between lines, or it can be considered as a rectangular
+newline character between lines, or it can be considered as a rectangular
 array. These different approaches are described separately in the following two
 sections.
 
 
 .section "Text blocks"
 .index "text blocks"
-A text block is a piece of text viewed as a stream of characters, with notional
-`newline' characters between lines. To cut, copy or delete such a block from
-the file being edited, the following actions are required:
+A text block is a piece of text viewed as a stream of characters. To cut, copy
+or delete such a block from the file being edited, the following actions are
+required:
 .ilist
 Move the cursor to either:
 .olist loweralpha
@@ -1154,7 +1154,7 @@ and &{cut-delete}& is pressed. The screen then looks as follows:
 .
 Notice that the remainder of the sixth line has been joined to the remainder
 of the fourth line. This is in accordance with the view of the text as a linear
-stream of characters containing `newlines'. To insert (a copy of) the cut
+stream of characters containing newlines. To insert (a copy of) the cut
 buffer, the cursor is now placed at the start of the text and &{paste}& is
 pressed. The screen becomes
 .
@@ -1192,7 +1192,7 @@ The text block facility can of course be used to move, copy or delete complete
 lines of text. In this case, the start of the block is the first character of
 the first line involved, while the end of the block is the first character of
 the line &'after'& the last line involved. If the end of the last line is
-used instead, the final `newline' is not included in the block.
+used instead, the final newline is not included in the block.
 
 
 .section "Rectangular blocks" SECTrectangles
@@ -1690,7 +1690,7 @@ precede and/or be intermixed with the options. Thus, for example:
 ne /some/file -opt m1234
 .endd
 is a valid NE command line. A filename that begins with a hyphen must
-immediately follow the keyword &*-from*&. If any of the input files does not
+immediately follow the keyword &*-from*&. If any of the input files do not
 exist, NE generates an error message and exits. It does not create a new file
 under these circumstances. To create a new file, a command such as
 .index "creating new files"
@@ -2046,8 +2046,8 @@ The maximum length of a command line is 512 characters.
 .section "Continuation of command lines"
 .index "command lines" "continuation"
 Command lines may be continued onto as many input lines as necessary, provided
-that the line breaks occur inside brackets and at the end of a command. For
-example,
+that the line breaks occur inside round brackets and at the end of a command.
+For example,
 .code
 (ge/s//t/;
  ga/a//b/)
@@ -2104,8 +2104,8 @@ characters or start with two backslash characters,
 it can be entered literally. If one or more semicolons are present, or if the
 first two characters are backslashes, the file name must be quoted using either
 single or double quote characters. The file name may not contain the quoting
-character, and NE does not support file names that contain spaces. An empty
-file name is treated as no file name.
+character. Also, NE commands do not support file names that contain spaces. An
+empty file name is treated as no file name.
 .endlist
 
 If a file name begins with a tilde character, it is interpreted in the same way
@@ -2126,8 +2126,8 @@ only for screen editing.
 .section "Obeying commands while screen editing"
 .index "commands while screen editing"
 There are two ways in which commands can be obeyed while screen editing. The
-keystroke &{read-command}& is a request to enter a line of commands from the
-keyboard.
+keystroke &{read-command}& (default &*ctrl/g*&) is a request to enter a line of
+commands from the keyboard.
 .index "&{read-command}&"
 The cursor is moved to the last line of the screen, and the prompt `&`NE>`&' is
 output.
@@ -2539,18 +2539,20 @@ This matches a line containing at least three occurrences of the string
 
 .subsection "The column qualifier" SECTqualcol
 .index "column qualifier"
-The search for the string can be restricted to a column of specific character
-positions in the line. The columns in a line are numbered from one. In wide
-character mode, character positions do not necessarily equate to byte
-positions. This qualifier works in character positions.
+The search for a string can be restricted to specific character positions. This
+is called the column qualifier because, when searching multiple lines, it
+restricts the search to a column of text. Character positions in a line are
+numbered from one. In wide character mode, character positions do not
+necessarily equate to byte positions.
 .index "column numbers"
-Up to two numbers, giving the inclusive starting and ending columns, may be
-given in square brackets, the numbers being separated by a comma. Either number
-may be omitted. If only one number is given, only a single column is searched.
-If one number followed by a comma is present, the search continues to the end
-of the line. If the first number is omitted but the comma is present, the
-starting column is the beginning of the line. The presence of this qualifier
-affects the behaviour of the &*b*&, &*e*&, &*l*&, and &*p*& qualifiers.
+Up to two numbers giving the inclusive starting and ending character
+positions may be given in square brackets, the numbers being separated by a
+comma. Either number may be omitted. If only one number is given, a single
+character position is searched. If one number followed by a comma is present,
+the search continues to the end of the line. If the first number is omitted but
+the comma is present, the starting position is the beginning of the line. The
+presence of this qualifier affects the behaviour of the &*b*&, &*e*&, &*l*&,
+and &*p*& qualifiers.
 
 .subsection "Combining qualifiers"
 .index "qualifier combinations"
@@ -2571,14 +2573,14 @@ of the characteristics of lines that they match:
 .itable none 0 0 2  84 left  300 left
 .row "&`/abcd/`&"       "contains `abcd'"
 .row "&`3/abcd/`&"      "contains 3 occurrences of `abcd'"
-.row "&`[4,20]/abcd/`&" "contains `abcd' somewhere in columns 4&--20"
+.row "&`[4,20]/abcd/`&" "contains `abcd' somewhere in character positions 4&--20"
 .row "&`b/abcd/`&"      "begins with `abcd'"
 .row "&`e/xyz/`&"       "ends with `xyz'"
 .row "&`n/spqr/`&"      "does not contain `spqr'"
 .row "&`nb/spqr/`&"     "does not begin with `spqr'"
 .row "&`n3/spqr/`&"     "contains fewer than 3 occurrences of `spqr'"
 .row "&`p//`&"          "is an empty line"
-.row "&`[73,]np//`&"    "contains characters after column 72"
+.row "&`[73,]np//`&"    "contains something after character 72"
 .row "&`sb/abcd/`&"     "begins with optional spaces, then `abcd'"
 .row "&`v/Milton/`&"    "contains `Milton', as capitalized"
 .row "&`w/cat/`&"       "contains the word `cat'"
@@ -2666,7 +2668,7 @@ as a sequence of hexadecimal digits, some heuristic processing allows for the
 presence of regular expression meta characters. Characters that are neither
 hexadecimal digits nor backslashes are unchanged. The sequence &`\x`& is
 inserted before any individual or pair of hexadecimal digits. If a backslash is
-not followed by '&`x`&', it and the following character are copied unchanged.
+not followed by `&`x`&', it and the following character are copied unchanged.
 Otherwise the regular expression item is copied as is.
 
 When a regular expression is used in a command that searches for a string and
@@ -3394,7 +3396,7 @@ This command adds an extra argument, `&`ierror`&', to procedure definitions (in
 some programming language) that have only one argument (and no nested
 parentheses).
 .code
-ge/program/ r/"$0"/
+ge w/program/ r/"$0"/
 .endd
 This command, which does not use a regular expression, has the effect of
 enclosing the word `program' in quotes throughout a document (subject to user
@@ -3407,7 +3409,7 @@ This command might be expected to reduce all sequences of two or more spaces
 between words to a single space. However, because of the way NE resumes
 searching after a global change (&R; &<<SECTglobcontinue>>&), if a word
 consisting of only one letter has multiple spaces on either side of it, this
-command changes only first set of spaces.
+command changes only the first set of spaces.
 
 
 .section "Hexadecimal insertion strings" SECThexins
@@ -3720,7 +3722,7 @@ paragraphs while editing, even though this is not strictly necessary. Suppose
 that lines beginning with a full stop are markup lines, not part of the text,
 which should never be re-formatted. These commands would be appropriate:
 .code
-beginpar (nps// && nb/./); endpar (p// | b/ / | b/./)
+beginpar (nps// & nb/./); endpar (p// | b/ / | b/./)
 .endd
 They specify that a paragraph starts with a non-empty line that does not begin
 with a full stop, and ends before an empty line, a line beginning with a space,
@@ -3850,8 +3852,8 @@ the word `something' in the new file.
 
 .section "The MAKEBUFFER command" SECTmakebuffer
 .index "&*makebuffer*&"
-This command operates like &*newbuffer*&, but allows (indeed, requires) the
-user to specify the number of the buffer that is being created, for example:
+This command operates like &*newbuffer*&, but requires the user to specify the
+number of the buffer that is being created, for example:
 .code
 makebuffer 19 somefile
 .endd
@@ -5102,11 +5104,11 @@ that is manufactured if a character is typed at the right-hand margin.)
 .endlist
 The relationships between `actual control keystrokes' and keypresses on the
 terminal's keyboard is a function of the particular terminal driver that is
-being used. Chapter &<<CHAPunix>>& (&'More details about the Unix interface'&)
-gives more details. The relationships between `actual control keystrokes' and
-logical keystrokes are not all fixed within NE, and most of them can be changed
-by the user. Two different kinds of action can be specified for an individual
-`actual control keystroke'.
+being used. Chapter &<<CHAPunix>>& (&'More details about the system
+interface'&) gives more details. The relationships between `actual control
+keystrokes' and logical keystrokes are not all fixed within NE, and most of
+them can be changed by the user. Two different kinds of action can be specified
+for an individual `actual control keystroke'.
 .ilist
 A single, primitive editing action, which is built into NE, may be performed.
 Examples are moving the cursor to the left of the screen, or deleting a line.
@@ -5601,7 +5603,7 @@ with a given number and paste material into it.
 .
 .
 .
-.chapter "More details about the Unix interface"  CHAPunix
+.chapter "More details about the system interface"  CHAPunix
 This chapter contains nitty-gritty detail that is probably not of interest to
 most users.
 
@@ -5687,9 +5689,9 @@ command entry (e.g. &{delete-here}&), this function is not available during
 command entry. The default assignment, to &{close-up}&, is not used during
 command entry.
 
-If NE is interrupted in a loop producing output, quite a lot of output can be
-buffered up and this is not thrown away on receipt of an interruption, so it
-sometimes takes a while before NE appears to notice an interruption.
+If NE is interrupted in a loop that is producing output, quite a lot of output
+can be buffered up and this is not thrown away on receipt of an interruption,
+so it sometimes takes a while before NE appears to notice an interruption.
 
 
 .section "Terminal types" SECTtermtypes
@@ -5778,9 +5780,9 @@ default control keystrokes are set up as shown in the following table.
 .row &*ctrl/n*&   "&{mark-global}&"
 .row &*ctrl/o*&   "&{keystring-60}&  i.e. &`overstrike`&"
 .row &*ctrl/p*&   "&{paste}&"
-.row &*ctrl/q*&   "&{delete-marked}& (but see below)"
+.row &*ctrl/q*&   "&{delete-marked}&"
 .row &*ctrl/r*&   "&{mark-rectangle}&"
-.row &*ctrl/s*&   "&{rectangle-spaces}& (but see below)"
+.row &*ctrl/s*&   "&{rectangle-spaces}&"
 .row &*ctrl/t*&   "&{mark-text}&"
 .row &*ctrl/u*&   "&{delete-line}&"
 .row &*ctrl/v*&   "&{delete-right}&"
@@ -5801,10 +5803,10 @@ with &*ctrl/m*&. &*Delete*& provides the &{delete-previous}& function and the
 &{concatenate}& function when used at the start of a line. The cursor keys are
 used to move around the screen.
 
-On some communications routes &*ctrl/s*& and &*ctrl/q*& are used for flow
-control and so cannot be passed through to NE. A fudge using &*esc*& is
-implemented to get round this &-- see below, though perhaps nowadays this is
-ancient history and no longer an issue.
+In the past, on some communications routes, &*ctrl/s*& and &*ctrl/q*& were used
+for flow control and so were never passed through to NE. A fudge using &*esc*&
+was implemented to get round this &-- see below. Nowadays this is ancient
+history and probably never an issue, but the fudge remains in the code.
 
 .index "termcap"
 .index "terminfo"
@@ -5820,7 +5822,7 @@ usage. It is hoped that the danger has been minimised in the following choices.
 When NE receives a sequence of characters starting with &*esc*& it first
 searches the list of terminal-specific strings for the functions in which it is
 interested. Only if the sequence is not in this list does it test for its own
-built-in interpretations:
+built-in interpretation:
 .itable none 0 0 2  130 left 200 left
 .row <&*esc*&>&*1*&&--<&*esc*&>&*9*&                    "functions 1&--9"
 .row <&*esc*&>&*0*&                                     "function 10"
@@ -5872,7 +5874,7 @@ them are definable via the &'termcap'& or &'terminfo'& mechanisms.
 .row &{delete-here}&      "&*ctrl/y*&"
 .row &{delete-left}&      "&*ctrl/x*&, &*ctrl/del*&, and &*ctrl/backspace*&"
 .row &{delete-line}&      "&*ctrl/u*&"
-.row &{delete-marked}&    "<&*esc*&>&*q*& or &*ctrl/q*& if not flow control"
+.row &{delete-marked}&    "<&*esc*&>&*q*& or &*ctrl/q*&"
 .row &{delete-previous}&  "&*delete*& and &*backspace*&"
 .row &{delete-right}&     "&*ctrl/v*&"
 .row &{end-line}&         "&*shift/ctrl/right*&"
@@ -5891,7 +5893,7 @@ them are definable via the &'termcap'& or &'terminfo'& mechanisms.
 .row &{paste}&            "&*ctrl/p*& and &*insert*&"
 .row &{previous-tab}&     "<&*esc*&>&*tab*& and &*ctrl/tab*&"
 .row &{read-command}&     "&*ctrl/g*&"
-.row &{rectangle-spaces}& "<&*esc*&>&*s*& or &*ctrl/s*& if not flow control"
+.row &{rectangle-spaces}& "<&*esc*&>&*s*& or &*ctrl/s*&"
 .row &{refresh}&          "&*ctrl/d*&"
 .row &{screen-left}&      "&*ctrl/\*&"
 .row &{scroll-bottom}&    "&*ctrl/down*& and &*End*&"
@@ -5912,19 +5914,18 @@ them are definable via the &'termcap'& or &'terminfo'& mechanisms.
 .index "interruptions"
 .index "keyboard interruptions"
 While screen editing is occurring, most keystrokes are taken over by NE and
-used for controlling the editing process, as described above. The only
-exceptions are any flow control characters that may be in use (typically
-&*ctrl/s*& and &*ctrl/q*&). However, while NE is obeying a line of commands
-entered from screen mode, the interrupt keystroke (typically &*ctrl/c*&)
-changes its meaning, and if pressed causes an interrupt to be sent to NE. It
-can thus be used to interrupt a command loop or a long search command.
+used for controlling the editing process, as described above. However, while NE
+is obeying a line of commands entered from screen mode, the system interrupt
+keystroke (typically &*ctrl/c*&) changes its meaning, and if pressed causes an
+interrupt to be sent to NE. It can thus be used to interrupt a command loop or
+a long search command.
 
-The many other special keystrokes (kill, literal-next, etc.) are never
-available during screen editing, the relevant keystrokes retaining their NE
-meaning. If these facilities are wanted they can be accessed by leaving screen
-mode, by obeying a command line containing only an asterisk. In the line
-editing state NE runs with `cooked' terminal input and so all the special
-keystrokes are available.
+Other special keystrokes that a terminal driver may interpret are not available
+during screen editing, the relevant keystrokes retaining their NE meanings. If
+these facilities are wanted they can be accessed by obeying a command line
+containing only an asterisk, which exits screen mode. In line mode NE runs with
+`cooked' terminal input; all the special keystrokes are available to the
+terminal driver.
 
 
 .section "Additional keystrokes in xterm windows"
@@ -5951,19 +5952,19 @@ configured appropriately:
 .row &*ctrl/tab*&        &{previous-tab}&
 .endtable
 The function keys correspond to NE's function keystrokes, and &\SHIFT\& may be
-used with any of them to add 10 to its value. 
+used with any of them to add 10 to its value.
 
 There can be problems with the &*backspace*& and &*delete*& keys, which can
 each be configured to transmit one of two different character sequences. NE
 needs the &*backspace*& key to send the DEL character (code 127) and the
 &*delete*& key to send a four-character escape sequence that starts with ESC
-(code 27). This makes the &*backspace*& key distinguishable from &*delete*& and 
+(code 27). This makes the &*backspace*& key distinguishable from &*delete*& and
 &*ctrl/h*&, though it is initially defined to have the same effect as the
 &*delete*& key.
 
-From version 3.24 of NE, if it determines that it is running in an xterm that 
-is emulating VT300 or above, it reads the current settings for the 
-&*backspace*& and &*delete*& keys so that, if necessary, it can reconfigure 
+From version 3.24 of NE, if it determines that it is running in an xterm that
+is emulating VT300 or above, it reads the current settings for the
+&*backspace*& and &*delete*& keys so that, if necessary, it can reconfigure
 them and then reset the previous setting on exit.
 
 
