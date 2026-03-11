@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2023 */
+/* Copyright (c) University of Cambridge, 1991 - 2026 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: February 2023 */
+/* This file last modified: March 2026 */
 
 
 /* This file contains code for obeying commands: Part II */
@@ -355,6 +355,7 @@ while (Gcontinue)
             error_printflush();
             /* Note fudge to avoid compiler warning */
             if(Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid)){};
+            if (feof(kbd_fid) != 0) clearerr(kbd_fid); 
             cmd_buffer[Ustrlen(cmd_buffer)-1] = 0;
             }
 
@@ -650,21 +651,25 @@ else
     else if (cmdin_fid != NULL)
       {
       line = file_nextline(cmdin_fid, NULL);
+      if (feof(cmdin_fid) != 0) clearerr(cmdin_fid);
       cmd_clineno++;
       }
     else  /* Interactive */
       {
       /* LCOV_EXCL_START */
-      int len;
       if (main_screenOK)
         {
         scrn_rdline(FALSE, US"NE< ");
-        len = Ustrlen(cmd_buffer);
+        int len = Ustrlen(cmd_buffer);
         if (len > 0 && cmd_buffer[len-1] == '\n') cmd_buffer[--len] = 0;
         line = store_getlbuff(len);
         memcpy(line->text, cmd_buffer, len);
         }
-      else line = file_nextline(kbd_fid, NULL);
+      else 
+        { 
+        line = file_nextline(kbd_fid, NULL);
+        if (feof(kbd_fid) != 0) clearerr(kbd_fid);
+        }  
       /* LCOV_EXCL_STOP */
       }
 

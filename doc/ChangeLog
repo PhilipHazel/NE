@@ -1,8 +1,8 @@
 Change Log for New E (NE)
 -------------------------
 
-Version 3.25 xx-xx-2026
------------------------
+Version 3.25 11-March-2026
+--------------------------
 
 1. Added some escape sequences from xfce4-terminal to the built-in ones used
 for xterminals.
@@ -11,9 +11,13 @@ for xterminals.
 abandonment of termio.h by Arch Linux. It was previously included under some
 contraints that I no longer understand.
 
-3. Fixed a long-existing but never previously noticed bug: if a command that 
+3. Fixed a long-existing but never previously noticed bug: if a command that
 modifies the current line (for example, E///X/) was issued in screen mode when
 the cursor was on an empty line, but not at the start, NE crashed.
+
+4. NE could be made to loop or crash by typing an end-of-file keystroke
+(ctrl/D) in a number of different circumstances in line-by-line mode, including
+during an interactive insert (I) command and responding to various prompts.
 
 
 Version 3.24 19-March-2025

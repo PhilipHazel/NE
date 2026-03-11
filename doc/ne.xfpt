@@ -58,13 +58,13 @@
 <bookinfo>
 <title>Specification of the NE text editor</title>
 <titleabbrev>NE</titleabbrev>
-<date>08 March 2026</date>
+<date>11 March 2026</date>
 <author><firstname>Philip</firstname><surname>Hazel</surname></author>
 <authorinitials>PH</authorinitials>
 <address>Cambridge, England</address>
 <revhistory><revision>
   <revnumber>3.25</revnumber>
-  <date>08 March 2026</date>
+  <date>11 March 2026</date>
   <authorinitials>PH</authorinitials>
 </revision></revhistory>
 <copyright><year>2026</year><holder>Philip Hazel</holder></copyright>
@@ -86,22 +86,23 @@
 .chapter "Introduction"
 NE is a text editor that dates from the early 1990s. In the past it ran on a
 number of operating systems, but the current version supports only Unix-like
-environments. When NE was first implemented, many different types of terminal
-and keyboard were in common use, which is why there is so much discussion of
-them in this manual. NE is a re-implementation of a previous editor that was
-called E, which in turn evolved from one called Zed and a number of
-predecessors that ran on IBM mainframes. The lineage can be traced even further
-back to some very early Cambridge text editors of the 1960s that ran on Titan
-(prototype Atlas 2) and earlier on EDSAC 2.
+environments. It is normally run from the command line. When NE was first
+implemented, many different types of terminal and keyboard were in common use,
+which is why there is so much discussion of them in this manual. NE is a
+re-implementation of a previous editor that was called E, which in turn evolved
+from one called Zed and a number of predecessors that ran on IBM mainframes.
+The lineage can be traced even further back to some very early Cambridge text
+editors of the 1960s that ran on Titan (prototype Atlas 2) and earlier on EDSAC
+2.
 
-The main use of NE is expected to be as an interactive screen editor, but it
-can also function as a line-by-line editor, and it is programmable, so it can
-be run non-interactively as a text manipulation tool. Function keys and some
-others are fully configurable in interactive screen mode. NE can process data
-files in three ways: as single-byte characters, as UTF-8 multi-byte characters,
-or as binary bytes displayed and edited mainly in hexadecimal. The default is
-single-byte characters, though this can be changed to UTF-8 by a setting in the
-user's &*~/.nerc*& file.
+The main use of NE is expected to be as an interactive fullscreen editor, but
+it can also function as a line-by-line editor, and it is programmable, so it
+can also be run non-interactively as a text manipulation tool. Function keys
+and some others are fully configurable in interactive screen mode. NE can
+process data files in three ways: as single-byte characters, as UTF-8
+multi-byte characters, or as binary bytes displayed and edited mainly in
+hexadecimal. The default is single-byte characters, though this can be changed
+to UTF-8 by a setting in the user's &*~/.nerc*& file.
 
 NE's facilities are described in this document grouped by function, but first
 there are definitions of some terminology. The chapter that follows describes

@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2022 */
+/* Copyright (c) University of Cambridge, 1991 - 2026 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: December 2022 */
+/* This file last modified: March 2026 */
 
 
 /* This file contains code for command-processing functions */
@@ -499,7 +499,9 @@ for (;;)
       {
       error_printf("%s", buff);
       error_printflush();
-      if (Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid) == NULL) return 0;
+      char *cb = Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid);
+      if (feof(kbd_fid)) clearerr(kbd_fid);
+      if (cb == NULL) return 0;
       }
     cmdbufflen = Ustrlen(cmd_buffer);
     if (cmdbufflen > 0 && cmd_buffer[cmdbufflen-1] == '\n')
@@ -765,7 +767,9 @@ if (main_interactive) for (;;)
     {
     error_printf("%s", prompt);
     error_printflush();
-    if (Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid) == NULL) break;
+    char *cb = Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid);
+    if (feof(kbd_fid)) clearerr(kbd_fid);
+    if (cb == NULL) break;
     }
 
   cmd_ptr = cmd_buffer;

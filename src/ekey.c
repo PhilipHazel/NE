@@ -2,10 +2,10 @@
 *       The E text editor - 3rd incarnation      *
 *************************************************/
 
-/* Copyright (c) University of Cambridge, 1991 - 2025 */
+/* Copyright (c) University of Cambridge, 1991 - 2026 */
 
 /* Written by Philip Hazel, starting November 1991 */
-/* This file last modified: March 2025 */
+/* This file last modified: March 2026 */
 
 
 /* This file contains code for handling individual function keystrokes when
@@ -155,8 +155,10 @@ for (;;)
       {
       int n;
       sys_mprintf(msgs_fid, "NE: ");
+      
       if (Ufgets(cmd_buffer, CMD_BUFFER_SIZE, kbd_fid) == NULL)
         cmd_buffer[0] = 0;  /* LCOV_EXCL_LINE */
+      if (feof(kbd_fid) != 0) clearerr(kbd_fid);
       n = Ustrlen(cmd_buffer);
       if (n > 0 && cmd_buffer[n-1] == '\n') cmd_buffer[n-1] = 0;
       }
@@ -167,6 +169,7 @@ for (;;)
       s_flush();
       }
     main_flush_interrupt();
+ 
     if (cmd_buffer[0] == 0 || cmd_buffer[0] == '\n') break;
     cmdline = cmd_buffer;
     }
